@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Acme|Montserrat:500&display=swap");
+
+.App {
+  text-align: center;
+  font-family: "Montserrat";
+}
+
+.inner-div {
+  background-color: white;
+  min-height: 120vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

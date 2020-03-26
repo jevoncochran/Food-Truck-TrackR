@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700&display=swap");
+
+$phone: 400px;
+$smallTablet: 520px;
+$smallScreen: 900px;
+
+.header-section {
+  height: 12vh;
+  width: 100%;
+  background-color: #28243d;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  @media screen and (max-width: $smallScreen) {
+    height: 10vh;
+  }
+
+  .logo-con {
+    width: 20%;
+    @media screen and (max-width: $smallTablet) {
+      display: none;
+    }
+    .logo-img {
+      max-width: 100%;
+    }
+  }
+}
+
+.nav-bar {
+  width: 65%;
+  display: flex;
+  justify-content: space-evenly;
+  @media screen and (max-width: $smallTablet) {
+    justify-content: space-between;
+  }
+  a {
+    color: #ef903c;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: "Montserrat";
+
+    @media screen and (max-width: $phone) {
+      font-size: 0.8rem;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: white;
+    }
+  }
+}
+
+.activeLink {
+  border-bottom: solid 2px rgb(189, 189, 252);
+}

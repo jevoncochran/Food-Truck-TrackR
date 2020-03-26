@@ -1,0 +1,47 @@
+.diner-dash-main {
+    min-height: 120vh;
+    width: 100%;
+    background: #F5F5F5;
+}
+
+.diner-location {
+    top: 0;
+    text-align: left;
+    margin-bottom: 8%;
+}
+
+.card-div {
+    background: white;
+    margin-bottom: 2%;
+
+    .trucks-category {
+        padding-top: 3%;
+        font-size: 1.5rem;
+        margin-bottom: 2%;
+    }
+
+    .trucks-div {
+        display: flex;
+        justify-content: space-evenly;
+
+        .truck-card {
+            width: 31%;
+            padding: 1%;
+            margin-bottom: 3%;
+
+            .truck-name {
+                text-align: left;
+                font-size: 1.2rem;
+            }
+            
+            .cuisine-type {
+                text-align: left;
+            }            
+        }
+    }
+}
+
+
+
+
+

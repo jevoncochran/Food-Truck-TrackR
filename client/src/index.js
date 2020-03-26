@@ -3,20 +3,38 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
 import './index.css';
 import App from './App';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import { truckReducer } from "./reducers/truck-reducer";
 
-const store = createStore(truckReducer, applyMiddleware(thunk, logger));
+// set up to persist redux state on refresh
+const persistConfig = {
+    key: 'root',
+    storage
+};
+
+const persistedReducer = persistReducer(persistConfig, truckReducer);
+
+// async middleware (thunk) and logger has to go here
+let store = createStore(persistedReducer, applyMiddleware(thunk, logger));
+
+let persistor = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-        <App />
-        </Router>
+        {/* wrap component in PersistGate for redux persist to take effect */}
+        <PersistGate loading={null} persistor={persistor}>
+            <Router>
+                <App />
+            </Router>
+        </PersistGate>
     </Provider>, 
     document.getElementById('root')
 );

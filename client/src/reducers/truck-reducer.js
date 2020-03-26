@@ -1,8 +1,20 @@
 import {
-    GET_ACCOUNT_START,
-    GET_ACCOUNT_SUCCESS,
+    GET_VENDOR_START,
+    GET_VENDOR_SUCCESS,
+    GET_DINER_START,
+    GET_DINER_SUCCESS,
     SIGNUP_START,
-    SIGNUP_SUCCESS
+    SIGNUP_SUCCESS,
+    LOGOUT_START,
+    LOGOUT_SUCCESS,
+    EDIT_LOCATION_START,
+    EDIT_LOCATION_SUCCESS,
+    GET_ALL_TRUCKS_START,
+    GET_ALL_TRUCKS_SUCCESS,
+    GET_TRUCKS_BY_CUISINE_START,
+    GET_TRUCKS_BY_CUISINE_SUCCESS,
+    CALCULATE_TRUCK_DISTANCE_START, 
+    CALCULATE_TRUCK_DISTANCE_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -11,13 +23,14 @@ const initialState = {
 }
 
 export const truckReducer = (state = initialState, action) => {
+    console.log(state);
     switch (action.type) {
-        case GET_ACCOUNT_START:
+        case GET_VENDOR_START:
             return {
                 ...state,
                 isLoading: true
             }
-        case GET_ACCOUNT_SUCCESS:
+        case GET_VENDOR_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
@@ -25,6 +38,24 @@ export const truckReducer = (state = initialState, action) => {
                     id: action.payload.id,
                     username: action.payload.username,
                     email: action.payload.email
+                }
+            }
+        case GET_DINER_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_DINER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                account: {
+                    id: action.payload.id,
+                    username: action.payload.username,
+                    email: action.payload.email,
+                    password: action.payload.password,
+                    location: action.payload.location,
+                    favTrucks: action.payload.favTrucks
                 }
             }
         case SIGNUP_START:
@@ -36,6 +67,68 @@ export const truckReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
+            }
+        case LOGOUT_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                account: {},
+                trucks: [],
+                trucksByType: [],
+                cuisineTypeMode: false
+            }
+        case EDIT_LOCATION_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case EDIT_LOCATION_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                account: {
+                    ...state.account,
+                    location: action.payload
+                }
+            }
+        case GET_ALL_TRUCKS_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_ALL_TRUCKS_SUCCESS: 
+            return {
+                ...state,
+                isLoading: false,
+                trucks: action.payload
+            }
+        case GET_TRUCKS_BY_CUISINE_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_TRUCKS_BY_CUISINE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                trucksByType: action.payload,
+                cuisineTypeMode: true
+            }
+        case CALCULATE_TRUCK_DISTANCE_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case CALCULATE_TRUCK_DISTANCE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                truckDistanceArr: [...state.truckDistanceArr, action.payload]
             }
         default:
             return state;
