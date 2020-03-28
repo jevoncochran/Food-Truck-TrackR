@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import truckPic from "../assets/mexican-truck.png";
 import ScrollAnimation from "react-animate-on-scroll";
+import Loader from 'react-loader-spinner';
 import "../styling/Login.scss";
 
 import { loginAndGetVendor, loginAndGetDiner, getAllTrucks } from "../actions";
@@ -60,7 +61,7 @@ const Login = props => {
     return (
         <div>
             <Nav />
-            <div className="main-div">
+           <div className="main-div">
                 
                 <div className="form-div">
                     <h2 className="form-heading">Welcome Back</h2>
@@ -86,7 +87,7 @@ const Login = props => {
                 <ScrollAnimation animateIn="fadeIn" className="img-div">
                     <img src={truckPic} alt="food truck" />
                 </ScrollAnimation>
-
+                {props.isLoading && <Loader className="login-loader" type="ThreeDots" color="#somecolor" height={80} width={80} />}
             </div>
         </div>
     )
@@ -94,7 +95,8 @@ const Login = props => {
 
 const mapStateToProps = state => {
     return {
-        accountId: state.account.id
+        accountId: state.account.id,
+        isLoading: state.isLoading
     }
 }
 

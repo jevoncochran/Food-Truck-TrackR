@@ -1,7 +1,7 @@
 import React from 'react';
 import { Reset } from "styled-reset";
 import { createGlobalStyle } from "styled-components";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import './App.scss';
 
@@ -30,6 +30,7 @@ function App(props) {
           <Reset />
           <GlobalStyle />
 
+          <Route exact path="/" render={() => <Redirect  to="/login" />} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={RegisterAs} />
           <Route path="/register/vendor" component={RegisterVendor} />

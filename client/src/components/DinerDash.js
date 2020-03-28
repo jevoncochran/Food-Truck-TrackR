@@ -55,7 +55,7 @@ const DinerDash = props => {
     const logout = e => {
         e.preventDefault();
         props.clientSignOut();
-        props.history.push('/login');
+        props.history.push('/');
     }
 
     // function that allows diner to edit location
@@ -237,7 +237,7 @@ const DinerDash = props => {
             {<div className="card-div">
                 <h3 className="trucks-category">Nearby Trucks</h3>
                 <div className="trucks-div">
-                    {(props.trucks).slice(0, 3).map(truck => (
+                    {props.trucks && (props.trucks).slice(0, 3).map(truck => (
                         <Card className="truck-card">
                         <CardActionArea>
                             <CardMedia

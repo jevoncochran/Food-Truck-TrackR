@@ -6,6 +6,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import "../styling/DineSearch.scss";
 
 import DinerFooter from "./DinerFooter";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
@@ -13,18 +14,30 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 import { getTrucksByCuisine } from "../actions";
 
+// images
+import deals from "../assets/deals.jpg";
+import breakfast from "../assets/breakfast.jpg";
+import fastfood from "../assets/fastfood.jpg";
+import mexican from "../assets/mexican.jpg";
+import vegan from "../assets/vegan.jpg";
+import american from "../assets/american.jpg";
+import healthy from "../assets/healthy.jpg";
+import chinese from "../assets/chinese.jpg";
+import pizza from "../assets/pizza.jpg";
+import coffee from "../assets/coffee.jpg";
+
 
 const categoryArr = [
-    {category: 'Latest Deals', image: '../assets/truck2.png'},
-    {category: 'Breakfast and Brunch', image: '../assets/truck2.png'},
-    {category: 'Fast Food', image: '../assets/truck2.png'},
-    {category: 'Mexican', image: '../assets/truck2.png'},
-    {category: 'Vegan', image: '../assets/truck2.png'},
-    {category: 'American', image: '../assets/truck2.png'},
-    {category: 'Healthy', image: '../assets/truck2.png'},
-    {category: 'Pizza', image: '../assets/truck2.png'},
-    {category: 'Chinese', image: '../assets/truck2.png'},
-    {category: 'Coffee and Tea', image: '../assets/truck2.png'},
+    {category: 'Latest Deals', image: deals},
+    {category: 'Breakfast and Brunch', image: breakfast},
+    {category: 'Fast Food', image: fastfood},
+    {category: 'Mexican', image: mexican},
+    {category: 'Vegan', image: vegan},
+    {category: 'American', image: american},
+    {category: 'Healthy', image: healthy},
+    {category: 'Pizza', image: pizza},
+    {category: 'Chinese', image: chinese},
+    {category: 'Coffee and Tea', image: coffee},
 ]
 
 
@@ -33,14 +46,13 @@ const DineSearch = props => {
     // const [trucksByType, setTrucksByType] = useState([]);
 
     const useStyles = makeStyles({
-        //     // root: {
-        //     //   maxWidth: 345,
-        //     //   marginBottom: 30,
-        //     //   padding: 10
-        //     // },
-            media: {
-              height: 140,
-            },
+            categoryCard: {
+                // backgroundImage: `url(${chinese})`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                height: 200,
+            }
           });
     
     const classes = useStyles();
@@ -53,19 +65,21 @@ const DineSearch = props => {
         <div>
             <h1>This is the Dine Search component</h1>
 
-            <Grid container spacing={2}>
+            <Grid className="category-grid" container spacing={1}>
                 {categoryArr.map(el => (
                     <Grid item xs={6}>
-                        <Card className="category-card" onClick={() => selectCategory(el.category)}>
-                            <CardActionArea>
+                        <Card className={classes.categoryCard} style={{ backgroundImage: `url(${el.image})` }} onClick={() => selectCategory(el.category)}>
+                                <div className="category-image-wrapper">
                                 <CardMedia
-                                    className={classes.media}
-                                    image={el.image}
+                                    className="category-image"
+                                    // image={el.image}
                                 />
-                                <Typography component="h2">
+                                </div>
+                                <div className="category-text-wrapper">
+                                <Typography className="category-text" component="h2">
                                     {el.category}
                                 </Typography>
-                            </CardActionArea>
+                                </div>
                         </Card>
                     </Grid>
                 ))}
