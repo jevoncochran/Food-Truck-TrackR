@@ -8,11 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import "../styling/DineSearch.scss";
 
-import DinerFooter from "./DinerFooter";
+import Header from './Header';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 // import { CardMedia, Typography } from "@material-ui/core";
 
-import { getTrucksByCuisine } from "../actions";
+import { getTrucksByCuisine, pickTruckCategory } from "../actions";
 
 // images
 import deals from "../assets/deals.jpg";
@@ -25,11 +25,13 @@ import healthy from "../assets/healthy.jpg";
 import chinese from "../assets/chinese.jpg";
 import pizza from "../assets/pizza.jpg";
 import coffee from "../assets/coffee.jpg";
+import indian from "../assets/indian.jpg";
+import bbq from "../assets/bbq.png";
 
 
 const categoryArr = [
     {category: 'Latest Deals', image: deals},
-    {category: 'Breakfast and Brunch', image: breakfast},
+    {category: 'Breakfast/Brunch', image: breakfast},
     {category: 'Fast Food', image: fastfood},
     {category: 'Mexican', image: mexican},
     {category: 'Vegan', image: vegan},
@@ -38,6 +40,8 @@ const categoryArr = [
     {category: 'Pizza', image: pizza},
     {category: 'Chinese', image: chinese},
     {category: 'Coffee and Tea', image: coffee},
+    {category: 'Indian', image: indian },
+    {category: 'BBQ', image: bbq }
 ]
 
 
@@ -59,41 +63,39 @@ const DineSearch = props => {
 
     const selectCategory = (category) => {
         props.getTrucksByCuisine(category)
+            .then(props.pickTruckCategory(category))
             .then(props.history.push(`/diner/${props.dinerId}`))
     }
     return (
-        <div>
-            <h1>This is the Dine Search component</h1>
-
+        <div className="dine-search-main">
+            <Header history={props.history} />
             <Grid className="category-grid" container spacing={1}>
                 {categoryArr.map(el => (
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                         <Card className={classes.categoryCard} style={{ backgroundImage: `url(${el.image})` }} onClick={() => selectCategory(el.category)}>
-                                <div className="category-image-wrapper">
-                                <CardMedia
+                                <div className="category-bg-blur">
+                                {/* <CardMedia
                                     className="category-image"
                                     // image={el.image}
-                                />
+                                /> */}
                                 </div>
-                                <div className="category-text-wrapper">
-                                <Typography className="category-text" component="h2">
+                                {/* <div className="category-text-wrapper"> */}
+                                <div className="category-text">
                                     {el.category}
-                                </Typography>
                                 </div>
+                                {/* </div> */}
                         </Card>
                     </Grid>
                 ))}
             </Grid>
-
-            <DinerFooter />
         </div>
     )
 }
 
 const mapStateToProps = state => {
     return {
-        dinerId: state.account.id
+        dinerId: state.account.id,
     }
 }
 
-export default connect(mapStateToProps, { getTrucksByCuisine })(DineSearch);
+export default connect(mapStateToProps, { getTrucksByCuisine, pickTruckCategory })(DineSearch);

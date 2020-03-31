@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
+import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -18,9 +19,10 @@ import { GOOGLE_API_KEY } from "../config";
 
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-import { clientSignOut, editLocation, getAllTrucks, getTruckDistances } from "../actions";
+import { clientSignOut, editLocation, getAllTrucks, getTruckDistances, setSelectedTruck } from "../actions";
 
-import DinerFooter from "./DinerFooter";
+import Header from "./Header";
+import Covid19Alert from "./Covid19Alert";
 
 const useStyles = makeStyles({
 //     // root: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
 //     //   padding: 10
 //     // },
     media: {
-      height: 140,
+      height: 288,
     },
   });
 
@@ -39,6 +41,9 @@ const DinerDash = props => {
         longitude: null,
         userAddress: null
     })
+
+    const [initialMode, setInitialMode] = useState(true);
+
     // tells component whether it should render form to edit diner location
     const [locationEditMode, setLocationEditMode] = useState(false);
 
@@ -50,13 +55,6 @@ const DinerDash = props => {
     // const [loadingComponent, setLoadingComponent] = useState(true);
 
     const [truckDistance, setTruckDistance] = useState([]);
-
-    // function that allows diner to sign out
-    const logout = e => {
-        e.preventDefault();
-        props.clientSignOut();
-        props.history.push('/');
-    }
 
     // function that allows diner to edit location
     const changeLocation = e => {
@@ -125,7 +123,8 @@ const DinerDash = props => {
 
     const getTruckDistance = () => {
         props.trucks.forEach((truck, i, truckArr) => {
-            props.getTruckDistances(props.location, truck.current_location);
+            // HAVE TO UNCOMMENT LINE BELOW WHEN READY TO WORK ON GETTING TRUCK DISTANCES
+            // props.getTruckDistances(props.location, truck.current_location);
             // if (i === props.trucks.length - 1) {
             //     setLoadingComponent(false);
             //     console.log('this thing is firing');
@@ -159,17 +158,29 @@ const DinerDash = props => {
             getTruckDistance();
     }, [props.trucks])
 
+    useEffect(() => {
+        if(props.selectedTruck !== undefined && !props.isLoading && !initialMode) {
+            props.history.push(`/trucks/${props.selectedTruck.id}`)
+        }
+    }, [props.selectedTruck])
+
+    const selectTruck = truckId => {
+        props.setSelectedTruck(truckId);
+        setInitialMode(false);
+    }
+
     console.log(truckDistance);
 
     return (
         <div className="diner-dash-main">
-            <p className="diner-location">
+            <Header history={props.history} />
+            {/* <p className="diner-location">
                 Find trucks near: {props.location}
                 <ArrowDropDownCircleIcon 
                     className="location-edit-icon" 
                     onClick={() => setLocationEditMode(!locationEditMode)}
                 />
-            </p>
+            </p> */}
 
             <div>
                 {/* <h2>React Geolocation</h2> */}
@@ -197,99 +208,128 @@ const DinerDash = props => {
                 {/* <input placeholder="Enter a new location" onChange={handleLocationChange}/> */}
                 <button onClick={changeLocation}>Done</button>
             </div>}
-            
-            {/* conditional rendering of trucks listing by cuisine type */}
-            {props.cuisineTypeMode && <div className="card-div">
-                <h3 className="trucks-category">Trucks By Type</h3>
-                <div className="trucks-div">
-                    {props.trucksByType.map(truck => (
-                        <Card className="truck-card">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image={truck.image}
-                            title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                            <Typography className="truck-name" gutterBottom variant="h5" component="h2">
-                                {truck.name}
-                            </Typography>
-                            <Typography className="cuisine-type" component="h3">{truck.cuisine_type}</Typography>
-                            {/* <Typography variant="body2" color="textSecondary" component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                            </Typography> */}
-                            </CardContent>
-                        </CardActionArea>
-                        {/* <CardActions>
-                            <Button size="small" color="primary">
-                            Share
-                            </Button>
-                            <Button size="small" color="primary">
-                            Learn More
-                            </Button>
-                        </CardActions> */}
-                    </Card>
-                    ))}
+
+            <Covid19Alert />
+
+            {props.cuisineTypeMode &&  !props.isLoading && <div className="card-div">
+                <div className="card-sub-div">
+                    <div className="trucks-category-div">
+                        <h3 className="trucks-category">"{props.truckCategory}"</h3>
+                    </div>
+                    <p className="truck-count">{props.trucksByType.length} trucks</p>
+                    <div className="trucks-by-category-div">
+                        <Grid className="trucks-by-type-grid" container spacing={4}>
+                            {props.trucksByType.map(truck => (
+                                <Grid item xs={4}>
+                                    <Card className="trucks-by-category-card" onClick={() => selectTruck(truck.id)}>
+                                    <CardActionArea>
+                                        <CardMedia
+                                        className="trucks-by-category-img"
+                                        image={truck.image}
+                                        title="Contemplative Reptile"
+                                        />
+                                        <CardContent>
+                                        <Typography className="trucks-by-category-name" gutterBottom variant="h5" component="h2">
+                                            {truck.name}
+                                        </Typography>
+                                        <Typography className="trucks-by-category-cuisine-type" component="h3">{truck.cuisine_type}</Typography>
+                                        <Typography className="distance-plus-rating" component="h3">
+                                            {truckDistance[truck.index]}
+                                            {/* {console.log(`props.location: ${props.location}, truck.current_location: ${truck.current_location}, returns: ${getTruckDistance(props.location, truck.current_location)}`)}
+                                            {console.log(getTruckDistance(props.location, truck.current_location))}   */}
+                                        </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
                 </div>
             </div>}
 
-            {<div className="card-div">
-                <h3 className="trucks-category">Nearby Trucks</h3>
-                <div className="trucks-div">
-                    {props.trucks && (props.trucks).slice(0, 3).map(truck => (
-                        <Card className="truck-card">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image={truck.image}
-                            title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                            <Typography className="truck-name" gutterBottom variant="h5" component="h2">
-                                {truck.name}
-                            </Typography>
-                            <Typography className="cuisine-type" component="h3">{truck.cuisine_type}</Typography>
-                            <Typography className="distance-plus-rating" component="h3">
-                                {truckDistance[truck.index]}
-                                {/* {console.log(`props.location: ${props.location}, truck.current_location: ${truck.current_location}, returns: ${getTruckDistance(props.location, truck.current_location)}`)}
-                                {console.log(getTruckDistance(props.location, truck.current_location))}   */}
-                            </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                    ))}
+            {!props.cuisineTypeMode && !props.isLoading && <div className="card-div">
+                <div className="card-sub-div">
+                    <div className="trucks-category-div">
+                        <h3 className="trucks-category">Nearby Trucks</h3>
+                        <p>View all</p>
+                        <div className="category-pagination-arrows">
+                            <div className="arrow-bg-div">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div className="arrow-bg-div">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="trucks-div">
+                        {props.trucks && (props.trucks).slice(0, 3).map(truck => (
+                            <Card className="truck-card" onClick={() => selectTruck(truck.id)}>
+                            <CardActionArea>
+                                <CardMedia
+                                className="truck-img"
+                                image={truck.image}
+                                title="Contemplative Reptile"
+                                style={{ width: '100%' }}
+                                />
+                                <CardContent>
+                                <Typography className="truck-name" gutterBottom variant="h5" component="h2">
+                                    {truck.name}
+                                </Typography>
+                                <Typography>
+                                    {truck.avg_rating}
+                                </Typography>
+                                <Typography className="cuisine-type" component="h3">{truck.cuisine_type}</Typography>
+                                <Typography className="distance-plus-rating" component="h3">
+                                    {truckDistance[truck.index]}
+                                    {/* {console.log(`props.location: ${props.location}, truck.current_location: ${truck.current_location}, returns: ${getTruckDistance(props.location, truck.current_location)}`)}
+                                    {console.log(getTruckDistance(props.location, truck.current_location))}   */}
+                                </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                        ))}
+                    </div>
                 </div>
             </div>}
-            <div className="card-div">
-                <h3 className="trucks-category">Your Favorites</h3>
-                <div className="trucks-div">
-                    {props.favTrucks && props.favTrucks.slice(0, 3).map(truck => (
-                        <Card className="truck-card">
-                        <CardActionArea>
-                            <CardMedia
-                            className={classes.media}
-                            image={truck.image}
-                            title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                            <Typography className="truck-name" gutterBottom variant="h5" component="h2">
-                                {truck.name}
-                            </Typography>
-                            <Typography className="cuisine-type" component="h3">{truck.cuisine_type}</Typography>
 
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                    ))}
+            {!props.cuisineTypeMode && !props.isLoading && <div className="card-div">
+                <div className="card-sub-div">
+                    <div className="trucks-category-div">
+                        <h3 className="trucks-category">Your Favorites</h3>
+                        <p>View all</p>
+                        <div className="category-pagination-arrows">
+                            <div className="arrow-bg-div">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                            <div className="arrow-bg-div">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="trucks-div">
+                        {props.favTrucks && props.favTrucks.slice(0, 3).map(truck => (
+                            <Card className="truck-card" onClick={() => selectTruck(truck.id)}>
+                                <CardActionArea>
+                                    <CardMedia
+                                    className="truck-img"
+                                    image={truck.image}
+                                    title="Contemplative Reptile"
+                                    style={{ width: '100%' }}
+                                    />
+                                    <CardContent className="truck-contents">
+                                    <Typography className="truck-name" gutterBottom variant="h5" component="h2">
+                                        {truck.name}
+                                    </Typography>
+                                    <Typography className="cuisine-type" component="h3">{truck.cuisine_type}</Typography>
+
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
-            </div>
-            <h1>This is the diner Dashboard component</h1>
-            <h2>Welcome, {props.username}</h2>
-            <br />
-            <button onClick={logout}>Logout</button>
-
-            <DinerFooter />
+            </div>}
         </div>
     )
 }
@@ -304,9 +344,12 @@ const mapStateToProps = state => {
         favTrucks: state.account.favTrucks,
         trucks: state.trucks,
         trucksByType: state.trucksByType,
-        cuisineTypeMode: state.cuisineTypeMode
+        cuisineTypeMode: state.cuisineTypeMode,
+        truckCategory: state.truckCategory,
+        isLoading: state.isLoading,
+        selectedTruck: state.selectedTruck
     }
 }
 
-export default connect(mapStateToProps, { clientSignOut, editLocation, getAllTrucks, getTruckDistances })(DinerDash);
+export default connect(mapStateToProps, { clientSignOut, editLocation, getAllTrucks, getTruckDistances, setSelectedTruck })(DinerDash);
 

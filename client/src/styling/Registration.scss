@@ -1,0 +1,58 @@
+.register-container {
+    width: 33%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    // width: 33%;
+}
+
+.cta {
+    text-align: left;
+    margin-bottom: 10%;
+    font-weight: 500;
+}
+
+.signup-labels {
+    text-align: left;
+    margin-bottom: 2%;
+    font-size: 0.75rem;
+}
+
+label ~ .signup-inputs {
+    margin-bottom: 6%;
+    height: 32.25px;
+}
+
+.signup-inputs:focus {
+    // box-shadow: none !important;
+    outline-color: #eb7530;
+}
+
+.signup-submit {
+    background: #e6ebf5;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-bottom: 3%;
+}
+
+.acct-already {
+    font-size: 0.75rem;
+}
+
+.signin-span {
+    color: #eb7530;
+    text-decoration: none;
+
+    a {
+        color: #eb7530;
+    }
+
+    a:hover {
+        color: #eb7530;
+        text-decoration: none;
+    }
+}

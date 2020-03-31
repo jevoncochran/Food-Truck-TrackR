@@ -14,6 +14,7 @@ import RegisterVendor from './components/RegisterVendor';
 import RegisterDiner from "./components/RegisterDiner";
 import DinerDash from './components/DinerDash';
 import DineSearch from "./components/DineSearch";
+import TruckDetails from "./components/TruckDetails";
 
 const GlobalStyle = createGlobalStyle`
 `;
@@ -38,6 +39,7 @@ function App(props) {
           <PrivateRoute path='/vendor/:accountId' component={VendorDash} />
           <PrivateRoute path="/diner/:accountId" component={DinerDash} />
           <PrivateRoute path="/dine/search" component={DineSearch} />
+          <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
         </div>
       </div>
     </Router>

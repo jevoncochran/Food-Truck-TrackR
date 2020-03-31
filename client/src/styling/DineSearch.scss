@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700&display=swap');
 
+.dine-search-main {
+    width: 100%;
+}
+
 .category-grid {
-    margin: 2% 3% !important;
+    margin-top: 7.5% !important;
+    margin-bottom: 2% !important;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
 .category-card {
     height: 200px;
+    position: relative;
+    text-align: center;
 }
 
 // .category-card::before {
@@ -14,29 +23,36 @@
 //     z-index: 2;
 // }
 
-.category-image-wrapper {
+.category-bg-blur {
     height: 200px;
     background: rgba(53, 53, 53, 0.459);
-}
-
-.category-image {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    // opacity: 0.6;
-}
-
-.category-text-wrapper {
-    margin-top: -25%;
-    height: 200px;
     width: 100%;
 }
+
+// .category-image {
+//     height: 100%;
+//     width: 100%;
+//     object-fit: cover;
+//     // opacity: 0.6;
+// }
+
+// .category-text-wrapper {
+//     margin-top: -25%;
+//     height: 200px;
+//     width: 100%;
+// }
 
 .category-text {
-    text-align: center;
-    vertical-align: center;
+    // text-align: center;
+    // vertical-align: center;
     color: white;
     // text-transform: uppercase;
     font-size: 1rem !important;
+    font-weight: bolder;
     font-family: 'Merriweather', serif;
+    position: relative;
+    top: -50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // height: 100%;
 }

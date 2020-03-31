@@ -14,7 +14,13 @@ import {
     GET_TRUCKS_BY_CUISINE_START,
     GET_TRUCKS_BY_CUISINE_SUCCESS,
     CALCULATE_TRUCK_DISTANCE_START, 
-    CALCULATE_TRUCK_DISTANCE_SUCCESS
+    CALCULATE_TRUCK_DISTANCE_SUCCESS,
+    SET_CATEGORY_START,
+    SET_CATEGORY_SUCCESS,
+    TURN_OFF_CUISINE_TYPE_MODE_START, 
+    TURN_OFF_CUISINE_TYPE_MODE_SUCCESS,
+    SET_SELECTED_TRUCK_START,
+    SET_SELECTED_TRUCK_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -80,7 +86,8 @@ export const truckReducer = (state = initialState, action) => {
                 account: {},
                 trucks: [],
                 trucksByType: [],
-                cuisineTypeMode: false
+                cuisineTypeMode: false,
+                truckCategory: null
             }
         case EDIT_LOCATION_START:
             return {
@@ -129,6 +136,39 @@ export const truckReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 truckDistanceArr: [...state.truckDistanceArr, action.payload]
+            }
+        case SET_CATEGORY_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case SET_CATEGORY_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                truckCategory: action.payload
+            }
+        case TURN_OFF_CUISINE_TYPE_MODE_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case TURN_OFF_CUISINE_TYPE_MODE_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                cuisineTypeMode: false
+            }
+        case SET_SELECTED_TRUCK_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case SET_SELECTED_TRUCK_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                selectedTruck: action.payload
             }
         default:
             return state;

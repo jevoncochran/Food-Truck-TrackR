@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { registerDiner } from "../actions";
@@ -10,7 +11,6 @@ const RegisterDiner = props => {
         username: '',
         email: '',
         password: '',
-        location: ''
     })
 
     const handleChanges = e => {
@@ -28,14 +28,19 @@ const RegisterDiner = props => {
     }
 
     return (
-        <div>
+        <div className="register-container">
             <Nav />
-            <form onSubmit={submitRegister}>
-                <input type="text" name="username" value={credentials.username} placeholder="Enter username" onChange={handleChanges} />
-                <input type="text" name="email" value={credentials.email} placeholder="Enter email" onChange={handleChanges} />
-                <input type="password" name="password" value={credentials.password} placeholder="Enter password" onChange={handleChanges} />
-                <input type="text" name="location" value={credentials.location} placeholder="Enter location" onChange={handleChanges} />
-                <button type="submit">Submit</button>
+        
+            <form className="signup-form" onSubmit={submitRegister}>
+                <h3 className="cta">Let's get started</h3>
+                <label className="signup-labels">Register username (required)</label>
+                <input className="signup-inputs" type="text" name="username" value={credentials.username} onChange={handleChanges} />
+                <label className="signup-labels">Register email (required)</label>
+                <input className="signup-inputs" type="text" name="email" value={credentials.email} hange={handleChanges} />
+                <label className="signup-labels">Register password (required)</label>
+                <input className="signup-inputs" type="password" name="password" value={credentials.password} onChange={handleChanges} />
+                <button className="signup-submit" type="submit">Submit</button>
+                <p className="acct-already">Already have an account? <span className="signin-span"><NavLink to="/">Sign in</NavLink></span></p>
             </form>
         </div>
     )

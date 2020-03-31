@@ -1,7 +1,8 @@
 .diner-dash-main {
     min-height: 120vh;
     width: 100%;
-    background: #F5F5F5;
+    background: white;
+    position: relative;
 }
 
 .diner-location {
@@ -10,35 +11,154 @@
     margin-bottom: 8%;
 }
 
+// CSS for default rendered trucks
 .card-div {
     background: white;
     margin-bottom: 2%;
 
-    .trucks-category {
-        padding-top: 3%;
-        font-size: 1.5rem;
-        margin-bottom: 2%;
-    }
-
-    .trucks-div {
+    .card-sub-div {
         display: flex;
-        justify-content: space-evenly;
+        flex-direction: column;
+        margin-left: 4.5%;
+        margin-right: 4.5%;
 
-        .truck-card {
-            width: 31%;
-            padding: 1%;
-            margin-bottom: 3%;
+        .trucks-category-div {
+            display: flex;
+            align-items: center;
+            width: 100%;
 
-            .truck-name {
+            .trucks-category {
+                font-size: 1.1rem;
+                margin-bottom: 2%;
+                margin-right: 75%;
                 text-align: left;
-                font-size: 1.2rem;
+                white-space: nowrap;
             }
             
-            .cuisine-type {
-                text-align: left;
-            }            
+            p {
+                margin-right: 3%;
+                font-size: 0.65rem;
+                white-space: nowrap;
+                color: #ef903c;
+            }
+
+            .category-pagination-arrows {
+                display: flex;
+                justify-content: flex-end;
+                width: 10%;
+
+                .arrow-bg-div {
+                    background: rgba(226, 225, 225, 0.733);
+                    height: 70%;
+                    width: 50%;
+                    position: relative;
+
+                    i {
+                        font-size: 0.75rem;
+                        position: relative;
+                        top: 16%;
+                    }
+    
+                    i:first-of-type {
+                        margin-right: 2.5% !important;
+                    }
+                }
+
+                .arrow-bg-div:first-of-type {
+                    margin-right: 2.5% !important;
+                }
+            }
+        }
+    
+        .trucks-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+    
+            .truck-card {
+                width: 31%;
+                margin-bottom: 3%;
+                border-radius: 0px;
+                box-shadow: none;
+    
+                .truck-img {
+                    height: 190px;
+                }
+    
+                .MuiCardContent-root{
+                    padding: 0;
+                }
+    
+                .truck-name {
+                    text-align: left;
+                    font-size: 1.2rem;
+                    // padding: 2%;
+                    padding-top: 2%;
+                    padding-bottom: 2%;
+                    border-bottom: 1px solid rgba(226, 225, 225, 0.733);
+                }
+                
+                .cuisine-type {
+                    text-align: left;
+                    font-size: 0.75rem;
+                }  
+              
+            }
         }
     }
+}
+
+.diner-footer {
+    position: fixed;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+// CSS for trucks by category render
+.trucks-by-category-div {
+    width: 100%;
+}
+
+.trucks-category:last-child {
+    margin-bottom: 1% !important;
+}
+
+.truck-count {
+    text-align: left;
+    font-size: 0.7rem;
+    margin-bottom: 2%;
+}
+
+.trucks-by-category-card {
+    width: 100%;
+    margin-bottom: 3%;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.trucks-by-category-img {
+    width: 100%;
+    height: 190px;
+}
+
+.MuiCardContent-root{
+    padding:  0 !important;
+}
+
+.trucks-by-category-name {
+    text-align: left !important;
+    font-size: 1.2rem !important;
+    // padding: 2% !important;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-bottom: 1px solid rgba(226, 225, 225, 0.733);
+}
+
+.trucks-by-category-cuisine-type {
+    text-align: left;
+    font-size: 0.75rem;
 }
 
 

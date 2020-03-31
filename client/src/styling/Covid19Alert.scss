@@ -1,0 +1,51 @@
+.covid-div {
+    // align-items: center;
+    width: 60%;
+    border: 1px solid black;
+    // object-position: center;
+    margin-top: 7%;
+    margin-bottom: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2%;
+    padding-bottom: 2.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    background: #eb7530;
+}
+
+.icon-container {
+    width: 10%;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.covid-title {
+    color: black;
+    margin-bottom: 1%;
+}
+
+.covid-p {
+    margin-bottom: 2.5%;
+    font-size: 0.8rem;
+}
+
+.covid-button {
+    width: 20%;
+    font-size: 0.7rem;
+    padding: 1%;
+    border: none;
+    background: black;
+    color: white
+}
+
+.covid-button:focus {
+    outline: none;
+}
+
+
+

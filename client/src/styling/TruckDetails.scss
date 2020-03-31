@@ -1,0 +1,187 @@
+// removes back shadow for all MUI cards
+.MuiPaper-elevation1 {
+    box-shadow: none !important;
+}
+
+// overarching component div
+.truck-details-main {
+    position: relative;
+    width: 100vw !important;
+}
+
+// image grid at top
+.truck-detail-pics-grid {
+    // position: relative;
+    // border: 1px dashed black;
+    margin-top: 5% !important;
+    margin-bottom: 1.5% !important;
+}
+
+.MuiGrid-spacing-xs-1 > .MuiGrid-item {
+    padding: 1px !important;
+}
+
+.pics-card {
+    margin: 0;
+    border-radius: 0 !important;
+}
+
+.pics-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    vertical-align: bottom;
+}
+
+.details-container {
+    display: flex;
+    width: 100%;
+    margin-left: 7%;
+    // margin-right: 7%;
+}
+
+.non-map-div {
+    width: 35%;
+    margin-right: 5%;
+}
+
+// truck title and details div
+.details-truck-container {
+    width: 100%;
+    // border: 1px dotted black;
+    position: relative;
+    // bottom: 80px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 5%;
+    margin-bottom: 5%;
+}
+
+.title {
+    margin-bottom: 1%;
+    font-size: 1.2rem;
+    text-align: left;
+}
+
+.ratings {
+    text-align: left;
+    margin-bottom: 1%;
+
+    .avg-rating {
+        margin-right: 3%;
+    }
+}
+
+.type {
+    text-align: left;
+    margin-bottom: 2.5%;
+}
+
+.card-buttons-div {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    position: relative;
+    // border: 1px solid black;
+
+    button {
+        font-size: 0.6rem;
+        padding: 1% 2%;
+        white-space: nowrap;
+        height: 20px;
+    }
+}
+
+// highlighted menu items div
+.pop-items-container {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5%;
+    position: relative;
+    // bottom: 60px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 5%;
+}
+
+.pop-items-title-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2%;
+}
+
+.pop-items-h2 {
+    font-size: 0.8rem;
+}
+
+.pop-items-p {
+    font-size: 0.6rem;
+    color: #eb7530;
+}
+
+.menu-item-card {
+    border-radius: 0 !important;
+}
+
+.menu-item-pic {
+    height: 100px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.menu-item-name {
+    font-size: 0.7rem;
+    margin-bottom: 2%;
+    padding: 3% 2%;
+    // border: 1px dashed black;
+}
+
+// customer reviews div
+.customer-reviews-container {
+    width: 100%;
+    // border: 1px dashed black;
+}
+
+.customer-revs-h2 {
+    font-size: 0.8rem;
+    text-align: left;
+    margin-bottom: 3%;
+}
+
+.customer-revs-subdiv {
+    display: flex;
+    margin-bottom: 8%;
+
+    i {
+        margin-right: 4%;
+        font-size: 0.7rem;
+    }
+
+    .reviewer-username {
+        width: 20%;
+        font-size: 0.7rem;
+        margin-right: 5%;
+        // border: 1px dashed black;
+    }
+
+    .customer-revs-rev-div {
+        width: 70%;
+    }
+
+    div {
+        p {
+            font-size: 0.7rem;
+            text-align: left;
+        }
+    }
+}
+
+.customer-rev-star-rating {
+    margin-bottom: 2%;
+}
+
+.map-div {
+    width: 40%;
+}
+
+.map-card {
+    border: 1px solid black !important;
+}

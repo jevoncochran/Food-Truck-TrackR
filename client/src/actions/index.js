@@ -18,6 +18,13 @@ export const GET_TRUCKS_BY_CUISINE_START = 'GET_TRUCKS_BY_CUISINE_START';
 export const GET_TRUCKS_BY_CUISINE_SUCCESS = 'GET_TRUCKS_BY_CUISINE_SUCCESS';
 export const CALCULATE_TRUCK_DISTANCE_START = 'CALCULATE_TRUCK_DISTANCE_START';
 export const CALCULATE_TRUCK_DISTANCE_SUCCESS = 'CALCULATE_TRUCK_DISTANCE_SUCCESS';
+export const SET_CATEGORY_START = 'SET_CATEGORY_START';
+export const SET_CATEGORY_SUCCESS = 'SET_CATEGORY_SUCCESS';
+export const TURN_OFF_CUISINE_TYPE_MODE_START = 'TURN_OFF_CUISINE_TYPE_MODE_START';
+export const TURN_OFF_CUISINE_TYPE_MODE_SUCCESS = 'TURN_OFF_CUISINE_TYPE_MODE_SUCCESS';
+export const SET_SELECTED_TRUCK_START = 'SET_SELECTED_TRUCK_START';
+export const SET_SELECTED_TRUCK_SUCCESS = 'SET_SELECTED_TRUCK_SUCCESS';
+
 
 // login for vendors
 export const loginAndGetVendor = credentials => dispatch => {
@@ -121,4 +128,28 @@ export const getTruckDistances = (userLocation, truckLocation) => dispatch => {
                 dispatch({ type: CALCULATE_TRUCK_DISTANCE_SUCCESS, payload: res.data.rows[0].elements[0].distance.text })
             })
             .catch(err => console.log(err))
+}
+
+// set category for truck queries by category
+export const pickTruckCategory = category => dispatch => {
+    dispatch({ type: SET_CATEGORY_START })
+        dispatch({ type: SET_CATEGORY_SUCCESS, payload: category })
+}
+
+// sets cuisineTypeMode to off
+export const turnOffCuisineTypeMode = () => dispatch => {
+    dispatch({ type: TURN_OFF_CUISINE_TYPE_MODE_START })
+    dispatch({ type: TURN_OFF_CUISINE_TYPE_MODE_SUCCESS })
+}
+
+// selects specific truck so that app can use truck id to push to TruckDetails
+export const setSelectedTruck = truckId => dispatch => {
+    dispatch({ type: SET_SELECTED_TRUCK_START })
+    axiosWithAuth()
+    .get(`/trucks/${truckId}`)
+    .then(res => {
+        console.log(res);
+        dispatch({ type: SET_SELECTED_TRUCK_SUCCESS, payload: res.data })
+    })
+    .catch(err => console.log(err))
 }
