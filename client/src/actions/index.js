@@ -24,6 +24,11 @@ export const TURN_OFF_CUISINE_TYPE_MODE_START = 'TURN_OFF_CUISINE_TYPE_MODE_STAR
 export const TURN_OFF_CUISINE_TYPE_MODE_SUCCESS = 'TURN_OFF_CUISINE_TYPE_MODE_SUCCESS';
 export const SET_SELECTED_TRUCK_START = 'SET_SELECTED_TRUCK_START';
 export const SET_SELECTED_TRUCK_SUCCESS = 'SET_SELECTED_TRUCK_SUCCESS';
+export const ADD_TO_FAVORITES_START = 'ADD_TO_FAVORITES_START';
+export const ADD_TO_FAVORITES_SUCCESS = 'ADD_TO_FAVORITES_SUCCESS';
+export const REMOVE_FROM_FAVORITES_START = 'REMOVE_FROM_FAVORITES_START';
+export const GET_FAVORITES_START = 'GET_FAVORITES_START';
+export const GET_FAVORITES_SUCCESS = 'GET_FAVORITES_SUCCESS';
 
 
 // login for vendors
@@ -152,4 +157,30 @@ export const setSelectedTruck = truckId => dispatch => {
         dispatch({ type: SET_SELECTED_TRUCK_SUCCESS, payload: res.data })
     })
     .catch(err => console.log(err))
+}
+
+// adds truck to diner favorites
+export const addToFavoriteTrucks = (dinerId, truckId) => dispatch => {
+    dispatch({ type: ADD_TO_FAVORITES_START })
+    axiosWithAuth()
+    .post(`https://foodtrucktrackr.herokuapp.com/api/diner/${dinerId}/fav/${truckId}`)
+    .then(res => {
+        console.log(res);
+        dispatch({ type: ADD_TO_FAVORITES_SUCCESS, payload: res.data })
+    })
+    .catch(err => console.log(err))
+}
+
+// removes truck from diner favorites
+export const removeFromFavoriteTrucks = (dinerId, truckId) => dispatch => {
+    dispatch({ type: REMOVE_FROM_FAVORITES_START })
+    axiosWithAuth()
+    .delete(`https://foodtrucktrackr.herokuapp.com/api/diner/${dinerId}/fav/${truckId}`)
+    dispatch({ type: GET_FAVORITES_START })
+    axiosWithAuth()
+    .get(`https://foodtrucktrackr.herokuapp.com/api/diner/${dinerId}/favorites`)
+    .then(res => {
+        console.log(res);
+        dispatch({ type: GET_FAVORITES_SUCCESS, payload: res.data })
+    })
 }

@@ -8,6 +8,8 @@ import "../styling/TruckDetails.scss";
 import Header from "./Header";
 import TruckOnMap from "./TruckOnMap";
 
+import { addToFavoriteTrucks } from "../actions";
+
 const TruckDetails = props => {
     const [truckCoordinates, setTruckCoordinates] = useState({
         lat: '',
@@ -36,6 +38,11 @@ const TruckDetails = props => {
         console.log(`new value of truckCoordinates: lat: ${truckCoordinates.lat}, long: ${truckCoordinates.long}`)
     }, [truckCoordinates])
 
+    const addToFavs = e => {
+        e.preventDefault();
+        props.addToFavoriteTrucks(props.dinerId, props.selectedTruck.id)
+    }
+
     return (
         <div className="truck-details-main">
             <Header history={props.history} />
@@ -60,7 +67,7 @@ const TruckDetails = props => {
                                 <button>Write review</button>
                                 <button>Add photo</button>
                                 <button>Share</button>
-                                <button>Add to favorites</button>
+                                <button onClick={addToFavs}>Add to favorites</button>
                             </div>
                     </div>
 
@@ -117,11 +124,12 @@ const TruckDetails = props => {
 
 const mapStateToProps = state => {
     return {
-        truck_images : state.selectedTruck.truck_images,
+        truck_images: state.selectedTruck.truck_images,
         selectedTruck: state.selectedTruck,
         menu: state.selectedTruck.menu,
-        reviews: state.selectedTruck.reviews
+        reviews: state.selectedTruck.reviews,
+        dinerId: state.account.id
     }
 }
 
-export default connect(mapStateToProps, {})(TruckDetails);
+export default connect(mapStateToProps, { addToFavoriteTrucks })(TruckDetails);

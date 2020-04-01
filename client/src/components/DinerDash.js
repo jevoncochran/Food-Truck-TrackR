@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
-import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { GoogleComponent } from "react-google-location";
 import "../styling/DinerDash.scss";
-import truck from "../assets/truck2.png";
 import { GOOGLE_API_KEY } from "../config";
 
+// action imports
+import { 
+    clientSignOut, 
+    editLocation, 
+    getAllTrucks, 
+    getTruckDistances, 
+    setSelectedTruck, 
+    removeFromFavoriteTrucks,
+    addToFavoriteTrucks 
+} from "../actions";
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
-
-import { clientSignOut, editLocation, getAllTrucks, getTruckDistances, setSelectedTruck } from "../actions";
-
+// component imports
 import Header from "./Header";
 import Covid19Alert from "./Covid19Alert";
 
@@ -73,6 +75,18 @@ const DinerDash = props => {
           } else {
             alert("Geolocation is not supported by this browser.");
           }
+    }
+
+    // returns truck if there is match between that truck and props.favTrucks
+    // looks for match based on id
+    // used to conditional styling for truck cards like button
+    // if truck is already in favorites, button background is filled, if not button background is transparent
+    function filterThroughFavs(truckId) {
+        let favFilter;
+        favFilter = props.favTrucks.filter(favT => {
+            return favT.id === truckId
+        })
+        return favFilter;
     }
 
     // tells app to run the fn that triggers the get coordinates fn as as soon as app renders 
@@ -169,6 +183,16 @@ const DinerDash = props => {
         setInitialMode(false);
     }
 
+    const removeFromFavorites = (e, truckId) => {
+        props.removeFromFavoriteTrucks(props.dinerId, truckId);
+        e.stopPropagation();
+    }
+
+    const addToFavs = (e, truckId) => {
+        props.addToFavoriteTrucks(props.dinerId, truckId);
+        e.stopPropagation();
+    }
+
     console.log(truckDistance);
 
     return (
@@ -211,7 +235,7 @@ const DinerDash = props => {
 
             <Covid19Alert />
 
-            {props.cuisineTypeMode &&  !props.isLoading && <div className="card-div">
+            {props.cuisineTypeMode && <div className="card-div">
                 <div className="card-sub-div">
                     <div className="trucks-category-div">
                         <h3 className="trucks-category">"{props.truckCategory}"</h3>
@@ -226,18 +250,22 @@ const DinerDash = props => {
                                         <CardMedia
                                         className="trucks-by-category-img"
                                         image={truck.image}
-                                        title="Contemplative Reptile"
+                                        />
+                                        <i 
+                                            className="like-icon" 
+                                            class={filterThroughFavs(truck.id).length > 0 ? "fas fa-heart" : "far fa-heart"}
+                                            onClick={filterThroughFavs(truck.id).length > 0 ? e => removeFromFavorites(e, truck.id) : e => addToFavs(e, truck.id)}
                                         />
                                         <CardContent>
                                         <Typography className="trucks-by-category-name" gutterBottom variant="h5" component="h2">
                                             {truck.name}
                                         </Typography>
                                         <Typography className="trucks-by-category-cuisine-type" component="h3">{truck.cuisine_type}</Typography>
-                                        <Typography className="distance-plus-rating" component="h3">
-                                            {truckDistance[truck.index]}
+                                        {/* <Typography className="distance-plus-rating" component="h3">
+                                            {truckDistance[truck.index]} */}
                                             {/* {console.log(`props.location: ${props.location}, truck.current_location: ${truck.current_location}, returns: ${getTruckDistance(props.location, truck.current_location)}`)}
                                             {console.log(getTruckDistance(props.location, truck.current_location))}   */}
-                                        </Typography>
+                                        {/* </Typography> */}
                                         </CardContent>
                                     </CardActionArea>
                                     </Card>
@@ -248,7 +276,7 @@ const DinerDash = props => {
                 </div>
             </div>}
 
-            {!props.cuisineTypeMode && !props.isLoading && <div className="card-div">
+            {!props.cuisineTypeMode && <div className="card-div">
                 <div className="card-sub-div">
                     <div className="trucks-category-div">
                         <h3 className="trucks-category">Nearby Trucks</h3>
@@ -269,8 +297,12 @@ const DinerDash = props => {
                                 <CardMedia
                                 className="truck-img"
                                 image={truck.image}
-                                title="Contemplative Reptile"
                                 style={{ width: '100%' }}
+                                />
+                                <i 
+                                    className="like-icon" 
+                                    class={filterThroughFavs(truck.id).length > 0 ? "fas fa-heart" : "far fa-heart"}
+                                    onClick={filterThroughFavs(truck.id).length > 0 ? e => removeFromFavorites(e, truck.id) : e => addToFavs(e, truck.id)}
                                 />
                                 <CardContent>
                                 <Typography className="truck-name" gutterBottom variant="h5" component="h2">
@@ -293,7 +325,7 @@ const DinerDash = props => {
                 </div>
             </div>}
 
-            {!props.cuisineTypeMode && !props.isLoading && <div className="card-div">
+            {!props.cuisineTypeMode && <div className="card-div">
                 <div className="card-sub-div">
                     <div className="trucks-category-div">
                         <h3 className="trucks-category">Your Favorites</h3>
@@ -314,8 +346,12 @@ const DinerDash = props => {
                                     <CardMedia
                                     className="truck-img"
                                     image={truck.image}
-                                    title="Contemplative Reptile"
                                     style={{ width: '100%' }}
+                                    />
+                                    <i 
+                                        className="like-icon" 
+                                        class={ filterThroughFavs(truck.id).length > 0 ? "fas fa-heart" : "far fa-heart"}
+                                        onClick={(e) => removeFromFavorites(e, truck.id)}
                                     />
                                     <CardContent className="truck-contents">
                                     <Typography className="truck-name" gutterBottom variant="h5" component="h2">
@@ -336,7 +372,7 @@ const DinerDash = props => {
 
 const mapStateToProps = state => {
     return {
-        id: state.account.id,
+        dinerId: state.account.id,
         username: state.account.username,
         email: state.account.email,
         password: state.account.password,
@@ -351,5 +387,13 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { clientSignOut, editLocation, getAllTrucks, getTruckDistances, setSelectedTruck })(DinerDash);
+export default connect(mapStateToProps, { 
+    clientSignOut, 
+    editLocation, 
+    getAllTrucks, 
+    getTruckDistances, 
+    setSelectedTruck, 
+    removeFromFavoriteTrucks,
+    addToFavoriteTrucks 
+})(DinerDash);
 

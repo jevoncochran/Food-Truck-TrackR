@@ -20,7 +20,12 @@ import {
     TURN_OFF_CUISINE_TYPE_MODE_START, 
     TURN_OFF_CUISINE_TYPE_MODE_SUCCESS,
     SET_SELECTED_TRUCK_START,
-    SET_SELECTED_TRUCK_SUCCESS
+    SET_SELECTED_TRUCK_SUCCESS,
+    ADD_TO_FAVORITES_START,
+    ADD_TO_FAVORITES_SUCCESS,
+    REMOVE_FROM_FAVORITES_START,
+    GET_FAVORITES_START, 
+    GET_FAVORITES_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -117,14 +122,14 @@ export const truckReducer = (state = initialState, action) => {
         case GET_TRUCKS_BY_CUISINE_START:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                cuisineTypeMode: true
             }
         case GET_TRUCKS_BY_CUISINE_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 trucksByType: action.payload,
-                cuisineTypeMode: true
             }
         case CALCULATE_TRUCK_DISTANCE_START:
             return {
@@ -169,6 +174,42 @@ export const truckReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 selectedTruck: action.payload
+            }
+        case ADD_TO_FAVORITES_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case ADD_TO_FAVORITES_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                account: {
+                    ...state.account,
+                    favTrucks: [
+                        ...state.account.favTrucks,
+                        action.payload
+                    ]
+                }
+            }
+        case REMOVE_FROM_FAVORITES_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_FAVORITES_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case GET_FAVORITES_SUCCESS: 
+            return {
+                ...state,
+                isLoading: false,
+                account: {
+                    ...state.account,
+                    favTrucks: action.payload
+                }
             }
         default:
             return state;
