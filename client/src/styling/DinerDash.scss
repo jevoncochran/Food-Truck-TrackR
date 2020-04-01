@@ -72,8 +72,9 @@
     
         .trucks-div {
             display: flex;
-            flex-direction: row;
+            // flex-direction: row;
             justify-content: space-between;
+            width: 100%;
     
             .truck-card {
                 width: 31%;
@@ -87,6 +88,13 @@
     
                 .MuiCardContent-root{
                     padding: 0;
+                }
+
+                i {
+                    position: absolute;
+                    right: 2%;
+                    bottom: 28%;
+                    color: white;
                 }
     
                 .truck-name {
@@ -136,6 +144,13 @@
     margin-bottom: 3%;
     border-radius: 0px !important;
     box-shadow: none !important;
+
+    i {
+        position: absolute;
+        bottom: 28%;
+        right: 2%;
+        color: white;
+    }
 }
 
 .trucks-by-category-img {

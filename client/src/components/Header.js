@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/white-logo-png.png";
 import "../styling/Header.scss";
 import { connect } from "react-redux";
+import { GOOGLE_API_KEY } from "../config";
 
 // material UI imports
 import { withStyles } from '@material-ui/core/styles';
@@ -25,6 +26,12 @@ const Header = props => {
     const [updatedLocation, setUpdatedLocation] = useState({
         location: `${props.location}`
     })
+
+    // holds value of abbreviated diner location
+    const [abbreviatedLocation, setAbbreviatedLocation] = useState({
+        number: '',
+        street: ''
+    });
 
     // handles conditional styling for border-bottom for header
     useEffect(() => {
@@ -51,6 +58,19 @@ const Header = props => {
         }
         };
     }, [setIsBorderVisible]);
+
+    // converts full diner location (num, street, city, state, zip) to abbreviated form (num, street)
+    useEffect(() => {
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${props.location}&key=${GOOGLE_API_KEY}`)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            setAbbreviatedLocation({
+                number: data.results[0].address_components[0].long_name,
+                street: data.results[0].address_components[1].short_name
+            })
+        })
+    }, [props.location])
 
     // opens preferences menu
     const handlePreferencesClick = e => {
@@ -128,7 +148,7 @@ const Header = props => {
             {!locationEditMode && <section className="header-section-one">
                 <div className="location-sub-div" onClick={() => setLocationEditMode(true)}>
                     <i class="fas fa-map-marker-alt"></i>
-                    <h3>{props.location}</h3>
+                    <h3>{abbreviatedLocation.number} {abbreviatedLocation.street}</h3>
                 </div>
 
             </section>}
