@@ -15,6 +15,7 @@ import RegisterDiner from "./components/RegisterDiner";
 import DinerDash from './components/DinerDash';
 import DineSearch from "./components/DineSearch";
 import TruckDetails from "./components/TruckDetails";
+import TruckMenu from "./components/TruckMenu";
 
 const GlobalStyle = createGlobalStyle`
 `;

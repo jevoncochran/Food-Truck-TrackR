@@ -7,6 +7,7 @@ import "../styling/TruckDetails.scss";
 
 import Header from "./Header";
 import TruckOnMap from "./TruckOnMap";
+import TruckMenu from "./TruckMenu";
 
 import { addToFavoriteTrucks } from "../actions";
 
@@ -15,6 +16,8 @@ const TruckDetails = props => {
         lat: '',
         long: ''
     })
+
+    const [menuMode, setMenuMode] = useState(false);
 
     function getTruckCoordinates() {
         fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${props.selectedTruck.current_location}&key=${GOOGLE_API_KEY}`)
@@ -57,7 +60,7 @@ const TruckDetails = props => {
                 ))}
             </Grid>
             
-            <div className="details-container">
+            {!menuMode && <div className="details-container">
                 <div className="non-map-div">
                     <div className="details-truck-container">
                             <h1 className="title">{props.selectedTruck.name}</h1>
@@ -74,7 +77,7 @@ const TruckDetails = props => {
                     <div className="pop-items-container">
                         <div className="pop-items-title-div">
                             <h2 className="pop-items-h2">Popular Items</h2>
-                            <p className="pop-items-p">View full menu</p>
+                            <p className="pop-items-p" onClick={() => setMenuMode(true)}>View full menu</p>
                         </div>
                         <Grid className="pop-items-pics-grid" container spacing={1}>
                             {props.menu.slice(0, 3).map(item => (
@@ -117,7 +120,11 @@ const TruckDetails = props => {
                     <p>{props.selectedTruck.current_location}</p>
                     </Card>
                 </div>
-            </div>
+            </div>}
+
+            {menuMode && (
+                <TruckMenu />
+            )}
         </div>
     )
 }
