@@ -1,0 +1,101 @@
+.order-card-main {
+    // border: 1px dashed black;
+    width: 30%;
+    min-height: 70vh;
+    position: absolute;
+    top: 5%;
+    right: 6%;
+    padding-left: 2%;
+    padding-right: 2%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1) !important;
+    z-index: 99;
+}
+
+.order-card-title {
+    text-align: left;
+    // border: 1px dashed black;
+    margin-top: 7%;
+    font-size: 1.7rem;
+}
+
+.order-card-truck {
+    text-align: left;
+    margin-top: 3%;
+    font-size: 0.7rem;
+
+    .truck-name {
+        color: #eb7530;
+    }
+}
+
+.order-items-cont {
+    margin-top: 10%;
+}
+
+.order-item-div {
+    // border: 1px dashed black;
+    display: flex;
+    // justify-content: space-between !important;
+    width: 100%;
+    // margin-bottom: 0.5%;
+    font-size: 0.7rem;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+
+    .order-item-remove {
+        // margin-right: 2%;
+    }
+
+    .order-item-count {
+        // margin-right: 5%;
+        // border: 1px dashed red;
+        width: 10%;
+        text-align: left;
+
+        .order-item-count-input {
+            width: 90%;
+            border: none;
+        }
+    }
+
+    .order-item-name {
+        margin-left: 5%;
+        // border: 1px dashed blue;
+        width: 67%;
+        text-align: left;
+    }
+
+    .order-item-total {
+        // border: 1px dashed blue;
+        width: 20%;
+    }
+}
+
+.order-note-input {
+    // border: 1px dashed red;
+    width: 100%;
+    height: 10vh;
+    position: relative;
+}
+
+.pay-button {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-size: 0.8rem;
+    background: black;
+    margin-top: 10%;
+    margin-bottom: 5%;
+    width: 100%;
+    height: 7vh;
+    padding-top: auto;
+    padding-bottom: auto;
+}
+
+.total-items-count {
+    border: 1px solid white;
+    width: 7%;
+    padding: 0.4%;
+}
+
+
