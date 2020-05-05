@@ -3,7 +3,12 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import CurrencyFormatter from "currencyformatter.js";
 import "../styling/TruckMenu.scss";
+
+// component imports
+import MenuItemModal from "./MenuItemModal";
+import OrderCard from "./OrderCard";
 
 const TruckMenu = props => {
     // holds value of menu object
@@ -12,6 +17,27 @@ const TruckMenu = props => {
         sides: [],
         drinks: []
     })
+
+    // holds value that determines whether menu item modal is open or not
+    const [openMode, setOpenMode] = useState(false);
+
+    // holds value of menu item object to be passed down to menu item modal
+    const [menuItem, setMenuItem] = useState({
+        name: '',
+        description: '',
+        image: '',
+        price: ''
+    })
+
+    // sets modalOpen to true, thus openinng the menu item modal
+    const openModal = () => {
+        setOpenMode(true);
+    }
+
+    // sets modalOpen to false, thus closing the menu item modal
+    const closeModal = () => {
+        setOpenMode(false);
+    }
 
     // makes call to backend to get truck menu
     useEffect(() => {
@@ -55,56 +81,35 @@ const TruckMenu = props => {
                         <h3 className="item-type-cont-h3">Entrees</h3>
                         <Grid container spacing={2}>
                             {menu.entrees.map(item => (
-                                <Grid item xs={4}>
-                                    <Card className="menu-deets-card">
-                                        <div className="menu-deets-cont">
-                                            <p className="menu-item-name">{item.name}</p>
-                                            <p className="menu-item-description">{item.description}</p>
-                                            <p className="menu-item-price">${item.price}</p>
-                                        </div>
-                                        <div className="menu-item-img">
-                                            <object data={item.image} alt="pic of menu item" />
-                                        </div>
-                                    </Card>
-                                </Grid>
+                                    <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                        <Card className="menu-deets-card" onClick={openModal}>
+                                            <div className="menu-deets-cont">
+                                                <p className="menu-item-name">{item.name}</p>
+                                                <p className="menu-item-description">{item.description}</p>
+                                                <p className="menu-item-price">{CurrencyFormatter.format(item.price, { currency: 'USD' })}</p>
+                                            </div>
+                                            <div className="menu-item-img">
+                                                <object data={item.image} alt="pic of menu item" />
+                                            </div>
+                                        </Card>
+                                    </Grid>
                             ))}
                         </Grid>
-                    </div>
-                )}
-
-                {menu.drinks.length > 0 && (
-                    <div className="sides-cont">
-                        <h3 className="item-type-cont-h3">Drinks</h3>
-                        <Grid container spacing={2}>
-                            {menu.drinks.map(item => (
-                                <Grid item xs={4}>
-                                    <Card className="menu-deets-card">
-                                        <div className="menu-deets-cont">
-                                            <p className="menu-item-name">{item.name}</p>
-                                            <p className="menu-item-description">{item.description}</p>
-                                            <p className="menu-item-price">${item.price}</p>
-                                        </div>
-                                        <div className="menu-item-img">
-                                            <object data={item.image} alt="pic of menu item" />
-                                        </div>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
                     </div>
                 )}
 
                 {menu.sides.length > 0 && (
-                    <div className="drinks-cont">
+                    <div className="sides-cont">
                         <h3 className="item-type-cont-h3">Sides</h3>
                         <Grid container spacing={2}>
                             {menu.sides.map(item => (
-                                <Grid item xs={4}>
-                                    <Card className="menu-deets-card">
+                                <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                    <Card className="menu-deets-card" onClick={openModal}>
                                         <div className="menu-deets-cont">
                                             <p className="menu-item-name">{item.name}</p>
                                             <p className="menu-item-description">{item.description}</p>
-                                            <p className="menu-item-price">${item.price.toFixed(2)}</p>
+                                            <p className="menu-item-price">{CurrencyFormatter.format(item.price, { currency: 'USD' })}</p>
                                         </div>
                                         <div className="menu-item-img">
                                             <object data={item.image} alt="pic of menu item" />
@@ -113,16 +118,43 @@ const TruckMenu = props => {
                                 </Grid>
                             ))}
                         </Grid>
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                    </div>
+                )}
+
+                {menu.drinks.length > 0 && (
+                    <div className="drinks-cont">
+                        <h3 className="item-type-cont-h3">Drinks</h3>
+                        <Grid container spacing={2}>
+                            {menu.drinks.map(item => (
+                                <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                    <Card className="menu-deets-card" onClick={openModal}>
+                                        <div className="menu-deets-cont">
+                                            <p className="menu-item-name">{item.name}</p>
+                                            <p className="menu-item-description">{item.description}</p>
+                                            <p className="menu-item-price">{CurrencyFormatter.format(item.price, { currency: 'USD' })}</p>
+                                        </div>
+                                        <div className="menu-item-img">
+                                            <object data={item.image} alt="pic of menu item" />
+                                        </div>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
                     </div>
                 )}
             </div>
+
+            {props.orderCardOpen && <OrderCard />}
         </div>
     )
 }
 
 const mapStateToProps = state => {
     return {
-        selectedTruck: state.selectedTruck
+        selectedTruck: state.selectedTruck,
+        orderCardOpen: state.orderCardOpen
     }
 }
 

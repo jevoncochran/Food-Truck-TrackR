@@ -25,8 +25,19 @@ import {
     ADD_TO_FAVORITES_SUCCESS,
     REMOVE_FROM_FAVORITES_START,
     GET_FAVORITES_START, 
-    GET_FAVORITES_SUCCESS
+    GET_FAVORITES_SUCCESS,
+    ADD_TO_ORDER_START, 
+    ADD_TO_ORDER_SUCCESS,
+    OPEN_ORDER_CARD_START,
+    OPEN_ORDER_CARD_SUCCESS,
+    CLOSE_ORDER_CARD_START,
+    CLOSE_ORDER_CARD_SUCCESS,
+    UPDATE_COUNT_START,
+    UPDATE_COUNT_SUCCESS,
+    REMOVE_FROM_ORDER_START,
+    REMOVE_FROM_ORDER_SUCCESS
 } from "../actions";
+import { MenuItem } from "@material-ui/core";
 
 const initialState = {
     account: {},
@@ -210,6 +221,75 @@ export const truckReducer = (state = initialState, action) => {
                     ...state.account,
                     favTrucks: action.payload
                 }
+            }
+        case ADD_TO_ORDER_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case ADD_TO_ORDER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                order: [
+                    ...state.order,
+                    action.payload
+                ]
+            }
+        case OPEN_ORDER_CARD_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case OPEN_ORDER_CARD_SUCCESS: 
+            return {
+                ...state,
+                isLoading: false,
+                orderCardOpen: true
+            }
+        case CLOSE_ORDER_CARD_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case CLOSE_ORDER_CARD_SUCCESS:
+            return {
+                ...state, 
+                isLoading: false,
+                orderCardOpen: false
+            }
+        case UPDATE_COUNT_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case UPDATE_COUNT_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                order: [
+                    ...state.order.map(item => {
+                        if (item.item === action.payload.key) {
+                            return { ...item, count: action.payload.newCount, total: action.payload.newCount * item.price }
+                        };
+                        return item;
+                    })
+                ]
+            }
+        case REMOVE_FROM_ORDER_START:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case REMOVE_FROM_ORDER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                order: [
+                    ...state.order.filter(item => {
+                        return item.item !== action.payload
+                    })
+                ]
             }
         default:
             return state;

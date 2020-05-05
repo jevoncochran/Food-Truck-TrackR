@@ -213,7 +213,7 @@ const DinerDash = props => {
     // }
 
     const getTruckDistance = () => {
-        props.trucks.forEach((truck, i, truckArr) => {
+        // props.trucks.forEach((truck, i, truckArr) => {
             // HAVE TO UNCOMMENT LINE BELOW WHEN READY TO WORK ON GETTING TRUCK DISTANCES
             // props.getTruckDistances(props.location, truck.current_location);
             // if (i === props.trucks.length - 1) {
@@ -228,7 +228,7 @@ const DinerDash = props => {
                 //     console.log('this thing is firing');
                 // }
             //     truckDistance.push(res.data.rows[0].elements[0].distance.text);
-            })
+            // })
         // .then(data => {
         //     let calculatedDistance;
         //     console.log(data.rows[0].elements[0].distance.text);

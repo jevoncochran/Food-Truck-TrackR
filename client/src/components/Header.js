@@ -11,7 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { turnOffCuisineTypeMode, clientSignOut, editLocation } from "../actions";
+import { turnOffCuisineTypeMode, clientSignOut, editLocation, openOrderCard } from "../actions";
 
 const Header = props => {
     // Stores a bool that determines if header border-bottom is visible
@@ -32,6 +32,12 @@ const Header = props => {
         number: '',
         street: ''
     });
+
+    // value of total number of items in order
+    // displays next to order icon in header
+    const orderCount = props.order.reduce(function(prev, cur) {
+        return prev + cur.count;
+    }, 0);
 
     // handles conditional styling for border-bottom for header
     useEffect(() => {
@@ -180,6 +186,10 @@ const Header = props => {
                     <i class="fas fa-user acct-icon"></i>
                     <h3>{props.username}</h3>
                 </div>
+                <div className="order-sub-div">
+                    <i class="fas fa-shopping-bag order-icon" onClick={() => props.openOrderCard()}></i>
+                    <p>{orderCount}</p>
+                </div>
             </section>
 
             {/* preferences menu */}
@@ -235,8 +245,9 @@ const mapStateToProps = state => {
         accountId: state.account.id,
         cuisineTypeMode: state.cuisineTypeMode,
         username: state.account.username,
-        location: state.account.location
+        location: state.account.location,
+        order: state.order
 
     }
 }
-export default connect(mapStateToProps, { turnOffCuisineTypeMode, clientSignOut, editLocation })(Header);
+export default connect(mapStateToProps, { turnOffCuisineTypeMode, clientSignOut, editLocation, openOrderCard })(Header);
