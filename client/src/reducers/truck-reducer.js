@@ -27,6 +27,7 @@ import {
   GET_FAVORITES_START,
   GET_FAVORITES_SUCCESS,
 } from "../actions";
+import { MenuItem } from "@material-ui/core";
 
 const initialState = {
   account: {},

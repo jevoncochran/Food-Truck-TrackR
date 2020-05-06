@@ -58,6 +58,83 @@ const DinerDash = props => {
 
     const [truckDistance, setTruckDistance] = useState([]);
 
+    // holds value of params for .splice method that renders "Nearby Trucks" and "Favorites"
+    const [sliceParams, setSliceParams] = useState({
+        nearbyStart: 0,
+        nearbyEnd: 3,
+        favsStart: 0,
+        favsEnd: 3
+    })
+
+    // functions that control pagination functionallity for "Nearby Trucks" and "Favorites"
+    const sliceJumpNearby = () => {
+        console.log(sliceParams);
+        if (sliceParams.nearbyStart >= props.trucks.length - 3) {
+            setSliceParams({
+                ...sliceParams,
+                nearbyStart: sliceParams.nearbyStart,
+                nearbyEnd: sliceParams.nearbyEnd
+            })
+        } else {
+            setSliceParams({
+                ...sliceParams,
+                nearbyStart: sliceParams.nearbyStart + 3,
+                nearbyEnd: sliceParams.nearbyEnd + 3
+            })
+        }
+    }
+
+    const sliceReverseNearby = () => {
+        console.log(sliceParams);
+        if (sliceParams.nearbyStart === 0) {
+            setSliceParams({
+                ...sliceParams,
+                nearbyStart: sliceParams.nearbyStart,
+                nearbyEnd: sliceParams.nearbyEnd
+            })
+        } else {
+            setSliceParams({
+                ...sliceParams,
+                nearbyStart: sliceParams.nearbyStart - 3,
+                nearbyEnd: sliceParams.nearbyEnd - 3
+            })
+        }
+    }
+
+    const sliceJumpFavs = () => {
+        console.log(sliceParams);
+        if (sliceParams.favsStart >= props.favTrucks.length - 3) {
+            setSliceParams({
+                ...sliceParams,
+                favsStart: sliceParams.favsStart,
+                favsEnd: sliceParams.favsEnd
+            })
+        } else {
+            setSliceParams({
+                ...sliceParams,
+                favsStart: sliceParams.favsStart + 3,
+                favsEnd: sliceParams.favsEnd + 3
+            })
+        }
+    } 
+
+    const sliceReverseFavs = () => {
+        console.log(sliceParams);
+        if (sliceParams.favsStart === 0) {
+            setSliceParams({
+                ...sliceParams,
+                favsStart: 0,
+                favsEnd: 3
+            })
+        } else {
+            setSliceParams({
+                ...sliceParams,
+                favsStart: sliceParams.favsStart - 3,
+                favsEnd: sliceParams.favsEnd - 3
+            })
+        }
+    }
+
     // function that allows diner to edit location
     const changeLocation = e => {
         console.log(updatedLocation);
@@ -136,7 +213,7 @@ const DinerDash = props => {
     // }
 
     const getTruckDistance = () => {
-        props.trucks.forEach((truck, i, truckArr) => {
+        // props.trucks.forEach((truck, i, truckArr) => {
             // HAVE TO UNCOMMENT LINE BELOW WHEN READY TO WORK ON GETTING TRUCK DISTANCES
             // props.getTruckDistances(props.location, truck.current_location);
             // if (i === props.trucks.length - 1) {
@@ -151,7 +228,7 @@ const DinerDash = props => {
                 //     console.log('this thing is firing');
                 // }
             //     truckDistance.push(res.data.rows[0].elements[0].distance.text);
-            })
+            // })
         // .then(data => {
         //     let calculatedDistance;
         //     console.log(data.rows[0].elements[0].distance.text);
@@ -193,7 +270,7 @@ const DinerDash = props => {
         e.stopPropagation();
     }
 
-    console.log(truckDistance);
+    // console.log(truckDistance);
 
     return (
         <div className="diner-dash-main">
@@ -276,22 +353,22 @@ const DinerDash = props => {
                 </div>
             </div>}
 
-            {!props.cuisineTypeMode && <div className="card-div">
+         {!props.cuisineTypeMode && <div className="card-div">
                 <div className="card-sub-div">
                     <div className="trucks-category-div">
                         <h3 className="trucks-category">Nearby Trucks</h3>
                         <p>View all</p>
                         <div className="category-pagination-arrows">
                             <div className="arrow-bg-div">
-                                <i class="fas fa-arrow-left"></i>
+                                <i class="fas fa-arrow-left" onClick={sliceReverseNearby}></i>
                             </div>
                             <div className="arrow-bg-div">
-                                <i class="fas fa-arrow-right"></i>
+                                <i class="fas fa-arrow-right" onClick={sliceJumpNearby}></i>
                             </div>
                         </div>
                     </div>
                     <div className="trucks-div">
-                        {props.trucks && (props.trucks).slice(0, 3).map(truck => (
+                        {props.trucks && (props.trucks).slice(sliceParams.nearbyStart, sliceParams.nearbyEnd).map(truck => (
                             <Card className="truck-card" onClick={() => selectTruck(truck.id)}>
                             <CardActionArea>
                                 <CardMedia
@@ -332,15 +409,15 @@ const DinerDash = props => {
                         <p>View all</p>
                         <div className="category-pagination-arrows">
                             <div className="arrow-bg-div">
-                                <i class="fas fa-arrow-left"></i>
+                                <i class="fas fa-arrow-left" onClick={sliceReverseFavs}></i>
                             </div>
                             <div className="arrow-bg-div">
-                                <i class="fas fa-arrow-right"></i>
+                                <i class="fas fa-arrow-right" onClick={sliceJumpFavs}></i>
                             </div>
                         </div>
                     </div>
                     <div className="trucks-div">
-                        {props.favTrucks && props.favTrucks.slice(0, 3).map(truck => (
+                        {props.favTrucks && props.favTrucks.slice(sliceParams.favsStart, sliceParams.favsEnd).map(truck => (
                             <Card className="truck-card" onClick={() => selectTruck(truck.id)}>
                                 <CardActionArea>
                                     <CardMedia
@@ -365,7 +442,7 @@ const DinerDash = props => {
                         ))}
                     </div>
                 </div>
-            </div>}
+            </div>}   
         </div>
     )
 }
