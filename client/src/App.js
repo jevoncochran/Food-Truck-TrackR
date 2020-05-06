@@ -1,18 +1,18 @@
-import React from 'react';
+import React from "react";
 import { Reset } from "styled-reset";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import './App.scss';
+import "./App.scss";
 
 // components
 import Login from "./components/Login";
 import RegisterAs from "./components/RegisterAs";
 import { PrivateRoute } from "./components/PrivateRoute";
 import VendorDash from "./components/VendorDash";
-import RegisterVendor from './components/RegisterVendor';
+import RegisterVendor from "./components/RegisterVendor";
 import RegisterDiner from "./components/RegisterDiner";
-import DinerDash from './components/DinerDash';
+import DinerDash from "./components/DinerDash";
 import DineSearch from "./components/DineSearch";
 import TruckDetails from "./components/TruckDetails";
 import TruckMenu from "./components/TruckMenu";
@@ -27,17 +27,28 @@ function App(props) {
   return (
     <Router>
       <div className="App">
-        
-        <div className="inner-div"> 
+        <div className="inner-div">
           <Reset />
           <GlobalStyle />
 
-          <Route exact path="/" render={() => <Redirect  to="/login" />} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" render={() => <Redirect to="/login" />} />
+          <Route
+            exact
+            path="/login"
+            render={() => {
+              if (props.role === "vendor" && !props.isLoading) {
+                return <Redirect to={`/vendor/${props.accountId}`} />;
+              } else if (props.role === "diner" && !props.isLoading) {
+                return <Redirect to={`diner/${props.accountId}`} />;
+              } else {
+                return <Login />;
+              }
+            }}
+          />
           <Route exact path="/register" component={RegisterAs} />
           <Route path="/register/vendor" component={RegisterVendor} />
           <Route path="/register/diner" component={RegisterDiner} />
-          <PrivateRoute path='/vendor/:accountId' component={VendorDash} />
+          <PrivateRoute path="/vendor/:accountId" component={VendorDash} />
           <PrivateRoute path="/diner/:accountId" component={DinerDash} />
           <PrivateRoute path="/dine/search" component={DineSearch} />
           <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
@@ -47,11 +58,12 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     accountId: state.account.id,
-    isLoading: state.isLoading
-  }
-}
+    isLoading: state.isLoading,
+    role: state.role,
+  };
+};
 
 export default connect(mapStateToProps, {})(App);
