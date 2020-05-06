@@ -24,12 +24,10 @@ const Login = (props) => {
       if (accountType === "vendor") {
         props.history.push(`/vendor/${props.accountId}`);
       } else if (accountType === "diner") {
-        props.getAllTrucks();
-
         props.history.push(`/diner/${props.accountId}`);
       }
     }
-  }, [props.accountId, props.isLoading]);
+  }, [props.accountId, initialMode]);
 
   const handleLoginChange = (e) => {
     setCredentials({

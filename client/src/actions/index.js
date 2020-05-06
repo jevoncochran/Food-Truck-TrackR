@@ -32,6 +32,16 @@ export const ADD_TO_FAVORITES_SUCCESS = "ADD_TO_FAVORITES_SUCCESS";
 export const REMOVE_FROM_FAVORITES_START = "REMOVE_FROM_FAVORITES_START";
 export const GET_FAVORITES_START = "GET_FAVORITES_START";
 export const GET_FAVORITES_SUCCESS = "GET_FAVORITES_SUCCESS";
+export const ADD_TO_ORDER_START = "ADD_TO_ORDER_START";
+export const ADD_TO_ORDER_SUCCESS = "ADD_TO_ORDER_SUCCESS";
+export const OPEN_ORDER_CARD_START = "OPEN_ORDER_CARD_START";
+export const OPEN_ORDER_CARD_SUCCESS = "OPEN_ORDER_CARD_SUCCESS";
+export const CLOSE_ORDER_CARD_START = "CLOSE_ORDER_CARD_START";
+export const CLOSE_ORDER_CARD_SUCCESS = "CLOSE_ORDER_CARD_SUCCESS";
+export const UPDATE_COUNT_START = "UPDATE_COUNT_START";
+export const UPDATE_COUNT_SUCCESS = "UPDATE_COUNT_SUCCESS";
+export const REMOVE_FROM_ORDER_START = "REMOVE_FROM_ORDER_START";
+export const REMOVE_FROM_ORDER_SUCCESS = "REMOVE_FROM_ORDER_SUCCESS";
 
 // login for vendors
 export const loginAndGetVendor = (credentials) => (dispatch) => {
@@ -207,4 +217,34 @@ export const removeFromFavoriteTrucks = (dinerId, truckId) => (dispatch) => {
       console.log(res);
       dispatch({ type: GET_FAVORITES_SUCCESS, payload: res.data });
     });
+};
+
+// add to customer order
+export const addItemToOrder = (item) => (dispatch) => {
+  dispatch({ type: ADD_TO_ORDER_START });
+  dispatch({ type: ADD_TO_ORDER_SUCCESS, payload: item });
+};
+
+// display order card
+export const openOrderCard = () => (dispatch) => {
+  dispatch({ type: OPEN_ORDER_CARD_START });
+  dispatch({ type: OPEN_ORDER_CARD_SUCCESS });
+};
+
+// close order card
+export const closeOrderCard = () => (dispatch) => {
+  dispatch({ type: CLOSE_ORDER_CARD_START });
+  dispatch({ type: CLOSE_ORDER_CARD_SUCCESS });
+};
+
+// update count for individual item in order
+export const updateCount = (newCount, key) => (dispatch) => {
+  dispatch({ type: UPDATE_COUNT_START });
+  dispatch({ type: UPDATE_COUNT_SUCCESS, payload: { newCount, key } });
+};
+
+// remove individual item from order
+export const removeFromOrder = (key) => (dispatch) => {
+  dispatch({ type: REMOVE_FROM_ORDER_START });
+  dispatch({ type: REMOVE_FROM_ORDER_SUCCESS, payload: key });
 };

@@ -36,12 +36,12 @@ function App(props) {
             exact
             path="/login"
             render={() => {
-              if (props.type === "") {
-                return <Login />;
-              } else if (props.type === "vendor") {
+              if (props.role === "vendor" && !props.isLoading) {
                 return <Redirect to={`/vendor/${props.accountId}`} />;
-              } else {
+              } else if (props.role === "diner" && !props.isLoading) {
                 return <Redirect to={`diner/${props.accountId}`} />;
+              } else {
+                return <Login />;
               }
             }}
           />
@@ -62,7 +62,7 @@ const mapStateToProps = (state) => {
   return {
     accountId: state.account.id,
     isLoading: state.isLoading,
-    type: state.type,
+    role: state.role,
   };
 };
 
