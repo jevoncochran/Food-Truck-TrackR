@@ -1,84 +1,109 @@
+$phone: 400px;
+$smallTablet: 520px;
+$tablet: 600px;
+$largeTablet: 800px;
+$smallScreen: 900px;
+.login-con {
+  width: 100%;
+}
 .main-div {
-    padding: 1rem;
-    background: #e6ebf5;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 12%;
+  padding: 1rem;
+  background: #ffffff;
+  width: 100%;
+  height: 85vh;
+  background-image: url("../assets/vendor.jpg");
+  background-color: black;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: $largeTablet) {
+    margin-left: 0;
+  }
+
+  .form-div {
+    width: 50%;
+    height: 90%;
+    margin-left: 5rem;
     display: flex;
-    align-items: center;
-
-    .form-div {
-        width: 50%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        margin-top: 0px;
-        padding: 0px;
-
-        
-
-        .form-heading {
-            margin-bottom: 4%;
-            font-size: 2rem;
-            font-family: "Acme";
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            input {
-                margin-bottom: 2%;
-                width: 85%;
-                padding: 18.5px 14px;
-                border: 0.75px solid lightgrey;
-                font-family: "Acme";
-                color: currentColor;
-                background: none;
-                box-sizing: content-box;
-                animation-name: mui-auto-fill-cancel;
-                -webkit-tap-highlight-color: transparent;
-
-            }
-    
-            select {
-                width: 30%;
-                margin-bottom: 3%;
-            }
-
-            button {
-                margin-bottom: 3%;
-                background-color: #28243d;
-                color: #fff;
-                padding: 6px 8px;
-                font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-                font-weight: 500;
-                border-radius: 4px;
-                transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                text-transform: uppercase;
-            }
-
-            p {
-                margin-bottom: 1%;
-                font-size: 0.8rem;
-            }
-        }
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background: rgba(255, 255, 255, 0.89);
+    text-shadow: 1px 1px 0px #c7c7c7;
+    @media screen and (max-width: $largeTablet) {
+      width: 80%;
+      height: 90%;
+      margin-left: 0;
     }
 
-    .img-div {
-        width: 50%;
-
-        img {
-            width: 100%;
-        }
+    .form-heading {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      font-family: "Montserrat";
     }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      input {
+        margin-bottom: 1rem;
+        width: 55%;
+        padding: 8px 5px;
+        background-color: white;
+        border: 0.75px solid lightgrey;
+        font-family: "Montserrat";
+        box-sizing: content-box;
+      }
+      select {
+        width: 30%;
+        margin-bottom: 3%;
+      }
+
+      button {
+        margin-bottom: 3%;
+        background-color: #28243d;
+        color: #fff;
+        padding: 6px 8px;
+        font-family: "Montserrat", "Helvetica", "Arial", sans-serif;
+        font-weight: 500;
+        border-radius: 4px;
+        transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+          box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+          border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        &:hover {
+          background-color: #5e5a6e;
+        }
+      }
+
+      p {
+        margin-bottom: 1%;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .img-div {
+    width: 50%;
+    @media screen and (max-width: $largeTablet) {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      opacity: 0;
+    }
+  }
 }
 
 .login-loader {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    text-align: center;
-    z-index: 10;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  text-align: center;
+  z-index: 10;
 }

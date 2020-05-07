@@ -7,7 +7,7 @@ $smallScreen: 900px;
 .header-section {
   height: 12vh;
   width: 100%;
-  background-color: #28243d;
+  background-color: white;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -15,14 +15,18 @@ $smallScreen: 900px;
   top: 0;
   left: 0;
   z-index: 9999;
+  @media screen and (max-width: $smallTablet) {
+    flex-direction: column;
+  }
+
   @media screen and (max-width: $smallScreen) {
-    height: 10vh;
+    height: 15vh;
   }
 
   .logo-con {
     width: 20%;
     @media screen and (max-width: $smallTablet) {
-      display: none;
+      width: 35%;
     }
     .logo-img {
       max-width: 100%;
@@ -38,7 +42,7 @@ $smallScreen: 900px;
     justify-content: space-between;
   }
   a {
-    color: #ef903c;
+    color: #28243d;
     font-weight: bold;
     text-decoration: none;
     font-family: "Montserrat";
@@ -49,11 +53,11 @@ $smallScreen: 900px;
 
     &:hover {
       text-decoration: none;
-      color: white;
+      color: #ef903c;
     }
   }
 }
 
 .activeLink {
-  border-bottom: solid 2px rgb(189, 189, 252);
+  border-bottom: solid #ef903c;
 }

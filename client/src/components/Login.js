@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import truckPic from "../assets/mexican-truck.png";
+import truckPic from "../assets/twt-food-truck-vendor.jpg";
 import ScrollAnimation from "react-animate-on-scroll";
 import Loader from "react-loader-spinner";
 import "../styling/Login.scss";
@@ -57,7 +57,7 @@ const Login = (props) => {
   console.log(accountType);
 
   return (
-    <div>
+    <div className="login-con">
       <Nav />
       <div className="main-div">
         <div className="form-div">
@@ -68,6 +68,7 @@ const Login = (props) => {
             onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
           >
             <input
+              className="form-input"
               type="text"
               name="username"
               value={credentials.username}
@@ -75,6 +76,7 @@ const Login = (props) => {
               onChange={handleLoginChange}
             />
             <input
+              className="form-input"
               type="password"
               name="password"
               value={credentials.password}
