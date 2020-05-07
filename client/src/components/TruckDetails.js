@@ -123,7 +123,7 @@ const TruckDetails = props => {
             </div>}
 
             {menuMode && (
-                <TruckMenu />
+                <TruckMenu history={props.history} />
             )}
         </div>
     )

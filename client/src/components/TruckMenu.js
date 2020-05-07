@@ -146,7 +146,7 @@ const TruckMenu = props => {
                 )}
             </div>
 
-            {props.orderCardOpen && <OrderCard />}
+            {props.orderCardOpen && <OrderCard history={props.history} />}
         </div>
     )
 }
