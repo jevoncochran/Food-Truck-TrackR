@@ -6,30 +6,72 @@ $largeTablet: 800px;
 $smallScreen: 900px;
 
 .main-form {
-  padding: 3rem;
-  background: #e6ebf5;
-  width: 80%;
+  background: white;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 12%;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   @media screen and (max-width: $smallScreen) {
     flex-direction: column;
+    justify-content: center;
   }
 }
+.vert-img {
+  height: 110vh;
+}
 .link a {
-  color: #ef903c;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 40%;
+  background-color: black;
+  padding: 2rem;
+  border-radius: 5px;
+
   &:hover {
-    color: #28243d;
+    background-color: rgb(83, 83, 83);
     text-decoration: none;
+    color: white;
+  }
+}
+
+.diner a {
+  left: 10%;
+  @media screen and (max-width: $smallScreen) {
+    left: 35%;
+    font-size: 1.45rem;
+  }
+}
+.vendor a {
+  left: 60%;
+  @media screen and (max-width: $smallScreen) {
+    left: 35%;
+    top: 60%;
+    font-size: 1.4rem;
   }
 }
 
 .section {
   width: 50%;
+  @media screen and (max-width: $smallScreen) {
+    width: 90%;
+  }
   img {
     width: 100%;
+    max-height: 100%;
+  }
+}
+.section2 {
+  .vert-img {
+    @media screen and (max-width: $smallScreen) {
+      display: none;
+    }
+  }
+  img {
+    @media screen and (max-width: $smallScreen) {
+      display: none;
+    }
   }
 }
