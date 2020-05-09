@@ -33,12 +33,11 @@ function App(props) {
 
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           <Route
-            exact
             path="/login"
             render={() => {
-              if (props.role === "vendor" && !props.isLoading) {
+              if (props.role === "vendor" && props.isLoading) {
                 return <Redirect to={`/vendor/${props.accountId}`} />;
-              } else if (props.role === "diner" && !props.isLoading) {
+              } else if (props.role === "diner" && props.isLoading) {
                 return <Redirect to={`diner/${props.accountId}`} />;
               } else {
                 return <Login />;
