@@ -22,16 +22,25 @@ const Login = (props) => {
   const [initialMode, setInitialMode] = useState(true);
 
   useEffect(() => {
-    if (props.accountId !== undefined && !props.isLoading && props.loggedIn === true) {
+    if (
+      props.accountId !== undefined &&
+      !props.isLoading &&
+      props.loggedIn === true
+    ) {
       if (accountType === "vendor") {
         history.push(`/vendor/${props.accountId}`);
       } else if (accountType === "diner") {
         history.push(`/diner/${props.accountId}`);
       }
     }
-
-  }, [accountType, history, initialMode, props.accountId, props.isLoading]);
-
+  }, [
+    accountType,
+    history,
+    initialMode,
+    props.accountId,
+    props.isLoading,
+    props.loggedIn,
+  ]);
 
   const handleLoginChange = (e) => {
     setCredentials({
@@ -65,56 +74,66 @@ const Login = (props) => {
       <Nav />
       <div className="main-div">
         <div className="form-div">
-          <h2 className="form-heading">Welcome Back</h2>
+          {props.isLoading ? (
+            <>
+              <h2 className="form-heading">Logging In</h2>
 
-          <form
-            className="login-form"
-            onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
-          >
-            <input
-              className="form-input"
-              type="text"
-              name="username"
-              value={credentials.username}
-              placeholder="Enter username"
-              onChange={handleLoginChange}
-            />
-            <input
-              className="form-input"
-              type="password"
-              name="password"
-              value={credentials.password}
-              placeholder="Enter password"
-              onChange={handleLoginChange}
-            />
+              <Loader
+                className="login-loader"
+                type="ThreeDots"
+                color="#somecolor"
+                height={80}
+                width={80}
+              />
+            </>
+          ) : (
+            <>
+              <h2 className="form-heading">Welcome Back</h2>
 
-            <select className="form-control select" onChange={handleTypeChange}>
-              <option disabled value="initial">
-                Account Type
-              </option>
-              <option value="vendor">Vendor</option>
-              <option value="diner">Diner</option>
-            </select>
-            <button type="submit">Login</button>
-            <p>Don't have an account?</p>
-            <a href="/register">
-              <p>Sign up!</p>
-            </a>
-          </form>
+              <form
+                className="login-form"
+                onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
+              >
+                <input
+                  className="form-input"
+                  type="text"
+                  name="username"
+                  value={credentials.username}
+                  placeholder="Enter username"
+                  onChange={handleLoginChange}
+                />
+                <input
+                  className="form-input"
+                  type="password"
+                  name="password"
+                  value={credentials.password}
+                  placeholder="Enter password"
+                  onChange={handleLoginChange}
+                />
+
+                <select
+                  className="form-control select"
+                  onChange={handleTypeChange}
+                >
+                  <option disabled value="initial">
+                    Account Type
+                  </option>
+                  <option value="vendor">Vendor</option>
+                  <option value="diner">Diner</option>
+                </select>
+                <button type="submit">Login</button>
+                <p>Don't have an account?</p>
+                <a href="/register">
+                  <p>Sign up!</p>
+                </a>
+              </form>
+            </>
+          )}
         </div>
 
         <ScrollAnimation animateIn="fadeIn" className="img-div">
           <img src={truckPic} alt="food truck" />
         </ScrollAnimation>
-        {props.isLoading && (
-          <Loader
-            className="login-loader"
-            type="ThreeDots"
-            color="#somecolor"
-            height={80}
-            width={80}
-          />
-        )}
       </div>
     </div>
   );
@@ -124,7 +143,7 @@ const mapStateToProps = (state) => {
   return {
     accountId: state.account.id,
     isLoading: state.isLoading,
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
   };
 };
 
