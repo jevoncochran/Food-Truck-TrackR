@@ -8,18 +8,69 @@
 .payment-body {
     border: 1px dashed black;
     display: flex;
+    justify-content: space-between;
     position: relative;
     top: 10%;
 }
 
 .order-div {
-    border: 1px dashed blue;
+    // border: 1px dashed blue;
+    margin-left: 4%;
     position: relative;
     top: 20%;
     width: 35%;
     text-align: left;
 }
 
-.confirm-payment-div {
+.payment-title-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-payment-btn {
+    border-radius: 8px;
+    font-size: 0.65rem;
+    padding: 1% 2%;
+}
+
+.MuiSvgIcon-root {
+    font-size: 0.85rem !important;
+}
+
+// controls labels for payment radios
+.MuiTypography-body1 {
+    font-size: 0.8rem !important;
+}
+
+.order-title-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-items-order-btn {
+    border-radius: 8px;
+    font-size: 0.65rem;
+    padding: 1% 2%;
+}
+
+.order-div-truck {
+    font-size: 0.7rem;
+}
+
+.note-input {
+    width: 100%;
+}
+
+.confirm-pay-div {
     border: 1px dashed red;
+    width: 30%;
+    margin-right: 4%;
+}
+
+.confirm-pay-div-truck {
+    font-size: 0.87rem;
+}
+
+.confirm-order-btn {
+    width: 100%;
 }
