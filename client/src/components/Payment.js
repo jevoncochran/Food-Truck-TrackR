@@ -36,6 +36,16 @@ const Payment = props => {
         })
     }
 
+    const getCustomTip = () => {
+        let custTipRad = document.getElementById('custom-tip');
+
+        setTipVal({
+            tip: custTipRad.value,
+            tipPerc: undefined
+        })
+
+    }
+
     useEffect(() => {
         console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
     }, [tipVal.tipPerc])
@@ -69,7 +79,7 @@ const Payment = props => {
                             <h2>Your Order</h2>
                             <button className="add-items-order-btn">Add items</button>
                         </div>
-                        <p className="order-div-truck">From {props.selectedTruck.name}</p>
+                        <p className="order-div-truck">From <span style={{ color: '#eb7530' }}>{props.selectedTruck.name}</span></p>
 
                         <div className="order-items-cont">
                             {props.order.map(item => (
@@ -89,7 +99,7 @@ const Payment = props => {
                 </div>
 
                 <div className="confirm-pay-div">
-                    <h2 className="confirm-pay-div-truck">From {props.selectedTruck.name}</h2>
+                    <h2 className="confirm-pay-div-truck">From <span style={{ color: '#eb7530' }}>{props.selectedTruck.name}</span></h2>
                     <hr />
                     <div className="subtotal-div">
                         <p>Subtotal - {orderCount} {orderCount > 1 ? "items" : "item"}</p>
@@ -112,7 +122,7 @@ const Payment = props => {
                                     <label for="tip3">15%</label>
                                 </span>
                                 <span className="tip-radio-span">
-                                    <input type="radio" id="custom-tip" name="tip" value="100" className="tip-radio" onClick={getTip} />
+                                    <input type="radio" id="custom-tip" name="tip" value={10} className="tip-radio" onClick={getCustomTip} />
                                     {/* <label for="custom-tip" style={{ fontSize: '0.8rem'}}>other</label> */}
                                     <input type="number" className="custom-tip-input" />
                                 </span>
@@ -124,7 +134,7 @@ const Payment = props => {
                     </div>
                     <div className="confirm-pay-total-div">
                         <p>Total</p>
-                        <p>{CurrencyFormatter.format(orderSubtotal + tipVal.tip, { currency: 'USD' })}</p>
+                        <p>{CurrencyFormatter.format(orderSubtotal + Number(tipVal.tip), { currency: 'USD' })}</p>
                     </div>
                     <button className="confirm-order-btn">Confirm Order</button>
                 </div>
