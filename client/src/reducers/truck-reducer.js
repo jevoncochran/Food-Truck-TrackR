@@ -77,6 +77,7 @@ export const truckReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         role: "diner",
+        loggedIn: true,
 
         account: {
           id: action.payload.id,
@@ -107,6 +108,7 @@ export const truckReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         role: "",
+        loggedIn: false,
         account: {},
         trucks: [],
         trucksByType: [],
