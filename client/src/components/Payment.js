@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Header from "./Header";
 import Radio from '@material-ui/core/Radio';
@@ -9,9 +9,39 @@ import CurrencyFormatter from "currencyformatter.js";
 import "../styling/Payment.scss"
 
 const Payment = props => {
+    const [tipVal, setTipVal] = useState({
+        tipPerc: 0,
+        tip: 0
+    });
+
     const orderCount = props.order.reduce(function(prev, cur) {
         return prev + cur.count;
     }, 0);
+
+    const orderSubtotal = props.order.reduce(function(prev, cur) {
+        return prev + cur.total;
+    }, 0);
+
+    // calculates tip from radio inputs in tip div
+    const getTip = () => {
+        let tipRadios = document.getElementsByName('tip');
+
+        tipRadios.forEach(ele => {
+            if(ele.checked) {
+                setTipVal({
+                    tipPerc: ele.value,
+                    tip: orderSubtotal * ele.value
+                })
+            }
+        })
+    }
+
+    useEffect(() => {
+        console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
+    }, [tipVal.tipPerc])
+
+    let tipRadios = document.getElementsByName('tip');
+    console.log(tipRadios);
 
     return (
         <div className="payment-main">
@@ -61,14 +91,40 @@ const Payment = props => {
                 <div className="confirm-pay-div">
                     <h2 className="confirm-pay-div-truck">From {props.selectedTruck.name}</h2>
                     <hr />
-                    <div style={{ display: 'flex' }}>
+                    <div className="subtotal-div">
                         <p>Subtotal - {orderCount} {orderCount > 1 ? "items" : "item"}</p>
-                        <p>$20.50</p>
+                        <p>{CurrencyFormatter.format(orderSubtotal, { currency: 'USD' })}</p>
                     </div>
-                    <p>Add tip</p>
-                    <div style={{ display: 'flex' }}>
+                    <div className="tip-div">
+                        <p className="tip-title">Add tip</p>
+                        <div className="tip-calc-div">
+                            <form className="tip-amount-div">
+                                <span className="tip-radio-span">
+                                    <input type="radio" id="tip1" name="tip" value={0.05} className="tip-radio" onClick={getTip} />
+                                    <label for="tip1">5%</label>
+                                </span>
+                                <span className="tip-radio-span">
+                                    <input type="radio" id="tip2" name="tip" value={0.1} className="tip-radio" onClick={getTip} />
+                                    <label for="tip2">10%</label>
+                                </span>
+                                <span className="tip-radio-span">
+                                    <input type="radio" id="tip3" name="tip" value={0.15} className="tip-radio" onClick={getTip} />
+                                    <label for="tip3">15%</label>
+                                </span>
+                                <span className="tip-radio-span">
+                                    <input type="radio" id="custom-tip" name="tip" value="100" className="tip-radio" onClick={getTip} />
+                                    {/* <label for="custom-tip" style={{ fontSize: '0.8rem'}}>other</label> */}
+                                    <input type="number" className="custom-tip-input" />
+                                </span>
+                            </form>
+                            <div className="tip-total-div">
+                                <p>{CurrencyFormatter.format(tipVal.tip, { currency: 'USD' })}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="confirm-pay-total-div">
                         <p>Total</p>
-                        <p>$20.50</p>
+                        <p>{CurrencyFormatter.format(orderSubtotal + tipVal.tip, { currency: 'USD' })}</p>
                     </div>
                     <button className="confirm-order-btn">Confirm Order</button>
                 </div>

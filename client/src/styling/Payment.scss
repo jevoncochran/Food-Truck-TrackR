@@ -6,7 +6,7 @@
 }
 
 .payment-body {
-    border: 1px dashed black;
+    // border: 1px dashed black;
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -62,15 +62,75 @@
 }
 
 .confirm-pay-div {
-    border: 1px dashed red;
-    width: 30%;
+    // border: 1px dashed red;
+    width: 35%;
     margin-right: 4%;
+    text-align: left;
+    font-size: 0.87 rem;
 }
 
 .confirm-pay-div-truck {
     font-size: 0.87rem;
 }
 
+.subtotal-div {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.87rem;
+    margin-bottom: 10%;
+}
+
+.tip-div {
+    margin-bottom: 10%;
+}
+
+.tip-title {
+    margin-bottom: 4%;
+}
+
+.tip-calc-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tip-amount-div {
+    // border: 1px dashed blue;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.87rem;
+}
+
+.tip-radio-span {
+    // border: 1px dashed green;
+    width: 25%;
+}
+
+.tip-radio {
+    margin-right: 5%;
+}
+
+.custom-tip-input {
+    border-top: none ;
+    border-left: none;
+    border-right: none;
+    // border: 1px dashed purple;
+    width: 75%;
+}
+
+.tip-total-div {
+    // border: 1px dashed red;
+}
+
+.confirm-pay-total-div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10%;
+}
+
 .confirm-order-btn {
     width: 100%;
+    padding: 12px 0;
+    color: white;
+    background: black;
 }
