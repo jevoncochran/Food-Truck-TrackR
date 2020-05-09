@@ -8,7 +8,16 @@ import FormControl from '@material-ui/core/FormControl';
 import CurrencyFormatter from "currencyformatter.js";
 import "../styling/Payment.scss"
 
+import AddCard from "./AddCard";
+
 const Payment = props => {
+    // state determines whether or not to render AddCard modal
+    const [addCardMode, setAddCardMode] = useState(false);
+
+    useEffect(() => {
+        console.log(`addCardMode: ${addCardMode}`)
+    }, [addCardMode])
+
     // tip percentage and tip amount
     const [tipVal, setTipVal] = useState({
         tipPerc: 0,
@@ -17,6 +26,10 @@ const Payment = props => {
 
     // holds value for custom tip only when user types into custom input in tip div
     const [customTip, setCustomTip] = useState(null);
+
+    const closeCardModal = () => {
+        setAddCardMode(false);
+    };
 
     // total number of items in order
     // x orders of an item are counted x times
@@ -90,6 +103,12 @@ const Payment = props => {
                             <button className="edit-payment-btn">Edit</button>
                         </div>
                         <hr />
+                        {!props.cardOnFile &&
+                        <div className="add-card-div">
+                            <p style={{ marginRight: '2.5%' }}>Add Credit/Debit Card</p>
+                            <i class="fas fa-plus-circle" onClick={() => setAddCardMode(true)}></i>
+                        </div>
+                        }
                         <FormControl component="fieldset">
                             <RadioGroup aria-label="gender" name="gender1" value={null} onChange={null}>
                                 <FormControlLabel value="female" control={<Radio />} label="Mastercard -5559" className="payment-radio"/>
@@ -164,6 +183,10 @@ const Payment = props => {
                     <button className="confirm-order-btn">Confirm Order</button>
                 </div>
             </div>
+
+            {addCardMode &&
+                <AddCard addCardMode={addCardMode} closeCardModal={closeCardModal} />
+            }
         </div>
     )
 }
