@@ -9,21 +9,29 @@ import CurrencyFormatter from "currencyformatter.js";
 import "../styling/Payment.scss"
 
 const Payment = props => {
+    // tip percentage and tip amount
     const [tipVal, setTipVal] = useState({
         tipPerc: 0,
         tip: 0
     });
 
+    // holds value for custom tip only when user types into custom input in tip div
+    const [customTip, setCustomTip] = useState(null);
+
+    // total number of items in order
+    // x orders of an item are counted x times
     const orderCount = props.order.reduce(function(prev, cur) {
         return prev + cur.count;
     }, 0);
 
+    // order subtotal derived from sum of (each item x item count)
     const orderSubtotal = props.order.reduce(function(prev, cur) {
         return prev + cur.total;
     }, 0);
 
-    // calculates tip from radio inputs in tip div
-    const getTip = () => {
+    // calculates tip from percentage radio buttons in tip div
+    // triggered by onclick on percentage radio buttons
+    const getSuggestedTip = () => {
         let tipRadios = document.getElementsByName('tip');
 
         tipRadios.forEach(ele => {
@@ -34,24 +42,41 @@ const Payment = props => {
                 })
             }
         })
-    }
+    };
 
+    // calculates tip from user input in tip div
+    // triggered by onclick on custom radio button
     const getCustomTip = () => {
         let custTipRad = document.getElementById('custom-tip');
 
         setTipVal({
             tip: custTipRad.value,
-            tipPerc: undefined
+            tipPerc: null
         })
+    };
 
+    const handleCustTipClick = () => {
+        let custTipRad = document.getElementById('custom-tip');
+        custTipRad.clicked = true;
     }
+
+    // updates tip amount per value user types into input in tip div
+    const handleCustTipChange = e => {
+        // let custTipFormatted = CurrencyFormatter.format(e.target.value, { currency: 'USD' });
+        setCustomTip(e.target.value);
+        setTipVal({
+            tip: e.target.value,
+            tipPerc: null
+        })
+    };
 
     useEffect(() => {
         console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
     }, [tipVal.tipPerc])
 
-    let tipRadios = document.getElementsByName('tip');
-    console.log(tipRadios);
+    useEffect(() => {
+        console.log(`custom tip: ${customTip}`)
+    }, [customTip])
 
     return (
         <div className="payment-main">
@@ -110,21 +135,21 @@ const Payment = props => {
                         <div className="tip-calc-div">
                             <form className="tip-amount-div">
                                 <span className="tip-radio-span">
-                                    <input type="radio" id="tip1" name="tip" value={0.05} className="tip-radio" onClick={getTip} />
+                                    <input type="radio" id="tip1" name="tip" value={0.05} className="tip-radio" onClick={getSuggestedTip} />
                                     <label for="tip1">5%</label>
                                 </span>
                                 <span className="tip-radio-span">
-                                    <input type="radio" id="tip2" name="tip" value={0.1} className="tip-radio" onClick={getTip} />
+                                    <input type="radio" id="tip2" name="tip" value={0.1} className="tip-radio" onClick={getSuggestedTip} />
                                     <label for="tip2">10%</label>
                                 </span>
                                 <span className="tip-radio-span">
-                                    <input type="radio" id="tip3" name="tip" value={0.15} className="tip-radio" onClick={getTip} />
+                                    <input type="radio" id="tip3" name="tip" value={0.15} className="tip-radio" onClick={getSuggestedTip} />
                                     <label for="tip3">15%</label>
                                 </span>
                                 <span className="tip-radio-span">
-                                    <input type="radio" id="custom-tip" name="tip" value={10} className="tip-radio" onClick={getCustomTip} />
+                                    <input type="radio" id="custom-tip" name="tip" value={customTip} className="tip-radio" onClick={getCustomTip} />
                                     {/* <label for="custom-tip" style={{ fontSize: '0.8rem'}}>other</label> */}
-                                    <input type="number" className="custom-tip-input" />
+                                    <input type="number" value={customTip} min="0.50" step="0.50" onClick={handleCustTipClick} onChange={handleCustTipChange} className="custom-tip-input" />
                                 </span>
                             </form>
                             <div className="tip-total-div">
