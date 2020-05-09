@@ -15,19 +15,19 @@ const Login = (props) => {
     password: "",
   });
 
-  const [accountType, setAccountType] = useState("vendor");
+  const [accountType, setAccountType] = useState("diner");
 
   const [initialMode, setInitialMode] = useState(true);
 
   useEffect(() => {
-    if (props.accountId !== undefined && !props.isLoading && !initialMode) {
+    if (props.accountId !== undefined && !props.isLoading && props.loggedIn === true) {
       if (accountType === "vendor") {
         props.history.push(`/vendor/${props.accountId}`);
       } else if (accountType === "diner") {
         props.history.push(`/diner/${props.accountId}`);
       }
     }
-  }, [props.accountId, initialMode]);
+  }, [props.accountId, props.loggedIn]);
 
   const handleLoginChange = (e) => {
     setCredentials({
@@ -120,6 +120,7 @@ const mapStateToProps = (state) => {
   return {
     accountId: state.account.id,
     isLoading: state.isLoading,
+    loggedIn: state.loggedIn
   };
 };
 

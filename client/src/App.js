@@ -15,7 +15,7 @@ import RegisterDiner from "./components/RegisterDiner";
 import DinerDash from "./components/DinerDash";
 import DineSearch from "./components/DineSearch";
 import TruckDetails from "./components/TruckDetails";
-import TruckMenu from "./components/TruckMenu";
+import Payment from "./components/Payment";
 
 const GlobalStyle = createGlobalStyle`
 `;
@@ -35,14 +35,18 @@ function App(props) {
           <Route
             exact
             path="/login"
-            render={() => {
-              if (props.role === "vendor" && !props.isLoading) {
-                return <Redirect to={`/vendor/${props.accountId}`} />;
-              } else if (props.role === "diner" && !props.isLoading) {
-                return <Redirect to={`diner/${props.accountId}`} />;
-              } else {
-                return <Login />;
-              }
+            render={(props) => {
+              // if (props.role === "vendor" && !props.isLoading) {
+              //   return <Redirect to={`/vendor/${props.accountId}`} />;
+              // } else if (props.role === "diner" && !props.isLoading) {
+              //   return <Redirect to={`diner/${props.accountId}`} />;
+              // } else {
+                if (props.loggedIn === true && props.role === 'diner' && !props.isLoading) {
+                  return <Redirect to={`/diner/${props.accountId}`} />;
+                } else {
+                  return <Login {...props}/>;
+                }
+              // }
             }}
           />
           <Route exact path="/register" component={RegisterAs} />
@@ -52,6 +56,7 @@ function App(props) {
           <PrivateRoute path="/diner/:accountId" component={DinerDash} />
           <PrivateRoute path="/dine/search" component={DineSearch} />
           <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
+          <PrivateRoute path="/payment" component={Payment} />
         </div>
       </div>
     </Router>
@@ -63,6 +68,7 @@ const mapStateToProps = (state) => {
     accountId: state.account.id,
     isLoading: state.isLoading,
     role: state.role,
+    loggedIn: state.loggedIn
   };
 };
 
