@@ -4,12 +4,14 @@ import truckPic from "../assets/twt-food-truck-vendor.jpg";
 import ScrollAnimation from "react-animate-on-scroll";
 import Loader from "react-loader-spinner";
 import "../styling/Login.scss";
+import { useHistory } from "react-router-dom";
 
 import { loginAndGetVendor, loginAndGetDiner, getAllTrucks } from "../actions";
 
 import Nav from "./Nav";
 
 const Login = (props) => {
+  const history = useHistory();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -22,12 +24,14 @@ const Login = (props) => {
   useEffect(() => {
     if (props.accountId !== undefined && !props.isLoading && props.loggedIn === true) {
       if (accountType === "vendor") {
-        props.history.push(`/vendor/${props.accountId}`);
+        history.push(`/vendor/${props.accountId}`);
       } else if (accountType === "diner") {
-        props.history.push(`/diner/${props.accountId}`);
+        history.push(`/diner/${props.accountId}`);
       }
     }
-  }, [props.accountId, props.loggedIn]);
+
+  }, [accountType, history, initialMode, props.accountId, props.isLoading]);
+
 
   const handleLoginChange = (e) => {
     setCredentials({
