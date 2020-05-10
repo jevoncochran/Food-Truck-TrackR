@@ -5,20 +5,102 @@ import Card from "@material-ui/core/Card";
 import { GOOGLE_API_KEY } from "../config";
 import "../styling/TruckDetails.scss";
 import StarRatings from "react-star-ratings";
-
+import Modal from "react-modal";
 import Header from "./Header";
 import TruckOnMap from "./TruckOnMap";
 import TruckMenu from "./TruckMenu";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { useToasts } from "react-toast-notifications";
+import Loader from "react-loader-spinner";
+import { useParams } from "react-router-dom";
 
-import { addToFavoriteTrucks } from "../actions";
+import { addToFavoriteTrucks, setSelectedTruck } from "../actions";
+
+const customStyles = {
+  content: {
+    width: "32%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    backgroundColor: "rgb(58, 58, 58)",
+    borderRadius: "8px",
+  },
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.37)",
+  },
+};
 
 const TruckDetails = (props) => {
+  const { addToast } = useToasts();
+  const { truckId } = useParams();
+
+  const initialReview = {
+    diner_id: props.dinerId,
+    star_rating: 0,
+    review: "",
+  };
+  const [review, setReview] = useState(initialReview);
   const [truckCoordinates, setTruckCoordinates] = useState({
     lat: "",
     long: "",
   });
-
+  const [submitting, setSubmitting] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [menuMode, setMenuMode] = useState(false);
+  let subtitle;
+
+  const inputChange = (event) => {
+    event.persist();
+    const newFormData = {
+      ...review,
+      [event.target.name]: event.target.value,
+    };
+    console.log(review);
+    /*     validateChange(event);
+     */ setReview(newFormData);
+  };
+
+  const inputStarRating = (newRating) => {
+    setReview({
+      ...review,
+      star_rating: newRating,
+    });
+  };
+
+  const submitReview = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    axiosWithAuth()
+      .post(
+        `https://foodtrucktrackr.herokuapp.com/api/trucks/${props.selectedTruck.id}/reviews`,
+        review
+      )
+      .then((res) => {
+        console.log(res);
+        setReview({
+          initialReview,
+        });
+        props.setSelectedTruck(truckId);
+        setSubmitting(false);
+        closeModal();
+        addToast("Review Added!", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      });
+  };
+
+  const openModal = (item) => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  const afterOpenModal = () => {
+    subtitle.style.color = "white";
+  };
 
   function getTruckCoordinates() {
     fetch(
@@ -86,7 +168,7 @@ const TruckDetails = (props) => {
               </p>
               <p className="type">{props.selectedTruck.cuisine_type}</p>
               <div className="card-buttons-div">
-                <button>Write review</button>
+                <button onClick={openModal}>Write review</button>
                 <button>Add photo</button>
                 <button>Share</button>
                 <button onClick={addToFavs}>Add to favorites</button>
@@ -156,6 +238,57 @@ const TruckDetails = (props) => {
       )}
 
       {menuMode && <TruckMenu history={props.history} />}
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Modal"
+      >
+        <div className="modal-header">
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Leave a Review</h2>
+          <button onClick={closeModal}>
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div className="contact-inputs">
+          <form onSubmit={submitReview}>
+            {submitting ? (
+              <Loader
+                className="login-loader"
+                type="ThreeDots"
+                color="white"
+                height={80}
+                width={80}
+              />
+            ) : (
+              <>
+                <StarRatings
+                  rating={review.star_rating}
+                  starRatedColor="#ef903c"
+                  starDimension="28px"
+                  starSpacing="2px"
+                  changeRating={inputStarRating}
+                  numberOfStars={5}
+                  name="rating"
+                />
+                <label htmlFor="review">details (optional)</label>
+
+                <textarea
+                  className="text-area"
+                  name="review"
+                  placeholder="tell us about your visit"
+                  rows="8"
+                  value={review.review}
+                  onChange={inputChange}
+                ></textarea>
+                <input className="send-btn" type="submit" value="Submit" />
+              </>
+            )}
+          </form>
+        </div>
+      </Modal>
     </div>
   );
 };
@@ -170,4 +303,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addToFavoriteTrucks })(TruckDetails);
+export default connect(mapStateToProps, {
+  addToFavoriteTrucks,
+  setSelectedTruck,
+})(TruckDetails);
