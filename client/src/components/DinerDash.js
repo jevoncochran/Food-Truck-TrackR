@@ -362,6 +362,14 @@ const DinerDash = (props) => {
                             component="h2"
                           >
                             {truck.name}
+                            <div>
+                              <StarRatings
+                                rating={Number(props.selectedTruck.avg_rating)}
+                                starDimension="15px"
+                                starSpacing="2px"
+                                starRatedColor="#ef903c"
+                              />
+                            </div>
                           </Typography>
                           <Typography
                             className="trucks-by-category-cuisine-type"
