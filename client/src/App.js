@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.scss";
+import { ToastProvider } from "react-toast-notifications";
 
 // components
 import Login from "./components/Login";
@@ -34,7 +35,6 @@ function App(props) {
           <Route exact path="/" render={() => <Redirect to="/login" />} />
           <Route
             path="/login"
-
             render={() => {
               if (props.role === "vendor" && props.isLoading) {
                 return <Redirect to={`/vendor/${props.accountId}`} />;
@@ -43,7 +43,6 @@ function App(props) {
               } else {
                 return <Login />;
               }
-
             }}
           />
           <Route exact path="/register" component={RegisterAs} />
@@ -52,7 +51,9 @@ function App(props) {
           <PrivateRoute path="/vendor/:accountId" component={VendorDash} />
           <PrivateRoute path="/diner/:accountId" component={DinerDash} />
           <PrivateRoute path="/dine/search" component={DineSearch} />
-          <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
+          <ToastProvider>
+            <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
+          </ToastProvider>
           <PrivateRoute path="/payment" component={Payment} />
         </div>
       </div>
@@ -65,7 +66,7 @@ const mapStateToProps = (state) => {
     accountId: state.account.id,
     isLoading: state.isLoading,
     role: state.role,
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
   };
 };
 
