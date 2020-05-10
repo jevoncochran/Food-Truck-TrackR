@@ -46,9 +46,9 @@ const NewOrderModal = props => {
             >
                 <div style={modalStyle} className={classes.paper}>
                 <div className="new-order-modal-body">
-                    <i class="fas fa-times" style={{ marginTop: '4%', marginBottom: '8%' }}></i>
+                    <i class="fas fa-times" style={{ marginTop: '4%', marginBottom: '8%' }} onClick={props.closeNewOrderAlert}></i>
                     <h2 className="new-order-modal-title">Start new order?</h2>
-                    <p className="new-order-modal-txt">There are items from {props.orderTruck.name} in your current order. You must create a new order to add items from {props.selectedTruck.name}.</p>
+                    <p className="new-order-modal-txt">There are items from <span style={{ color: '#eb7530' }}>{props.orderTruck.name}</span> in your current order. You must create a new order to add items from <span style={{ color: '#eb7530' }}>{props.selectedTruck.name}</span>.</p>
                     <button onClick={accept} className="new-order-modal-btn">New Order</button>
                 </div>
                 </div>
