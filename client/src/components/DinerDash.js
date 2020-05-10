@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { GoogleComponent } from "react-google-location";
 import "../styling/DinerDash.scss";
 import { GOOGLE_API_KEY } from "../config";
+import StarRatings from "react-star-ratings";
 
 // action imports
 import {
@@ -435,8 +436,15 @@ const DinerDash = (props) => {
                             component="h2"
                           >
                             {truck.name}
+                            <div>
+                              <StarRatings
+                                rating={Number(props.selectedTruck.avg_rating)}
+                                starDimension="15px"
+                                starSpacing="2px"
+                                starRatedColor="#ef903c"
+                              />
+                            </div>
                           </Typography>
-                          <Typography>{truck.avg_rating}</Typography>
                           <Typography className="cuisine-type" component="h3">
                             {truck.cuisine_type}
                           </Typography>
@@ -504,6 +512,14 @@ const DinerDash = (props) => {
                             component="h2"
                           >
                             {truck.name}
+                            <div>
+                              <StarRatings
+                                rating={Number(props.selectedTruck.avg_rating)}
+                                starDimension="15px"
+                                starSpacing="2px"
+                                starRatedColor="#ef903c"
+                              />
+                            </div>
                           </Typography>
                           <Typography className="cuisine-type" component="h3">
                             {truck.cuisine_type}
