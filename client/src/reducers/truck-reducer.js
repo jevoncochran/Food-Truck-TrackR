@@ -38,7 +38,7 @@ import {
   REMOVE_FROM_ORDER_SUCCESS,
   ADD_ORDER_TRUCK_START,
   ADD_ORDER_TRUCK_SUCCESS,
-  CREATE_NEW_ODER_START,
+  CREATE_NEW_ORDER_START,
   CREATE_NEW_ORDER_SUCCESS
 } from "../actions";
 
@@ -311,9 +311,12 @@ export const truckReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        orderTruck: state.selectedTruck.id
+        orderTruck: {
+          id: state.selectedTruck.id,
+          name: state.selectedTruck.name
+        }
       };
-    case CREATE_NEW_ODER_START:
+    case CREATE_NEW_ORDER_START:
       return {
         ...state,
         isLoading: true
@@ -322,7 +325,10 @@ export const truckReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        orderTruck: state.selectedTruck.id,
+        orderTruck: {
+          id: state.selectedTruck.id,
+          name: state.selectedTruck.name
+        },
         order: []
       }
     default:

@@ -123,7 +123,7 @@ const Payment = props => {
                             <h2>Your Order</h2>
                             <button className="add-items-order-btn">Add items</button>
                         </div>
-                        <p className="order-div-truck">From <span style={{ color: '#eb7530' }}>{props.selectedTruck.name}</span></p>
+                        <p className="order-div-truck">From <span style={{ color: '#eb7530' }}>{props.orderTruck.name}</span></p>
 
                         <div className="order-items-cont">
                             {props.order.map(item => (
@@ -143,7 +143,7 @@ const Payment = props => {
                 </div>
 
                 <div className="confirm-pay-div">
-                    <h2 className="confirm-pay-div-truck">From <span style={{ color: '#eb7530' }}>{props.selectedTruck.name}</span></h2>
+                    <h2 className="confirm-pay-div-truck">From <span style={{ color: '#eb7530' }}>{props.orderTruck.name}</span></h2>
                     <hr />
                     <div className="subtotal-div">
                         <p>Subtotal - {orderCount} {orderCount > 1 ? "items" : "item"}</p>
@@ -194,7 +194,8 @@ const Payment = props => {
 const mapStateToProps = state => {
     return {
         selectedTruck: state.selectedTruck,
-        order: state.order
+        order: state.order,
+        orderTruck: state.orderTruck
     }
 }
 

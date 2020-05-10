@@ -68,8 +68,9 @@ const MenuItemModal = props => {
             props.addTruckToOrder();
         };
         // asks user to start a new order if they try to order things from multiple trucks
-        if (props.orderTruck && props.orderTruck !== props.selectedTruck.id) {
+        if (props.orderTruck && props.orderTruck.id !== props.selectedTruck.id) {
             props.showNewOrderAlert();
+            props.closeModal();
         } else {
             props.addItemToOrder(itemToAdd);
             props.openOrderCard();

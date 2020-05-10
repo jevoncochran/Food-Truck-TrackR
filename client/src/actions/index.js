@@ -44,7 +44,7 @@ export const REMOVE_FROM_ORDER_START = "REMOVE_FROM_ORDER_START";
 export const REMOVE_FROM_ORDER_SUCCESS = "REMOVE_FROM_ORDER_SUCCESS";
 export const ADD_ORDER_TRUCK_START = 'ADD_ORDER_TRUCK_START';
 export const ADD_ORDER_TRUCK_SUCCESS = 'ADD_ORDER_TRUCK_SUCCESS';
-export const CREATE_NEW_ODER_START = 'CREATE_NEW_ORDER_START';
+export const CREATE_NEW_ORDER_START = 'CREATE_NEW_ORDER_START';
 export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
 
 // login for vendors
@@ -260,6 +260,6 @@ export const addTruckToOrder = () => dispatch => {
 }
 
 export const createNewOrder = () => dispatch => {
-  dispatch({ type: CREATE_NEW_ODER_START });
+  dispatch({ type: CREATE_NEW_ORDER_START });
   dispatch({ type: CREATE_NEW_ORDER_SUCCESS });
 }
