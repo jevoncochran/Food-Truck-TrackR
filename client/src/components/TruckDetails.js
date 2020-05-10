@@ -207,7 +207,12 @@ const TruckDetails = (props) => {
                     <p className="reviewer-username">{review.username}</p>
                     <div className="customer-revs-rev-div">
                       <p className="customer-rev-star-rating">
-                        {review.star_rating} stars
+                        <StarRatings
+                          rating={Number(review.star_rating)}
+                          starDimension="15px"
+                          starSpacing="2px"
+                          starRatedColor="#ef903c"
+                        />
                       </p>
                       <p>{review.review}</p>
                     </div>
