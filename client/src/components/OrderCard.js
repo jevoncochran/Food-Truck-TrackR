@@ -24,7 +24,7 @@ const OrderCard = props => {
             <i class="far fa-times-circle" style={{ position: 'relative', left: '0px', textAlign: 'left', width: '100%', marginTop: '3%', fontSize: '1.5rem' }} onClick={() => props.closeOrderCard()}></i>
 
             <h1 className="order-card-title">Your Order</h1>
-            <p className="order-card-truck">from <span className="truck-name">{props.selectedTruck.name}</span></p>
+            <p className="order-card-truck">from <span className="truck-name">{props.orderTruck.name}</span></p>
 
             <div className="order-items-cont">
                 {props.order.map(item => (
@@ -58,7 +58,8 @@ const OrderCard = props => {
 const mapStateToProps = state => {
     return {
         selectedTruck: state.selectedTruck,
-        order: state.order
+        order: state.order,
+        orderTruck: state.orderTruck
     }
 }
 

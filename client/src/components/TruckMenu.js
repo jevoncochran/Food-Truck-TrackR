@@ -9,6 +9,7 @@ import "../styling/TruckMenu.scss";
 // component imports
 import MenuItemModal from "./MenuItemModal";
 import OrderCard from "./OrderCard";
+import NewOrderModal from "./NewOrderModal";
 
 const TruckMenu = props => {
     // holds value of menu object
@@ -29,6 +30,8 @@ const TruckMenu = props => {
         price: ''
     })
 
+    const [newOrderAlert, setNewOrderAlert] = useState(false);
+
     // sets modalOpen to true, thus openinng the menu item modal
     const openModal = () => {
         setOpenMode(true);
@@ -37,6 +40,14 @@ const TruckMenu = props => {
     // sets modalOpen to false, thus closing the menu item modal
     const closeModal = () => {
         setOpenMode(false);
+    }
+
+    const showNewOrderAlert = () => {
+        setNewOrderAlert(true);
+    }
+
+    const closeNewOrderAlert = () => {
+        setNewOrderAlert(false);
     }
 
     // makes call to backend to get truck menu
@@ -95,7 +106,7 @@ const TruckMenu = props => {
                                     </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
 
@@ -118,7 +129,7 @@ const TruckMenu = props => {
                                 </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
 
@@ -141,12 +152,13 @@ const TruckMenu = props => {
                                 </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
             </div>
 
             {props.orderCardOpen && <OrderCard history={props.history} />}
+            {newOrderAlert && <NewOrderModal newOrderAlert={newOrderAlert} closeNewOrderAlert={closeNewOrderAlert} openModal={openModal} />}
         </div>
     )
 }
