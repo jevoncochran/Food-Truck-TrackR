@@ -100,7 +100,6 @@ const Header = (props) => {
     e.preventDefault();
     props.clientSignOut();
     props.history.push("/");
-    console.log(props);
   };
 
   // updates updatedLocation
@@ -290,7 +289,6 @@ const mapStateToProps = (state) => {
     username: state.account.username,
     location: state.account.location,
     order: state.order,
-    role: state.role,
   };
 };
 export default connect(mapStateToProps, {

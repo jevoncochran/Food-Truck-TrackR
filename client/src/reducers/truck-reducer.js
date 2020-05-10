@@ -36,8 +36,11 @@ import {
   UPDATE_COUNT_SUCCESS,
   REMOVE_FROM_ORDER_START,
   REMOVE_FROM_ORDER_SUCCESS,
+  ADD_ORDER_TRUCK_START,
+  ADD_ORDER_TRUCK_SUCCESS,
+  CREATE_NEW_ODER_START,
+  CREATE_NEW_ORDER_SUCCESS
 } from "../actions";
-import { MenuItem } from "@material-ui/core";
 
 const initialState = {
   account: {},
@@ -299,6 +302,29 @@ export const truckReducer = (state = initialState, action) => {
           }),
         ],
       };
+    case ADD_ORDER_TRUCK_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case ADD_ORDER_TRUCK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        orderTruck: state.selectedTruck.id
+      };
+    case CREATE_NEW_ODER_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case CREATE_NEW_ORDER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        orderTruck: state.selectedTruck.id,
+        order: []
+      }
     default:
       return state;
   }

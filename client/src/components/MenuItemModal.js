@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -6,8 +7,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import CurrencyFormatter from "currencyformatter.js";
 
 // action imports
-import { addItemToOrder, openOrderCard } from "../actions";
-import { connect } from "react-redux";
+import { addItemToOrder, openOrderCard, addTruckToOrder } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -63,9 +63,18 @@ const MenuItemModal = props => {
 
     // adds item to order 
     const addToOrder = () => {
-        props.addItemToOrder(itemToAdd);
-        props.openOrderCard();
-        props.closeModal();
+        // adds truck to order on first item added
+        if (!props.orderTruck) {
+            props.addTruckToOrder();
+        };
+        // asks user to start a new order if they try to order things from multiple trucks
+        if (props.orderTruck && props.orderTruck !== props.selectedTruck.id) {
+            props.showNewOrderAlert();
+        } else {
+            props.addItemToOrder(itemToAdd);
+            props.openOrderCard();
+            props.closeModal();
+        }
     }
 
     useEffect(() => {
@@ -114,4 +123,12 @@ const MenuItemModal = props => {
     )
 }
 
-export default connect(null, { addItemToOrder, openOrderCard })(MenuItemModal);
+const mapStateToProps = state => {
+    return {
+        order: state.order,
+        orderTruck: state.orderTruck,
+        selectedTruck: state.selectedTruck
+    }
+}
+
+export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder })(MenuItemModal);
