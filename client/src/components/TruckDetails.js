@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import { GOOGLE_API_KEY } from "../config";
 import "../styling/TruckDetails.scss";
+import StarRatings from "react-star-ratings";
 
 import Header from "./Header";
 import TruckOnMap from "./TruckOnMap";
@@ -16,8 +17,6 @@ const TruckDetails = (props) => {
     lat: "",
     long: "",
   });
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
 
   const [menuMode, setMenuMode] = useState(false);
 
@@ -71,17 +70,14 @@ const TruckDetails = (props) => {
           <div className="non-map-div">
             <div className="details-truck-container">
               <h1 className="title">{props.selectedTruck.name}</h1>
-              <svg
-                height="31px"
-                width="31px"
-                viewBox="0 0 25 23"
-                data-rating="1"
-              >
-                <polygon
-                  stroke-width="0"
-                  points="9.9, 1.1, 3.3, 21.78, 19.8, 8.58, 0, 8.58, 16.5, 21.78"
+              <div className="stars-div">
+                <StarRatings
+                  rating={Number(props.selectedTruck.avg_rating)}
+                  starDimension="22px"
+                  starSpacing="2px"
+                  starRatedColor="#ef903c"
                 />
-              </svg>
+              </div>
               <p className="ratings">
                 <span className="avg-rating">
                   {props.selectedTruck.avg_rating}
