@@ -363,12 +363,12 @@ const DinerDash = (props) => {
                           >
                             {truck.name}
                             <div>
-                              <StarRatings
-                                rating={Number(props.selectedTruck.avg_rating)}
+                              {/* <StarRatings
+                                rating={Number(truck.avg_rating)}
                                 starDimension="15px"
                                 starSpacing="2px"
                                 starRatedColor="#ef903c"
-                              />
+                              /> */}
                             </div>
                           </Typography>
                           <Typography
@@ -445,12 +445,12 @@ const DinerDash = (props) => {
                           >
                             {truck.name}
                             <div>
-                              <StarRatings
-                                rating={Number(props.selectedTruck.avg_rating)}
+                              {/* <StarRatings
+                                rating={Number(truck.avg_rating)}
                                 starDimension="15px"
                                 starSpacing="2px"
                                 starRatedColor="#ef903c"
-                              />
+                              /> */}
                             </div>
                           </Typography>
                           <Typography className="cuisine-type" component="h3">
@@ -521,12 +521,12 @@ const DinerDash = (props) => {
                           >
                             {truck.name}
                             <div>
-                              <StarRatings
-                                rating={Number(props.selectedTruck.avg_rating)}
+                              {/* <StarRatings
+                                rating={Number(truck.avg_rating)}
                                 starDimension="15px"
                                 starSpacing="2px"
                                 starRatedColor="#ef903c"
-                              />
+                              /> */}
                             </div>
                           </Typography>
                           <Typography className="cuisine-type" component="h3">

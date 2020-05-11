@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import '../styling/AddCard.scss';
+
+import { addCreditCard } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,12 +34,25 @@ const AddCard = props => {
         transform: 'translate(-50%, -50%)'
     }
 
-    const [number, setNumber] = useState('');
-    const [name, setName] = useState('');
-    const [expiry, setExpiry] = useState('');
-    const [cvc, setCvc] = useState('');
+    const [cardToAdd, setCardToAdd] = useState({
+        number: '',
+        name: '',
+        expiry: '',
+        cvc: '',
+        zip: ''
+    });
+
     const [focus, setFocus] = useState('');
-    const [zip, setZip] = useState('');
+
+    const addCard = () => {
+        props.addCreditCard(cardToAdd);
+        props.closeCardModal();
+    }
+
+    // // delete this afterward
+    // useEffect(() => {
+    //     console.log(`card to add: ${cardToAdd.name}, ${cardToAdd.number}, ${cardToAdd.expiry}, ${cardToAdd.cvc}, ${cardToAdd.zip}`)
+    // }, [cardToAdd])
 
     return (
         <Modal 
@@ -50,19 +66,19 @@ const AddCard = props => {
                 <div className="add-card-body">
                     <i class="fas fa-times" onClick={props.closeCardModal} style={{ marginTop: '2%', fontSize: '1.2rem', marginBottom: '4%' }}></i>
                     <Cards 
-                        number={number}
-                        name={name}
-                        expiry={expiry}
-                        cvc={cvc}
+                        number={cardToAdd.number}
+                        name={cardToAdd.name}
+                        expiry={cardToAdd.expiry}
+                        cvc={cardToAdd.cvc}
                         focused={focus}
                     />
-                    <form>
+                    
                         <label htmlFor="number" style={{ marginBottom: '2%' }}>Card Number</label>
                         <input 
                         type='tel' 
                         name='number' 
-                        value={number} 
-                        onChange={e => setNumber(e.target.value)}
+                        value={cardToAdd.number} 
+                        onChange={e => setCardToAdd({...cardToAdd, number: e.target.value})}
                         onFocus={e => setFocus(e.target.name)} 
                         className="card-num-input"
                         />
@@ -71,8 +87,8 @@ const AddCard = props => {
                         <input 
                         type='text' 
                         name='name' 
-                        value={name} 
-                        onChange={e => setName(e.target.value)}
+                        value={cardToAdd.name} 
+                        onChange={e => setCardToAdd({...cardToAdd, name: e.target.value})}
                         onFocus={e => setFocus(e.target.name)} 
                         className="card-name-input"
                         />
@@ -92,8 +108,8 @@ const AddCard = props => {
                                 type='text' 
                                 name='expiry' 
                                 placeholder='MM/YY' 
-                                value={expiry} 
-                                onChange={e => setExpiry(e.target.value)}
+                                value={cardToAdd.expiry} 
+                                onChange={e => setCardToAdd({...cardToAdd, expiry: e.target.value})}
                                 onFocus={e => setFocus(e.target.name)} 
                                 />
                             </div>
@@ -102,8 +118,8 @@ const AddCard = props => {
                                 <input 
                                 type='tel' 
                                 name='cvc' 
-                                value={cvc} 
-                                onChange={e => setCvc(e.target.value)}
+                                value={cardToAdd.cvc} 
+                                onChange={e => setCardToAdd({...cardToAdd, cvc: e.target.value})}
                                 onFocus={e => setFocus(e.target.name)} 
                                 />
                             </div>
@@ -115,18 +131,24 @@ const AddCard = props => {
                             <input 
                                 type='tel' 
                                 name='zip' 
-                                value={zip} 
-                                onChange={e => setZip(e.target.value)}
+                                value={cardToAdd.zip} 
+                                onChange={e => setCardToAdd({...cardToAdd, zip: e.target.value})}
                                 onFocus={e => setFocus(e.target.name)} 
                             />
                         </div>
 
-                        <button type="submit" className="add-card-btn">Add Card</button>
-                    </form>
+                        <button className="add-card-btn" onClick={addCard}>Add Card</button>
+                    
                 </div>
             </div>
         </Modal>
     )
 }
 
-export default AddCard;
+// const mapStateToProps = state => {
+//     return {
+//         cardOnFile: state.account.cardOnFile
+//     }
+// }
+
+export default connect(null, { addCreditCard })(AddCard);
