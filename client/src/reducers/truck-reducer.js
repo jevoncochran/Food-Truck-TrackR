@@ -121,7 +121,7 @@ export const truckReducer = (state = initialState, action) => {
         cuisineTypeMode: false,
         truckCategory: null,
         order: [],
-        orderTruck: {},
+        orderTruck: null,
         selectedTruck: {}
       };
     case EDIT_LOCATION_START:
