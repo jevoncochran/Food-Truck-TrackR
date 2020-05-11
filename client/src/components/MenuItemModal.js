@@ -114,7 +114,7 @@ const MenuItemModal = props => {
                         <p style={{ margin: 'auto 2%' }}>{count}</p>
                         <RemoveCircleIcon style={{ fontSize: 30, marginRight: '3%', marginTop: 'auto', marginBottom: 'auto' }} onClick={decrement} />
                         <button 
-                            style={{ width: '80%' }} 
+                            style={{ width: '80%', color: 'white', background: 'black', padding: '12px 0' }} 
                             onClick={addToOrder}>Add {count} to Order {CurrencyFormatter.format((props.menuItem.price * count), { currency: 'USD' })}
                         </button>
                     </div>

@@ -230,13 +230,15 @@ const Header = (props) => {
           <i class="fas fa-user acct-icon"></i>
           <h3>{props.username}</h3>
         </div>
-        <div className="order-sub-div">
-          <i
-            class="fas fa-shopping-bag order-icon"
-            onClick={() => props.openOrderCard()}
-          ></i>
-          <p>{orderCount}</p>
-        </div>
+        {orderCount > 0 && 
+          <div className="order-sub-div">
+            <i
+              class="fas fa-shopping-bag order-icon"
+              onClick={() => props.openOrderCard()}
+            ></i>
+            <p>{orderCount}</p>
+          </div>
+        }
       </section>
 
       {/* preferences menu */}
