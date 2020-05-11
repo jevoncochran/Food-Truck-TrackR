@@ -10,6 +10,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
+import { ClickAwayListener } from "@material-ui/core";
 
 import {
   turnOffCuisineTypeMode,
@@ -184,6 +185,7 @@ const Header = (props) => {
       )}
 
       {locationEditMode && (
+        <ClickAwayListener onClickAway={() => setLocationEditMode(false)}>
         <section className="header-section-one">
           <form
             className="location-sub-div location-edit"
@@ -216,6 +218,7 @@ const Header = (props) => {
             </button>
           </form>
         </section>
+        </ClickAwayListener>
       )}
 
       <section className="header-section-two">
@@ -227,13 +230,15 @@ const Header = (props) => {
           <i class="fas fa-user acct-icon"></i>
           <h3>{props.username}</h3>
         </div>
-        <div className="order-sub-div">
-          <i
-            class="fas fa-shopping-bag order-icon"
-            onClick={() => props.openOrderCard()}
-          ></i>
-          <p>{orderCount}</p>
-        </div>
+        {orderCount > 0 && 
+          <div className="order-sub-div">
+            <i
+              class="fas fa-shopping-bag order-icon"
+              onClick={() => props.openOrderCard()}
+            ></i>
+            <p>{orderCount}</p>
+          </div>
+        }
       </section>
 
       {/* preferences menu */}

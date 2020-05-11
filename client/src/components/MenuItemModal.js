@@ -110,11 +110,11 @@ const MenuItemModal = props => {
                     <label style={{ width: '100%', background: 'lightgrey', height: '5%', paddingTop: 'auto', paddingBottom: 'auto', paddingLeft: '2%' }}>Special Instructions</label>
                     <input style={{ width: '100%', border: 'none', height: '10%', paddingTop: '8%', paddingBottom: '16%', borderBottom: '1px solid lightgrey', marginBottom: '4%', paddingLeft: '2%' }} name="instructions" type="text" placeholder="Leave a note for the kitchen"/>
                     <div style={{ display: 'flex', width: '95%', marginLeft: 'auto', marginRight: 'auto' }}>
-                        <AddCircleIcon style={{ fontSize: 30 }} onClick={increment} />   
+                        <AddCircleIcon style={{ fontSize: 30, paddingTop: 'auto', paddingBottom: 'auto', marginTop: 'auto', marginBottom: 'auto' }} onClick={increment} />   
                         <p style={{ margin: 'auto 2%' }}>{count}</p>
-                        <RemoveCircleIcon style={{ fontSize: 30, marginRight: '3%' }} onClick={decrement} />
+                        <RemoveCircleIcon style={{ fontSize: 30, marginRight: '3%', marginTop: 'auto', marginBottom: 'auto' }} onClick={decrement} />
                         <button 
-                            style={{ width: '80%' }} 
+                            style={{ width: '80%', color: 'white', background: 'black', padding: '12px 0' }} 
                             onClick={addToOrder}>Add {count} to Order {CurrencyFormatter.format((props.menuItem.price * count), { currency: 'USD' })}
                         </button>
                     </div>

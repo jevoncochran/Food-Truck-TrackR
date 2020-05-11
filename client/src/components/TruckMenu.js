@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { connect } from "react-redux";
+import StarRatings from "react-star-ratings";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CurrencyFormatter from "currencyformatter.js";
@@ -10,6 +11,9 @@ import "../styling/TruckMenu.scss";
 import MenuItemModal from "./MenuItemModal";
 import OrderCard from "./OrderCard";
 import NewOrderModal from "./NewOrderModal";
+
+
+import { closeOrderCard } from "../actions";
 
 const TruckMenu = props => {
     // holds value of menu object
@@ -76,7 +80,19 @@ const TruckMenu = props => {
         <div className="truck-menu-main">
             <div className="details-truck-container">
                 <h1 className="title">{props.selectedTruck.name}</h1>
-                <p className="ratings"><span className="avg-rating">{props.selectedTruck.avg_rating}</span> <span>{props.selectedTruck.reviews.length} reviews</span></p>
+                <p className="ratings">
+                    <span className="avg-rating">              
+                        <div className="stars-div">
+                            <StarRatings
+                            rating={Number(props.selectedTruck.avg_rating)}
+                            starDimension="22px"
+                            starSpacing="2px"
+                            starRatedColor="#ef903c"
+                            />
+                        </div>
+                    </span> 
+                    <span>{props.selectedTruck.reviews.length} reviews</span>
+                </p>
                 <p className="type">{props.selectedTruck.cuisine_type}</p>
                 <div className="card-buttons-div">
                     <button>Write review</button>
@@ -170,4 +186,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {})(TruckMenu);
+export default connect(mapStateToProps, { closeOrderCard })(TruckMenu);
