@@ -46,6 +46,8 @@ export const ADD_ORDER_TRUCK_START = 'ADD_ORDER_TRUCK_START';
 export const ADD_ORDER_TRUCK_SUCCESS = 'ADD_ORDER_TRUCK_SUCCESS';
 export const CREATE_NEW_ORDER_START = 'CREATE_NEW_ORDER_START';
 export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
+export const ADD_CARD_START = 'ADD_CARD_START';
+export const ADD_CARD_SUCCESS = 'ADD_CARD_SUCCESS';
 
 // login for vendors
 export const loginAndGetVendor = (credentials) => (dispatch) => {
@@ -253,13 +255,25 @@ export const removeFromOrder = (key) => (dispatch) => {
   dispatch({ type: REMOVE_FROM_ORDER_SUCCESS, payload: key });
 };
 
-// add truck to ordder
+// add truck to order so as to distinguish which truck is being ordered from
 export const addTruckToOrder = () => dispatch => {
   dispatch({ type: ADD_ORDER_TRUCK_START });
   dispatch({ type: ADD_ORDER_TRUCK_SUCCESS });
 }
 
+// create new order so as to not allow user to order from multiple trucks at same time
 export const createNewOrder = () => dispatch => {
   dispatch({ type: CREATE_NEW_ORDER_START });
   dispatch({ type: CREATE_NEW_ORDER_SUCCESS });
+}
+
+export const addCreditCard = (dinerId, card) => dispatch => {
+  dispatch({ type: ADD_CARD_START });
+  axiosWithAuth()
+    .post(`/diner/${dinerId}/card`, card)
+    .then(res => {
+      console.log(res);
+      dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+    })
+    .catch(err => console.log(err))
 }

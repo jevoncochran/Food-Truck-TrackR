@@ -14,10 +14,6 @@ const Payment = props => {
     // state determines whether or not to render AddCard modal
     const [addCardMode, setAddCardMode] = useState(false);
 
-    useEffect(() => {
-        console.log(`addCardMode: ${addCardMode}`)
-    }, [addCardMode])
-
     // tip percentage and tip amount
     const [tipVal, setTipVal] = useState({
         tipPerc: 0,
@@ -26,6 +22,11 @@ const Payment = props => {
 
     // holds value for custom tip only when user types into custom input in tip div
     const [customTip, setCustomTip] = useState(null);
+
+    // holds value for last 4 of user credit card
+    const cardNum = props.cardOnFile ? props.cardOnFile.num : '';
+    const cLen = props.cardOnFile ? props.cardOnFile.num.length : '';
+    const lastFour = props.cardOnFile ? `${cardNum[cLen-4]}${cardNum[cLen-3]}${cardNum[cLen-2]}${cardNum[cLen-1]}` : '';
 
     const closeCardModal = () => {
         setAddCardMode(false);
@@ -83,13 +84,14 @@ const Payment = props => {
         })
     };
 
-    useEffect(() => {
-        console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
-    }, [tipVal.tipPerc])
+    // useEffect(() => {
+    //     console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
+    // }, [tipVal.tipPerc])
 
-    useEffect(() => {
-        console.log(`custom tip: ${customTip}`)
-    }, [customTip])
+    // useEffect(() => {
+    //     console.log(`custom tip: ${customTip}`)
+    // }, [customTip])
+
 
     return (
         <div className="payment-main">
@@ -111,7 +113,9 @@ const Payment = props => {
                         }
                         <FormControl component="fieldset">
                             <RadioGroup aria-label="gender" name="gender1" value={null} onChange={null}>
-                                <FormControlLabel value="female" control={<Radio />} label="Mastercard -5559" className="payment-radio"/>
+                                {props.cardOnFile &&
+                                <FormControlLabel value="female" control={<Radio />} label={`Card ending in -${lastFour}`} className="payment-radio"/>
+                                }
                                 <FormControlLabel value="male" control={<Radio />} label="Pay in cash" className="payment-radio"/>
                             </RadioGroup>
                         </FormControl>
@@ -195,7 +199,8 @@ const mapStateToProps = state => {
     return {
         selectedTruck: state.selectedTruck,
         order: state.order,
-        orderTruck: state.orderTruck
+        orderTruck: state.orderTruck,
+        cardOnFile: state.account.cardOnFile
     }
 }
 
