@@ -24,8 +24,8 @@ const Payment = props => {
     const [customTip, setCustomTip] = useState(null);
 
     // holds value for last 4 of user credit card
-    const cardNum = props.cardOnFile ? props.cardOnFile.number : '';
-    const cLen = props.cardOnFile ? props.cardOnFile.number.length : '';
+    const cardNum = props.cardOnFile ? props.cardOnFile.num : '';
+    const cLen = props.cardOnFile ? props.cardOnFile.num.length : '';
     const lastFour = props.cardOnFile ? `${cardNum[cLen-4]}${cardNum[cLen-3]}${cardNum[cLen-2]}${cardNum[cLen-1]}` : '';
 
     const closeCardModal = () => {

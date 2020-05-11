@@ -35,9 +35,9 @@ const AddCard = props => {
     }
 
     const [cardToAdd, setCardToAdd] = useState({
-        number: '',
+        num: '',
         name: '',
-        expiry: '',
+        exp_date: '',
         cvc: '',
         zip: ''
     });
@@ -45,7 +45,7 @@ const AddCard = props => {
     const [focus, setFocus] = useState('');
 
     const addCard = () => {
-        props.addCreditCard(cardToAdd);
+        props.addCreditCard(props.account.id, cardToAdd);
         props.closeCardModal();
     }
 
@@ -66,9 +66,9 @@ const AddCard = props => {
                 <div className="add-card-body">
                     <i class="fas fa-times" onClick={props.closeCardModal} style={{ marginTop: '2%', fontSize: '1.2rem', marginBottom: '4%' }}></i>
                     <Cards 
-                        number={cardToAdd.number}
+                        number={cardToAdd.num}
                         name={cardToAdd.name}
-                        expiry={cardToAdd.expiry}
+                        expiry={cardToAdd.exp_date}
                         cvc={cardToAdd.cvc}
                         focused={focus}
                     />
@@ -77,8 +77,8 @@ const AddCard = props => {
                         <input 
                         type='tel' 
                         name='number' 
-                        value={cardToAdd.number} 
-                        onChange={e => setCardToAdd({...cardToAdd, number: e.target.value})}
+                        value={cardToAdd.num} 
+                        onChange={e => setCardToAdd({...cardToAdd, num: e.target.value})}
                         onFocus={e => setFocus(e.target.name)} 
                         className="card-num-input"
                         />
@@ -108,8 +108,8 @@ const AddCard = props => {
                                 type='text' 
                                 name='expiry' 
                                 placeholder='MM/YY' 
-                                value={cardToAdd.expiry} 
-                                onChange={e => setCardToAdd({...cardToAdd, expiry: e.target.value})}
+                                value={cardToAdd.exp_date} 
+                                onChange={e => setCardToAdd({...cardToAdd, exp_date: e.target.value})}
                                 onFocus={e => setFocus(e.target.name)} 
                                 />
                             </div>
@@ -151,4 +151,10 @@ const AddCard = props => {
 //     }
 // }
 
-export default connect(null, { addCreditCard })(AddCard);
+const mapStateToProps = state => {
+    return {
+        account: state.account
+    }
+}
+
+export default connect(mapStateToProps, { addCreditCard })(AddCard);

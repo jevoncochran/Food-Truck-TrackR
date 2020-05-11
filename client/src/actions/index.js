@@ -267,7 +267,13 @@ export const createNewOrder = () => dispatch => {
   dispatch({ type: CREATE_NEW_ORDER_SUCCESS });
 }
 
-export const addCreditCard = card => dispatch => {
+export const addCreditCard = (dinerId, card) => dispatch => {
   dispatch({ type: ADD_CARD_START });
-  dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+  axiosWithAuth()
+    .post(`/diner/${dinerId}/card`, card)
+    .then(res => {
+      console.log(res);
+      dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+    })
+    .catch(err => console.log(err))
 }

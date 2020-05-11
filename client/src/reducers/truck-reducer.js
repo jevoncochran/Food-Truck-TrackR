@@ -91,6 +91,7 @@ export const truckReducer = (state = initialState, action) => {
           password: action.payload.password,
           location: action.payload.location,
           favTrucks: action.payload.favTrucks,
+          cardOnFile: action.payload.cardOnFile
         },
       };
     case SIGNUP_START:
