@@ -11,6 +11,9 @@ import MenuItemModal from "./MenuItemModal";
 import OrderCard from "./OrderCard";
 import NewOrderModal from "./NewOrderModal";
 
+
+import { closeOrderCard } from "../actions";
+
 const TruckMenu = props => {
     // holds value of menu object
     const [menu, setMenu] = useState({
@@ -170,4 +173,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {})(TruckMenu);
+export default connect(mapStateToProps, { closeOrderCard })(TruckMenu);
