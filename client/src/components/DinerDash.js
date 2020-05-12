@@ -26,6 +26,9 @@ import {
 // component imports
 import Header from "./Header";
 import Covid19Alert from "./Covid19Alert";
+import OrderCard from "./OrderCard";
+
+
 
 const useStyles = makeStyles({
   //     // root: {
@@ -540,6 +543,7 @@ const DinerDash = (props) => {
           </div>
         </div>
       )}
+      {props.orderCardOpen && <OrderCard history={props.history} />}
     </div>
   );
 };
@@ -558,6 +562,7 @@ const mapStateToProps = (state) => {
     truckCategory: state.truckCategory,
     isLoading: state.isLoading,
     selectedTruck: state.selectedTruck,
+    orderCardOpen: state.orderCardOpen
   };
 };
 
