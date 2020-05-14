@@ -1,189 +1,289 @@
 // removes back shadow for all MUI cards
 .MuiPaper-elevation1 {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 // overarching component div
 .truck-details-main {
-    position: relative;
-    width: 100vw !important;
+  position: relative;
+  width: 100vw !important;
 }
 
 // image grid at top
 .truck-detail-pics-grid {
-    // position: relative;
-    // border: 1px dashed black;
-    margin-top: 5% !important;
-    margin-bottom: 1.5% !important;
+  // position: relative;
+  // border: 1px dashed black;
+  margin-top: 5% !important;
+  margin-bottom: 1.5% !important;
 }
 
 .MuiGrid-spacing-xs-1 > .MuiGrid-item {
-    padding: 1px !important;
+  padding: 1px !important;
 }
 
 .pics-card {
-    margin: 0;
-    border-radius: 0 !important;
+  margin: 0;
+  border-radius: 0 !important;
 }
 
 .pics-img {
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
-    vertical-align: bottom;
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
 }
 
 .details-container {
-    display: flex;
-    width: 100%;
-    margin-left: 7%;
-    // margin-right: 7%;
+  display: flex;
+  width: 100%;
+  margin-left: 7%;
+  // margin-right: 7%;
 }
 
 .non-map-div {
-    width: 35%;
-    margin-right: 5%;
+  width: 35%;
+  margin-right: 5%;
 }
 
 // truck title and details div
 .details-truck-container {
-    width: 100%;
-    // border: 1px dotted black;
-    position: relative;
-    // bottom: 80px;
-    border-bottom: 1px solid grey;
-    padding-bottom: 5%;
-    margin-bottom: 5%;
+  width: 100%;
+  // border: 1px dotted black;
+  position: relative;
+  // bottom: 80px;
+  border-bottom: 1px solid grey;
+  padding-bottom: 5%;
+  margin-bottom: 5%;
 }
 
 .title {
-    margin-bottom: 1%;
-    font-size: 1.2rem;
-    text-align: left;
+  margin-bottom: 1%;
+  font-size: 1.2rem;
+  text-align: left;
 }
 
 .ratings {
-    text-align: left;
-    margin-bottom: 1%;
+  text-align: left;
+  margin-bottom: 1%;
 
-    .avg-rating {
-        margin-right: 3%;
-    }
+  .avg-rating {
+    margin-right: 3%;
+  }
 }
 
 .type {
-    text-align: left;
-    margin-bottom: 2.5%;
+  text-align: left;
+  margin-bottom: 2.5%;
 }
 
 .card-buttons-div {
-    display: flex;
-    justify-content: space-between;
-    width: 80%;
-    position: relative;
-    // border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  position: relative;
+  // border: 1px solid black;
 
-    button {
-        font-size: 0.6rem;
-        padding: 1% 2%;
-        white-space: nowrap;
-        height: 22px;
-        box-shadow: none !important;
-        border: 1px solid grey;
-    }
+  button {
+    font-size: 0.6rem;
+    padding: 1% 2%;
+    white-space: nowrap;
+    height: 22px;
+    box-shadow: none !important;
+    border: 1px solid grey;
+  }
 }
 
 // highlighted menu items div
 .pop-items-container {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 5%;
-    position: relative;
-    // bottom: 60px;
-    border-bottom: 1px solid grey;
-    padding-bottom: 5%;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 5%;
+  position: relative;
+  // bottom: 60px;
+  border-bottom: 1px solid grey;
+  padding-bottom: 5%;
 }
 
 .pop-items-title-div {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2%;
 }
 
 .pop-items-h2 {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 
 .pop-items-p {
-    font-size: 0.6rem;
-    color: #eb7530;
+  font-size: 0.6rem;
+  color: #eb7530;
 }
 
 .menu-item-card {
-    border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 
 .menu-item-pic {
-    height: 100px;
-    width: 100%;
-    object-fit: cover;
+  height: 100px;
+  width: 100%;
+  object-fit: cover;
 }
 
 .menu-item-name {
-    font-size: 0.7rem;
-    margin-bottom: 2%;
-    padding: 3% 2%;
-    // border: 1px dashed black;
+  font-size: 0.7rem;
+  margin-bottom: 2%;
+  padding: 3% 2%;
+  // border: 1px dashed black;
 }
 
 // customer reviews div
 .customer-reviews-container {
-    width: 100%;
-    // border: 1px dashed black;
+  width: 100%;
+  // border: 1px dashed black;
 }
 
 .customer-revs-h2 {
-    font-size: 0.8rem;
-    text-align: left;
-    margin-bottom: 3%;
+  font-size: 0.8rem;
+  text-align: left;
+  margin-bottom: 3%;
 }
 
 .customer-revs-subdiv {
-    display: flex;
-    margin-bottom: 8%;
+  display: flex;
+  margin-bottom: 8%;
 
-    i {
-        margin-right: 4%;
-        font-size: 0.7rem;
-    }
+  i {
+    margin-right: 4%;
+    font-size: 0.7rem;
+  }
 
-    .reviewer-username {
-        width: 20%;
-        font-size: 0.7rem;
-        margin-right: 5%;
-        // border: 1px dashed black;
-    }
+  .reviewer-username {
+    width: 20%;
+    font-size: 0.7rem;
+    margin-right: 5%;
+    // border: 1px dashed black;
+  }
 
-    .customer-revs-rev-div {
-        width: 70%;
-    }
+  .customer-revs-rev-div {
+    width: 70%;
+  }
 
-    div {
-        p {
-            font-size: 0.7rem;
-            text-align: left;
-        }
+  div {
+    p {
+      font-size: 0.7rem;
+      text-align: left;
     }
+  }
 }
 
 .customer-rev-star-rating {
-    margin-bottom: 2%;
+  margin-bottom: 3.3%;
 }
 
 .map-div {
-    width: 40%;
+  width: 40%;
 }
 
 .map-card {
-    border: 1px solid black !important;
+  border: 1px solid black !important;
+}
+
+///star ratings///
+.stars-div {
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+//modal//
+.ReactModalPortal {
+  h2 {
+    margin: 0 0 2rem 0;
+  }
+
+  .ReactModal__Overlay.ReactModal__Overlay--after-open {
+    background-color: rgba(255, 255, 255, 0.37);
+  }
+  .ReactModal__Content {
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0;
+      border: none;
+      h2 {
+        margin: 0;
+      }
+      button {
+        background: none;
+        color: white;
+        border: none;
+        font-size: 1.4rem;
+        margin-bottom: 0;
+        cursor: pointer;
+      }
+    }
+    .contact-inputs {
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .star-ratings {
+          margin: 1rem 0;
+        }
+        label {
+          margin-bottom: 0.5rem;
+          align-self: flex-start;
+        }
+        .text-area {
+          width: 100%;
+          margin-bottom: 2rem;
+          border-radius: 2px;
+        }
+        .send-btn {
+          width: 35%;
+          height: 1.2rem;
+          font-size: 0.8rem;
+        }
+        input {
+          border-radius: 3px;
+          margin-bottom: 1rem;
+          margin-right: 5rem;
+          margin-left: 5rem;
+          width: 80%;
+          height: 2.5vh;
+        }
+        #description {
+          width: 80%;
+          margin-bottom: 1rem;
+        }
+      }
+    }
+    font-family: "Montserrat";
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: "-50%";
+    transition: "2s";
+    background-color: rgb(58, 58, 58);
+    color: white;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    animation-name: modalFade;
+    animation-duration: 0.6s;
+
+    @keyframes modalFade {
+      from {
+        transform: translate(-50%, -80%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(-10%, -10%);
+        opacity: 1;
+      }
+    }
+  }
+}
+.react-toast-notifications__toast__content {
+  font-family: "helvetica";
 }

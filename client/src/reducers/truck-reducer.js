@@ -36,8 +36,13 @@ import {
   UPDATE_COUNT_SUCCESS,
   REMOVE_FROM_ORDER_START,
   REMOVE_FROM_ORDER_SUCCESS,
+  ADD_ORDER_TRUCK_START,
+  ADD_ORDER_TRUCK_SUCCESS,
+  CREATE_NEW_ORDER_START,
+  CREATE_NEW_ORDER_SUCCESS,
+  ADD_CARD_START,
+  ADD_CARD_SUCCESS
 } from "../actions";
-import { MenuItem } from "@material-ui/core";
 
 const initialState = {
   account: {},
@@ -86,6 +91,7 @@ export const truckReducer = (state = initialState, action) => {
           password: action.payload.password,
           location: action.payload.location,
           favTrucks: action.payload.favTrucks,
+          cardOnFile: action.payload.cardOnFile
         },
       };
     case SIGNUP_START:
@@ -114,6 +120,9 @@ export const truckReducer = (state = initialState, action) => {
         trucksByType: [],
         cuisineTypeMode: false,
         truckCategory: null,
+        order: [],
+        orderTruck: {},
+        selectedTruck: {}
       };
     case EDIT_LOCATION_START:
       return {
@@ -299,6 +308,49 @@ export const truckReducer = (state = initialState, action) => {
           }),
         ],
       };
+    case ADD_ORDER_TRUCK_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case ADD_ORDER_TRUCK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        orderTruck: {
+          id: state.selectedTruck.id,
+          name: state.selectedTruck.name
+        }
+      };
+    case CREATE_NEW_ORDER_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case CREATE_NEW_ORDER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        orderTruck: {
+          id: state.selectedTruck.id,
+          name: state.selectedTruck.name
+        },
+        order: []
+      }
+    case ADD_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ADD_CARD_SUCCESS: 
+      return {
+        ...state,
+        isLoading: false,
+        account: {
+          ...state.account,
+          cardOnFile: action.payload
+        }
+      }
     default:
       return state;
   }

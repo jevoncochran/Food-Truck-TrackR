@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -6,8 +7,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import CurrencyFormatter from "currencyformatter.js";
 
 // action imports
-import { addItemToOrder, openOrderCard } from "../actions";
-import { connect } from "react-redux";
+import { addItemToOrder, openOrderCard, addTruckToOrder } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -63,9 +63,19 @@ const MenuItemModal = props => {
 
     // adds item to order 
     const addToOrder = () => {
-        props.addItemToOrder(itemToAdd);
-        props.openOrderCard();
-        props.closeModal();
+        // adds truck to order on first item added
+        if (!props.orderTruck) {
+            props.addTruckToOrder();
+        };
+        // asks user to start a new order if they try to order things from multiple trucks
+        if (props.order.length > 0 && props.orderTruck && props.orderTruck.id !== props.selectedTruck.id) {
+            props.showNewOrderAlert();
+            props.closeModal();
+        } else {
+            props.addItemToOrder(itemToAdd);
+            props.openOrderCard();
+            props.closeModal();
+        }
     }
 
     useEffect(() => {
@@ -100,11 +110,11 @@ const MenuItemModal = props => {
                     <label style={{ width: '100%', background: 'lightgrey', height: '5%', paddingTop: 'auto', paddingBottom: 'auto', paddingLeft: '2%' }}>Special Instructions</label>
                     <input style={{ width: '100%', border: 'none', height: '10%', paddingTop: '8%', paddingBottom: '16%', borderBottom: '1px solid lightgrey', marginBottom: '4%', paddingLeft: '2%' }} name="instructions" type="text" placeholder="Leave a note for the kitchen"/>
                     <div style={{ display: 'flex', width: '95%', marginLeft: 'auto', marginRight: 'auto' }}>
-                        <AddCircleIcon style={{ fontSize: 30 }} onClick={increment} />   
+                        <AddCircleIcon style={{ fontSize: 30, paddingTop: 'auto', paddingBottom: 'auto', marginTop: 'auto', marginBottom: 'auto' }} onClick={increment} />   
                         <p style={{ margin: 'auto 2%' }}>{count}</p>
-                        <RemoveCircleIcon style={{ fontSize: 30, marginRight: '3%' }} onClick={decrement} />
+                        <RemoveCircleIcon style={{ fontSize: 30, marginRight: '3%', marginTop: 'auto', marginBottom: 'auto' }} onClick={decrement} />
                         <button 
-                            style={{ width: '80%' }} 
+                            style={{ width: '80%', color: 'white', background: 'black', padding: '12px 0' }} 
                             onClick={addToOrder}>Add {count} to Order {CurrencyFormatter.format((props.menuItem.price * count), { currency: 'USD' })}
                         </button>
                     </div>
@@ -114,4 +124,12 @@ const MenuItemModal = props => {
     )
 }
 
-export default connect(null, { addItemToOrder, openOrderCard })(MenuItemModal);
+const mapStateToProps = state => {
+    return {
+        order: state.order,
+        orderTruck: state.orderTruck,
+        selectedTruck: state.selectedTruck
+    }
+}
+
+export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder })(MenuItemModal);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { connect } from "react-redux";
+import StarRatings from "react-star-ratings";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CurrencyFormatter from "currencyformatter.js";
@@ -9,6 +10,10 @@ import "../styling/TruckMenu.scss";
 // component imports
 import MenuItemModal from "./MenuItemModal";
 import OrderCard from "./OrderCard";
+import NewOrderModal from "./NewOrderModal";
+
+
+import { closeOrderCard } from "../actions";
 
 const TruckMenu = props => {
     // holds value of menu object
@@ -29,6 +34,8 @@ const TruckMenu = props => {
         price: ''
     })
 
+    const [newOrderAlert, setNewOrderAlert] = useState(false);
+
     // sets modalOpen to true, thus openinng the menu item modal
     const openModal = () => {
         setOpenMode(true);
@@ -37,6 +44,14 @@ const TruckMenu = props => {
     // sets modalOpen to false, thus closing the menu item modal
     const closeModal = () => {
         setOpenMode(false);
+    }
+
+    const showNewOrderAlert = () => {
+        setNewOrderAlert(true);
+    }
+
+    const closeNewOrderAlert = () => {
+        setNewOrderAlert(false);
     }
 
     // makes call to backend to get truck menu
@@ -65,7 +80,19 @@ const TruckMenu = props => {
         <div className="truck-menu-main">
             <div className="details-truck-container">
                 <h1 className="title">{props.selectedTruck.name}</h1>
-                <p className="ratings"><span className="avg-rating">{props.selectedTruck.avg_rating}</span> <span>{props.selectedTruck.reviews.length} reviews</span></p>
+                <p className="ratings">
+                    <span className="avg-rating">              
+                        <div className="stars-div">
+                            <StarRatings
+                            rating={Number(props.selectedTruck.avg_rating)}
+                            starDimension="22px"
+                            starSpacing="2px"
+                            starRatedColor="#ef903c"
+                            />
+                        </div>
+                    </span> 
+                    <span>{props.selectedTruck.reviews.length} reviews</span>
+                </p>
                 <p className="type">{props.selectedTruck.cuisine_type}</p>
                 <div className="card-buttons-div">
                     <button>Write review</button>
@@ -95,7 +122,7 @@ const TruckMenu = props => {
                                     </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
 
@@ -118,7 +145,7 @@ const TruckMenu = props => {
                                 </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
 
@@ -141,12 +168,13 @@ const TruckMenu = props => {
                                 </Grid>
                             ))}
                         </Grid>
-                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} />
+                        <MenuItemModal openMode={openMode} closeModal={closeModal} menuItem={menuItem} showNewOrderAlert={showNewOrderAlert} />
                     </div>
                 )}
             </div>
 
             {props.orderCardOpen && <OrderCard history={props.history} />}
+            {newOrderAlert && <NewOrderModal newOrderAlert={newOrderAlert} closeNewOrderAlert={closeNewOrderAlert} openModal={openModal} />}
         </div>
     )
 }
@@ -158,4 +186,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {})(TruckMenu);
+export default connect(mapStateToProps, { closeOrderCard })(TruckMenu);
