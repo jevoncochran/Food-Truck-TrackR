@@ -10,6 +10,8 @@ import "../styling/Payment.scss"
 
 import AddCard from "./AddCard";
 
+import { deleteCreditCard } from "../actions";
+
 const Payment = props => {
     // state determines whether or not to render AddCard modal
     const [addCardMode, setAddCardMode] = useState(false);
@@ -113,9 +115,12 @@ const Payment = props => {
                         }
                         <FormControl component="fieldset">
                             <RadioGroup aria-label="gender" name="gender1" value={null} onChange={null}>
+                                <div style={{ display: 'flex' }}>
                                 {props.cardOnFile &&
                                 <FormControlLabel value="female" control={<Radio />} label={`Card ending in -${lastFour}`} className="payment-radio"/>
                                 }
+                                <i class="fas fa-minus-circle" onClick={() => props.deleteCreditCard(props.account.id)} style={{ marginLeft: '5%' }}></i>
+                                </div>
                                 <FormControlLabel value="male" control={<Radio />} label="Pay in cash" className="payment-radio"/>
                             </RadioGroup>
                         </FormControl>
@@ -200,8 +205,9 @@ const mapStateToProps = state => {
         selectedTruck: state.selectedTruck,
         order: state.order,
         orderTruck: state.orderTruck,
-        cardOnFile: state.account.cardOnFile
+        cardOnFile: state.account.cardOnFile,
+        account: state.account
     }
 }
 
-export default connect(mapStateToProps, {})(Payment);
+export default connect(mapStateToProps, { deleteCreditCard })(Payment);

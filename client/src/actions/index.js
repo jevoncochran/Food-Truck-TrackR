@@ -48,6 +48,8 @@ export const CREATE_NEW_ORDER_START = 'CREATE_NEW_ORDER_START';
 export const CREATE_NEW_ORDER_SUCCESS = 'CREATE_NEW_ORDER_SUCCESS';
 export const ADD_CARD_START = 'ADD_CARD_START';
 export const ADD_CARD_SUCCESS = 'ADD_CARD_SUCCESS';
+export const DELETE_CARD_START = 'DELETE_CARD_START';
+export const DELETE_CARD_SUCCESS = 'DELETE_CARD_SUCCESS';
 
 // login for vendors
 export const loginAndGetVendor = (credentials) => (dispatch) => {
@@ -82,6 +84,7 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
 };
 
 // registration for diners
+
 export const registerDiner = (info) => (dispatch) => {
   dispatch({ type: SIGNUP_START });
   axios
@@ -274,6 +277,16 @@ export const addCreditCard = (dinerId, card) => dispatch => {
     .then(res => {
       console.log(res);
       dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+    })
+    .catch(err => console.log(err))
+}
+
+export const deleteCreditCard = (dinerId) => dispatch => {
+  dispatch({ type: DELETE_CARD_START });
+  axiosWithAuth()
+    .delete(`/diner/${dinerId}/card`)
+    .then(() => {
+      dispatch({ type: DELETE_CARD_SUCCESS })
     })
     .catch(err => console.log(err))
 }

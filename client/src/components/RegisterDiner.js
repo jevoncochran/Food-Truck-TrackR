@@ -9,6 +9,7 @@ import Nav from "./Nav";
 const RegisterDiner = (props) => {
   const [credentials, setCredentials] = useState({
     username: "",
+    name: "",
     email: "",
     password: "",
   });
@@ -33,6 +34,14 @@ const RegisterDiner = (props) => {
 
       <form className="signup-form" onSubmit={submitRegister}>
         <h3 className="cta">Let's get started</h3>
+        <label className="signup-labels">Full name (required)</label>
+        <input
+          className="signup-inputs"
+          type="text"
+          name="name"
+          value={credentials.name}
+          onChange={handleChanges}
+        />
         <label className="signup-labels">Register username (required)</label>
         <input
           className="signup-inputs"

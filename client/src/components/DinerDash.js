@@ -543,7 +543,7 @@ const DinerDash = (props) => {
           </div>
         </div>
       )}
-      {props.orderCardOpen && <OrderCard history={props.history} />}
+      {props.order && props.orderCardOpen && <OrderCard history={props.history} />}
     </div>
   );
 };
