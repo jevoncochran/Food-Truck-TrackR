@@ -89,7 +89,7 @@ export const registerDiner = (info) => (dispatch) => {
   dispatch({ type: SIGNUP_START });
   axios
     .post(
-      "https://foodtrucktrackr.herokuapp.com/api/auth/register/diners",
+      "http://localhost:5000/api/auth/register/diners",
       info
     )
     .then((res) => {
