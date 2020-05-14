@@ -13,6 +13,8 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { useToasts } from "react-toast-notifications";
 import Loader from "react-loader-spinner";
 import { useParams } from "react-router-dom";
+import OrderCard from "./OrderCard";
+
 
 import { addToFavoriteTrucks, setSelectedTruck } from "../actions";
 
@@ -294,6 +296,7 @@ const TruckDetails = (props) => {
           </form>
         </div>
       </Modal>
+      {props.orderCardOpen && <OrderCard history={props.history} />}
     </div>
   );
 };
@@ -305,6 +308,7 @@ const mapStateToProps = (state) => {
     menu: state.selectedTruck.menu,
     reviews: state.selectedTruck.reviews,
     dinerId: state.account.id,
+    orderCardOpen: state.orderCardOpen
   };
 };
 

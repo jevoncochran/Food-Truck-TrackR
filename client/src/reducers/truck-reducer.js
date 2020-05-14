@@ -41,7 +41,9 @@ import {
   CREATE_NEW_ORDER_START,
   CREATE_NEW_ORDER_SUCCESS,
   ADD_CARD_START,
-  ADD_CARD_SUCCESS
+  ADD_CARD_SUCCESS,
+  DELETE_CARD_START,
+  DELETE_CARD_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -121,8 +123,9 @@ export const truckReducer = (state = initialState, action) => {
         cuisineTypeMode: false,
         truckCategory: null,
         order: [],
-        orderTruck: {},
-        selectedTruck: {}
+        orderTruck: null,
+        selectedTruck: {},
+        orderCardOpen: false
       };
     case EDIT_LOCATION_START:
       return {
@@ -349,6 +352,20 @@ export const truckReducer = (state = initialState, action) => {
         account: {
           ...state.account,
           cardOnFile: action.payload
+        }
+      }
+    case DELETE_CARD_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case DELETE_CARD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        account: {
+          ...state.account,
+          cardOnFile: null
         }
       }
     default:
