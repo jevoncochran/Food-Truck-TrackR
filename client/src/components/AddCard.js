@@ -5,8 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import '../styling/AddCard.scss';
-import { Elements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
 import { addCreditCard } from "../actions";
 
@@ -26,8 +24,6 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
-
 const AddCard = props => {
     const classes = useStyles();
 
@@ -44,7 +40,8 @@ const AddCard = props => {
         name: '',
         exp_date: '',
         cvc: '',
-        zip: ''
+        zip: '',
+        customer: props.account.stripe_id
     });
 
     // don't need this i don't think 
@@ -69,19 +66,16 @@ const AddCard = props => {
 
     const [focus, setFocus] = useState('');
 
-    const addCard = () => {
+    const addCard = e => {
+        e.preventDefault();
         props.addCreditCard(props.account.id, cardToAdd);
         props.closeCardModal();
     }
 
+    // delete this afterward
     useEffect(() => {
-        console.log(`STRIPE PUBLIC KEY: ${process.env.REACT_APP_STRIPE_PK}`);
-    }, [])
-
-    // // delete this afterward
-    // useEffect(() => {
-    //     console.log(`card to add: ${cardToAdd.name}, ${cardToAdd.number}, ${cardToAdd.expiry}, ${cardToAdd.cvc}, ${cardToAdd.zip}`)
-    // }, [cardToAdd])
+        console.log(`card to add: ${cardToAdd.name}, ${cardToAdd.num}, ${cardToAdd.exp_date}, ${cardToAdd.cvc}, ${cardToAdd.zip}`)
+    }, [cardToAdd])
 
     return (
         <Modal 
@@ -92,62 +86,21 @@ const AddCard = props => {
         >
             <div style={modalStyle} className={classes.paper}>
                 
-                {/* <div className="add-card-body"> */}
+                <div className="add-card-body">
                     <i class="fas fa-times" onClick={props.closeCardModal} style={{ marginTop: '2%', fontSize: '1.2rem', marginBottom: '4%', display: 'block' }}></i>
-                    <Elements stripe={stripePromise}>
-                        <label style={{ border: '1px dashed green', width: '100%' }}>
-                            Card details
-                            <CardNumberElement 
-                                options={CARD_ELEMENT_OPTIONS} 
-                                type='tel' 
-                                name='number' 
-                                value={cardToAdd.num}
-                                onChange={e => setCardToAdd({...cardToAdd, num: e.target.value})}
-                            />
-                            <input 
-                            type='text' 
-                            name='name' 
-                            value={cardToAdd.name} 
-                            onChange={e => setCardToAdd({...cardToAdd, name: e.target.value})}
-                            onFocus={e => setFocus(e.target.name)} 
-                            className="card-name-input"
-                            />
-                            <CardExpiryElement 
-                                options={CARD_ELEMENT_OPTIONS}
-                                type='text' 
-                                name='expiry' 
-                                placeholder='MM/YY' 
-                                value={cardToAdd.exp_date} 
-                                onChange={e => setCardToAdd({...cardToAdd, exp_date: e.target.value})} 
-                            />
-                            <CardCvcElement 
-                                options={CARD_ELEMENT_OPTIONS} 
-                                type='tel' 
-                                name='cvc' 
-                                value={cardToAdd.cvc} 
-                                onChange={e => setCardToAdd({...cardToAdd, cvc: e.target.value})}
-                            />
-                            <input 
-                                type='tel' 
-                                name='zip' 
-                                value={cardToAdd.zip} 
-                                onChange={e => setCardToAdd({...cardToAdd, zip: e.target.value})}
-                                onFocus={e => setFocus(e.target.name)} 
-                            />
-                        </label>
-                    </Elements>
-                    {/* <Cards 
+                
+                    <Cards 
                         number={cardToAdd.num}
                         name={cardToAdd.name}
                         expiry={cardToAdd.exp_date}
                         cvc={cardToAdd.cvc}
                         focused={focus}
-                    /> */}
+                    />
 
                     
-                        {/* <form> */}
+                         <form onSubmit={addCard}>  
                 
-                            {/* <label htmlFor="number" style={{ marginBottom: '2%' }}>Card Number</label>
+                            <label htmlFor="number" style={{ marginBottom: '2%' }}>Card Number</label>
                             <input 
                             type='tel' 
                             name='number' 
@@ -209,27 +162,28 @@ const AddCard = props => {
                                     onChange={e => setCardToAdd({...cardToAdd, zip: e.target.value})}
                                     onFocus={e => setFocus(e.target.name)} 
                                 />
-                            </div> */}
+                            </div>
 
-                            {/* <button className="add-card-btn" onClick={addCard}>Add Card</button> */}
-                        {/* </form> */}
+                            <button type="submit" className="add-card-btn">Add Card</button>
+                        </form>
                     
-                {/* </div> */}
+                </div> 
             </div>
         </Modal>
     )
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         cardOnFile: state.account.cardOnFile
-//     }
-// }
-
 const mapStateToProps = state => {
     return {
+        cardOnFile: state.account.cardOnFile,
         account: state.account
     }
 }
+
+// const mapStateToProps = state => {
+//     return {
+//         account: state.account
+//     }
+// }
 
 export default connect(mapStateToProps, { addCreditCard })(AddCard);

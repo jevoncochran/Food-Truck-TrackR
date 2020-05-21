@@ -28,6 +28,7 @@ const TruckMenu = props => {
 
     // holds value of menu item object to be passed down to menu item modal
     const [menuItem, setMenuItem] = useState({
+        id: '',
         name: '',
         description: '',
         image: '',
@@ -76,6 +77,16 @@ const TruckMenu = props => {
         console.log(menu);
     }, [menu])
 
+    // delete after
+    useEffect(() => {
+        console.log(`menu item: ${menuItem.id}`)
+    }, [menuItem])
+
+    // delete after
+    useEffect(() => {
+        console.log(menu.entrees);
+    }, [menu.entrees])
+
     return (
         <div className="truck-menu-main">
             <div className="details-truck-container">
@@ -108,7 +119,7 @@ const TruckMenu = props => {
                         <h3 className="item-type-cont-h3">Entrees</h3>
                         <Grid container spacing={2}>
                             {menu.entrees.map(item => (
-                                    <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                    <Grid item xs={4} onClick={() => setMenuItem({ id: item.id, name: item.name, description: item.description, image: item.image, price: item.price })}>
                                         <Card className="menu-deets-card" onClick={openModal}>
                                             <div className="menu-deets-cont">
                                                 <p className="menu-item-name">{item.name}</p>
@@ -131,7 +142,7 @@ const TruckMenu = props => {
                         <h3 className="item-type-cont-h3">Sides</h3>
                         <Grid container spacing={2}>
                             {menu.sides.map(item => (
-                                <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                <Grid item xs={4} onClick={() => setMenuItem({ id: item.id, name: item.name, name: item.name, description: item.description, image: item.image, price: item.price })}>
                                     <Card className="menu-deets-card" onClick={openModal}>
                                         <div className="menu-deets-cont">
                                             <p className="menu-item-name">{item.name}</p>

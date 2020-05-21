@@ -75,6 +75,7 @@ const MenuItemModal = props => {
             props.addItemToOrder(itemToAdd);
             props.openOrderCard();
             props.closeModal();
+            setCount(1);
         }
     }
 
@@ -88,8 +89,8 @@ const MenuItemModal = props => {
     }, [count, props.openMode])
 
     useEffect(() => {
-        console.log(itemToAdd);
-    }, [itemToAdd])
+        console.log(`count: ${count}`);
+    }, [count])
 
     // const handleSpecialInstructions = () => {
     //     set
