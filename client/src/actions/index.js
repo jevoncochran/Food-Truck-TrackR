@@ -72,7 +72,7 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
   dispatch({ type: GET_DINER_START });
   axios
     .post(
-      "https://foodtrucktrackr.herokuapp.com/api/auth/login/diners",
+      "http://localhost:5000/api/auth/login/diners",
       credentials
     )
     .then((res) => {
@@ -87,9 +87,10 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
 
 export const registerDiner = (info) => (dispatch) => {
   dispatch({ type: SIGNUP_START });
+  console.log(`front end req.body: {name: ${info.name}, username: ${info.username}, email: ${info.email}, password: ${info.password}}`);
   axios
     .post(
-      "https://foodtrucktrackr.herokuapp.com/api/auth/register/diners",
+      "http://localhost:5000/api/auth/register/diners",
       info
     )
     .then((res) => {
@@ -276,7 +277,7 @@ export const addCreditCard = (dinerId, card) => dispatch => {
     .post(`/diner/${dinerId}/card`, card)
     .then(res => {
       console.log(res);
-      dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+      dispatch({ type: ADD_CARD_SUCCESS, payload: { card: card, payment_id: res.data } })
     })
     .catch(err => console.log(err))
 }

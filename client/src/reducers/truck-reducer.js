@@ -91,6 +91,7 @@ export const truckReducer = (state = initialState, action) => {
           username: action.payload.username,
           email: action.payload.email,
           password: action.payload.password,
+          stripe_id: action.payload.stripe_id,
           location: action.payload.location,
           favTrucks: action.payload.favTrucks,
           cardOnFile: action.payload.cardOnFile
@@ -351,7 +352,8 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: false,
         account: {
           ...state.account,
-          cardOnFile: action.payload
+          cardOnFile: action.payload.card,
+          payment_id: action.payload.payment_id
         }
       }
     case DELETE_CARD_START:
