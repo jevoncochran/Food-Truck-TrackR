@@ -43,7 +43,9 @@ import {
   ADD_CARD_START,
   ADD_CARD_SUCCESS,
   DELETE_CARD_START,
-  DELETE_CARD_SUCCESS
+  DELETE_CARD_SUCCESS,
+  UPDATE_ORDER_START,
+  UPDATE_ORDER_SUCCESS
 } from "../actions";
 
 const initialState = {
@@ -369,6 +371,23 @@ export const truckReducer = (state = initialState, action) => {
           ...state.account,
           cardOnFile: null
         }
+      }
+    case UPDATE_ORDER_START:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case UPDATE_ORDER_SUCCESS:
+      // let newOrder = state.order.filter(item => {return item.item !== action.payload})
+      return {
+        ...state,
+        isLoading: false,
+        order: [
+          ...state.order.filter((item) => {
+            return item.item !== action.payload.item;
+          }),
+          action.payload
+        ]
       }
     default:
       return state;
