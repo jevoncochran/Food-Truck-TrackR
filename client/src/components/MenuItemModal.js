@@ -38,16 +38,13 @@ const MenuItemModal = props => {
     // holds value for count of menu item
     const [count, setCount] = useState(1);
 
-    useEffect(() => {
-        setCount(props.order.some(el => props.menuItem.name === el.item) ? getExistingCount(props.order) : 1)
-    }, [props.menuItem])
-
-    const getExistingCount = (arr) => {
-       return arr.find(el => props.menuItem.name === el.item).count
-    }
-
     // holds value for selected menu item to add to order
     const [itemToAdd, setItemToAdd] = useState({});
+
+    // returns existing count when user clicks on menu item that is already in order
+    const getExistingCount = (arr) => {
+        return arr.find(el => props.menuItem.name === el.item).count
+     }
 
     // increases (menu item) count by 1
     const increment = () => {
@@ -80,8 +77,10 @@ const MenuItemModal = props => {
             props.showNewOrderAlert();
             props.closeModal();
         } else {
+            // if item is already in order, an update is performed based on new specifications
             if (props.order.some(el => itemToAdd.item === el.item)) {
                 props.updateOrder(itemToAdd);
+            // if item is not in order, it is added to order
             } else {
                 props.addItemToOrder(itemToAdd);
             }
@@ -100,9 +99,16 @@ const MenuItemModal = props => {
         });
     }, [count, props.openMode])
 
+    // sets count each time user clicks on a different menu item
+    // not sure why this overrides count where count is declared with useState hook
+    // in other words, not sure why this component does not rerender each time a user click on menu item
     useEffect(() => {
-        console.log(`count: ${count}`);
-    }, [count])
+        setCount(props.order.some(el => props.menuItem.name === el.item) ? getExistingCount(props.order) : 1)
+    }, [props.menuItem])
+
+    // useEffect(() => {
+    //     console.log(`count: ${count}`);
+    // }, [count])
 
     return (
         <div>
