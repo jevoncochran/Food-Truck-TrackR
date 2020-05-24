@@ -50,6 +50,8 @@ export const ADD_CARD_START = 'ADD_CARD_START';
 export const ADD_CARD_SUCCESS = 'ADD_CARD_SUCCESS';
 export const DELETE_CARD_START = 'DELETE_CARD_START';
 export const DELETE_CARD_SUCCESS = 'DELETE_CARD_SUCCESS';
+export const UPDATE_ORDER_START = 'UPDATE_ORDER_START';
+export const UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS';
 
 // login for vendors
 export const loginAndGetVendor = (credentials) => (dispatch) => {
@@ -72,7 +74,7 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
   dispatch({ type: GET_DINER_START });
   axios
     .post(
-      "http://localhost:5000/api/auth/login/diners",
+      "https://foodtrucktrackr.herokuapp.com/api/auth/login/diners",
       credentials
     )
     .then((res) => {
@@ -90,7 +92,7 @@ export const registerDiner = (info) => (dispatch) => {
   console.log(`front end req.body: {name: ${info.name}, username: ${info.username}, email: ${info.email}, password: ${info.password}}`);
   axios
     .post(
-      "http://localhost:5000/api/auth/register/diners",
+      "https://foodtrucktrackr.herokuapp.com/api/auth/register/diners",
       info
     )
     .then((res) => {
@@ -290,4 +292,9 @@ export const deleteCreditCard = (dinerId) => dispatch => {
       dispatch({ type: DELETE_CARD_SUCCESS })
     })
     .catch(err => console.log(err))
+}
+
+export const updateOrder = item => dispatch => {
+  dispatch({ type: UPDATE_ORDER_START })
+  dispatch({ type: UPDATE_ORDER_SUCCESS, payload: item })
 }

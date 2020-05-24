@@ -7,7 +7,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import CurrencyFormatter from "currencyformatter.js";
 
 // action imports
-import { addItemToOrder, openOrderCard, addTruckToOrder } from "../actions";
+import { addItemToOrder, openOrderCard, addTruckToOrder, updateOrder } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -38,6 +38,14 @@ const MenuItemModal = props => {
     // holds value for count of menu item
     const [count, setCount] = useState(1);
 
+    useEffect(() => {
+        setCount(props.order.some(el => props.menuItem.name === el.item) ? getExistingCount(props.order) : 1)
+    }, [props.menuItem])
+
+    const getExistingCount = (arr) => {
+       return arr.find(el => props.menuItem.name === el.item).count
+    }
+
     // holds value for selected menu item to add to order
     const [itemToAdd, setItemToAdd] = useState({});
 
@@ -58,7 +66,7 @@ const MenuItemModal = props => {
     // closes modal and resets (menu item) count to 1
     const closeAndReset = () => {
         props.closeModal();
-        setCount(1);
+        setCount(30);
     }
 
     // adds item to order 
@@ -72,7 +80,11 @@ const MenuItemModal = props => {
             props.showNewOrderAlert();
             props.closeModal();
         } else {
-            props.addItemToOrder(itemToAdd);
+            if (props.order.some(el => itemToAdd.item === el.item)) {
+                props.updateOrder(itemToAdd);
+            } else {
+                props.addItemToOrder(itemToAdd);
+            }
             props.openOrderCard();
             props.closeModal();
             setCount(1);
@@ -91,10 +103,6 @@ const MenuItemModal = props => {
     useEffect(() => {
         console.log(`count: ${count}`);
     }, [count])
-
-    // const handleSpecialInstructions = () => {
-    //     set
-    // }
 
     return (
         <div>
@@ -133,4 +141,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder })(MenuItemModal);
+export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder, updateOrder })(MenuItemModal);
