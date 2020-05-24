@@ -55,6 +55,11 @@ const TruckMenu = props => {
         setNewOrderAlert(false);
     }
 
+    const addToFavs = (e) => {
+        e.preventDefault();
+        props.addToFavoriteTrucks(props.dinerId, props.selectedTruck.id);
+    };
+
     // makes call to backend to get truck menu
     useEffect(() => {
         axiosWithAuth()
@@ -77,15 +82,13 @@ const TruckMenu = props => {
         console.log(menu);
     }, [menu])
 
-    // delete after
     useEffect(() => {
-        console.log(`menu item: ${menuItem.id}`)
-    }, [menuItem])
+        let add2FavsBtn = document.getElementById("add-to-favs-btn");
 
-    // delete after
-    useEffect(() => {
-        console.log(menu.entrees);
-    }, [menu.entrees])
+        if (props.favTrucks.some(el => props.selectedTruck.id === el.id)) {
+            add2FavsBtn.disabled = true;
+        }
+    }, [props.favTrucks])
 
     return (
         <div className="truck-menu-main">
@@ -109,7 +112,7 @@ const TruckMenu = props => {
                     <button>Write review</button>
                     <button>Add photo</button>
                     <button>Share</button>
-                    <button onClick={null}>Add to favorites</button>
+                    <button id="add-to-favs-btn" className="add-to-favs-btn" onClick={addToFavs}>Add to favorites</button>
                 </div>
             </div>
 
@@ -194,7 +197,8 @@ const mapStateToProps = state => {
     return {
         selectedTruck: state.selectedTruck,
         orderCardOpen: state.orderCardOpen,
-        order: state.order
+        order: state.order,
+        favTrucks: state.account.favTrucks
     }
 }
 
