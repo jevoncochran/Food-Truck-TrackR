@@ -6,6 +6,7 @@ export const GET_VENDOR_START = "GET_ACCOUNT_START";
 export const GET_VENDOR_SUCCESS = "GET_ACCOUNT_SUCCESS";
 export const GET_DINER_START = "GET_DINER_START";
 export const GET_DINER_SUCCESS = "GET_DINER_SUCCESS";
+export const GET_DINER_FAIL = "GET_DINER_FAIL";
 export const SIGNUP_START = "SIGNUP_START";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const LOGOUT_START = "LOGOUT_START";
@@ -82,7 +83,9 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
       dispatch({ type: GET_DINER_SUCCESS, payload: res.data.account });
       localStorage.setItem("token", res.data.token);
     })
-    .catch((err) => console.log(err));
+    .catch(err => {
+      dispatch({ type: GET_DINER_FAIL, payload: err })
+    });
 };
 
 // registration for diners
