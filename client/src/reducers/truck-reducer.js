@@ -3,6 +3,7 @@ import {
   GET_VENDOR_SUCCESS,
   GET_DINER_START,
   GET_DINER_SUCCESS,
+  GET_DINER_FAIL,
   SIGNUP_START,
   SIGNUP_SUCCESS,
   LOGOUT_START,
@@ -51,6 +52,7 @@ import {
 const initialState = {
   account: {},
   isLoading: false,
+  error: '',
   order: [],
   role: "",
   isLogged: false,
@@ -85,6 +87,7 @@ export const truckReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        error: '',
         role: "diner",
         loggedIn: true,
 
@@ -98,6 +101,12 @@ export const truckReducer = (state = initialState, action) => {
           favTrucks: action.payload.favTrucks,
           cardOnFile: action.payload.cardOnFile
         },
+      };
+    case GET_DINER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.response.data.error
       };
     case SIGNUP_START:
       return {

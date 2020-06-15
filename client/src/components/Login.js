@@ -94,6 +94,9 @@ const Login = (props) => {
                 className="login-form"
                 onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
               >
+                {props.errorMsg == 'Invalid credentials' &&
+                  <p className="invalid-creds">Invalid username or password</p>
+                }
                 <input
                   className="form-input"
                   type="text"
@@ -143,6 +146,7 @@ const mapStateToProps = (state) => {
   return {
     accountId: state.account.id,
     isLoading: state.isLoading,
+    errorMsg: state.error,
     loggedIn: state.loggedIn,
   };
 };

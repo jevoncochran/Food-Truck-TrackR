@@ -78,7 +78,7 @@ const MenuItemModal = props => {
             props.closeModal();
         } else {
             // if item is already in order, an update is performed based on new specifications
-            if (props.order.some(el => itemToAdd.item === el.item)) {
+            if (props.order.some(el => itemToAdd.id === el.id)) {
                 props.updateOrder(itemToAdd);
             // if item is not in order, it is added to order
             } else {
@@ -92,6 +92,7 @@ const MenuItemModal = props => {
 
     useEffect(() => {
         setItemToAdd({
+            id: props.menuItem.id,
             item: props.menuItem.name,
             count: count,
             price: props.menuItem.price,
