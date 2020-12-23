@@ -12,12 +12,13 @@ import Nav from "./Nav";
 
 const Login = (props) => {
   const history = useHistory();
+
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
 
-  const [accountType, setAccountType] = useState("diner");
+  const [accountType, setAccountType] = useState("vendor");
 
   const [initialMode, setInitialMode] = useState(true);
 
@@ -94,9 +95,9 @@ const Login = (props) => {
                 className="login-form"
                 onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
               >
-                {props.errorMsg == 'Invalid credentials' &&
+                {props.errorMsg == "Invalid credentials" && (
                   <p className="invalid-creds">Invalid username or password</p>
-                }
+                )}
                 <input
                   className="form-input"
                   type="text"

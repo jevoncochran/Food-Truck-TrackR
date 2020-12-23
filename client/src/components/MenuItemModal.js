@@ -107,10 +107,6 @@ const MenuItemModal = props => {
         setCount(props.order.some(el => props.menuItem.name === el.item) ? getExistingCount(props.order) : 1)
     }, [props.menuItem])
 
-    // useEffect(() => {
-    //     console.log(`count: ${count}`);
-    // }, [count])
-
     return (
         <div>
             <Modal 

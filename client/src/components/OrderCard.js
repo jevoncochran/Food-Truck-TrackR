@@ -8,17 +8,10 @@ import "../styling/OrderCard.scss"
 import { closeOrderCard, updateCount, removeFromOrder } from "../actions";
 
 const OrderCard = props => {
-    // const [modifiedItemCount, setModifiedItemCount] = useState(null);
 
     const orderCount = props.order.reduce(function(prev, cur) {
         return prev + cur.count;
     }, 0);
-
-    const countSelect = document.getElementById("count-select");
-
-    // useEffect(() => {
-
-    // }, [modifiedItemCount])
 
     return (
         <ClickAwayListener onClickAway={() => props.closeOrderCard()}>
