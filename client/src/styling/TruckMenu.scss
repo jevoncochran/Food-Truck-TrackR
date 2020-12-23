@@ -39,6 +39,15 @@
     border-radius: 0 !important;
 }
 
+.menu-deets-card-inactive {
+    display: flex;
+    height: 120px;
+    border: 2px solid #eb7530;
+    width: 100%;
+    border-radius: 0 !important;
+    // background: lightgray !important;
+}
+
 .menu-deets-cont {
     width: 70%;
     padding-top: 4%;

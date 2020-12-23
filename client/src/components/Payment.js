@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 import Header from "./Header";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -86,14 +87,34 @@ const Payment = props => {
         })
     };
 
-    // useEffect(() => {
-    //     console.log(`tip percentage: ${tipVal.tipPerc}, tip amount: ${tipVal.tip}`)
-    // }, [tipVal.tipPerc])
+    const confirmOrder = () => {
+        let date = new Date();
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+            month = '0' + month;
+        };
+        let calenDay = date.getDate();
+        if (calenDay < 10) {
+            calenDay = '0' + calenDay;
+          };
 
-    // useEffect(() => {
-    //     console.log(`custom tip: ${customTip}`)
-    // }, [customTip])
-
+        axiosWithAuth()
+            .post(`/diner/${props.account.id}/confirm-order`, {
+                stripeId: props.account.stripe_id,
+                payment: props.account.payment_id,
+                date: `${date.getFullYear()}-${month}-${calenDay}`,
+                time: `${date.getHours()}:${date.getMinutes()}`,
+                truck_id: props.selectedTruck.id,
+                breakdown: props.order,
+                subtotal: orderSubtotal,
+                tip: tipVal.tip,
+                total: orderSubtotal + Number(tipVal.tip)
+            })
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => console.log(err));
+    }
 
     return (
         <div className="payment-main">
@@ -189,7 +210,7 @@ const Payment = props => {
                         <p>Total</p>
                         <p>{CurrencyFormatter.format(orderSubtotal + Number(tipVal.tip), { currency: 'USD' })}</p>
                     </div>
-                    <button className="confirm-order-btn">Confirm Order</button>
+                    <button className="confirm-order-btn" onClick={confirmOrder}>Confirm Order</button>
                 </div>
             </div>
 

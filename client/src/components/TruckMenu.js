@@ -28,6 +28,7 @@ const TruckMenu = props => {
 
     // holds value of menu item object to be passed down to menu item modal
     const [menuItem, setMenuItem] = useState({
+        id: '',
         name: '',
         description: '',
         image: '',
@@ -54,6 +55,11 @@ const TruckMenu = props => {
         setNewOrderAlert(false);
     }
 
+    const addToFavs = (e) => {
+        e.preventDefault();
+        props.addToFavoriteTrucks(props.dinerId, props.selectedTruck.id);
+    };
+
     // makes call to backend to get truck menu
     useEffect(() => {
         axiosWithAuth()
@@ -75,6 +81,14 @@ const TruckMenu = props => {
     useEffect(() => {
         console.log(menu);
     }, [menu])
+
+    useEffect(() => {
+        let add2FavsBtn = document.getElementById("add-to-favs-btn");
+
+        if (props.favTrucks.some(el => props.selectedTruck.id === el.id)) {
+            add2FavsBtn.disabled = true;
+        }
+    }, [props.favTrucks])
 
     return (
         <div className="truck-menu-main">
@@ -98,7 +112,7 @@ const TruckMenu = props => {
                     <button>Write review</button>
                     <button>Add photo</button>
                     <button>Share</button>
-                    <button onClick={null}>Add to favorites</button>
+                    <button id="add-to-favs-btn" className="add-to-favs-btn" onClick={addToFavs}>Add to favorites</button>
                 </div>
             </div>
 
@@ -108,8 +122,8 @@ const TruckMenu = props => {
                         <h3 className="item-type-cont-h3">Entrees</h3>
                         <Grid container spacing={2}>
                             {menu.entrees.map(item => (
-                                    <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
-                                        <Card className="menu-deets-card" onClick={openModal}>
+                                    <Grid item xs={4} onClick={() => setMenuItem({ id: item.id, name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                        <Card className={props.order.some(el => item.id === el.id) ? "menu-deets-card-inactive" : "menu-deets-card"} onClick={openModal}>
                                             <div className="menu-deets-cont">
                                                 <p className="menu-item-name">{item.name}</p>
                                                 <p className="menu-item-description">{item.description}</p>
@@ -131,8 +145,8 @@ const TruckMenu = props => {
                         <h3 className="item-type-cont-h3">Sides</h3>
                         <Grid container spacing={2}>
                             {menu.sides.map(item => (
-                                <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
-                                    <Card className="menu-deets-card" onClick={openModal}>
+                                <Grid item xs={4} onClick={() => setMenuItem({ id: item.id, name: item.name, name: item.name, description: item.description, image: item.image, price: item.price })}>
+                                    <Card className={props.order.some(el => item.name === el.item) ? "menu-deets-card-inactive" : "menu-deets-card"} onClick={openModal}>
                                         <div className="menu-deets-cont">
                                             <p className="menu-item-name">{item.name}</p>
                                             <p className="menu-item-description">{item.description}</p>
@@ -155,7 +169,7 @@ const TruckMenu = props => {
                         <Grid container spacing={2}>
                             {menu.drinks.map(item => (
                                 <Grid item xs={4} onClick={() => setMenuItem({ name: item.name, description: item.description, image: item.image, price: item.price })}>
-                                    <Card className="menu-deets-card" onClick={openModal}>
+                                    <Card className={props.order.some(el => item.name === el.item) ? "menu-deets-card-inactive" : "menu-deets-card"} onClick={openModal}>
                                         <div className="menu-deets-cont">
                                             <p className="menu-item-name">{item.name}</p>
                                             <p className="menu-item-description">{item.description}</p>
@@ -182,7 +196,9 @@ const TruckMenu = props => {
 const mapStateToProps = state => {
     return {
         selectedTruck: state.selectedTruck,
-        orderCardOpen: state.orderCardOpen
+        orderCardOpen: state.orderCardOpen,
+        order: state.order,
+        favTrucks: state.account.favTrucks
     }
 }
 

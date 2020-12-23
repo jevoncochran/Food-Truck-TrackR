@@ -7,7 +7,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import CurrencyFormatter from "currencyformatter.js";
 
 // action imports
-import { addItemToOrder, openOrderCard, addTruckToOrder } from "../actions";
+import { addItemToOrder, openOrderCard, addTruckToOrder, updateOrder } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,6 +41,11 @@ const MenuItemModal = props => {
     // holds value for selected menu item to add to order
     const [itemToAdd, setItemToAdd] = useState({});
 
+    // returns existing count when user clicks on menu item that is already in order
+    const getExistingCount = (arr) => {
+        return arr.find(el => props.menuItem.name === el.item).count
+     }
+
     // increases (menu item) count by 1
     const increment = () => {
         setCount(count + 1);
@@ -58,7 +63,7 @@ const MenuItemModal = props => {
     // closes modal and resets (menu item) count to 1
     const closeAndReset = () => {
         props.closeModal();
-        setCount(1);
+        setCount(30);
     }
 
     // adds item to order 
@@ -72,14 +77,22 @@ const MenuItemModal = props => {
             props.showNewOrderAlert();
             props.closeModal();
         } else {
-            props.addItemToOrder(itemToAdd);
+            // if item is already in order, an update is performed based on new specifications
+            if (props.order.some(el => itemToAdd.id === el.id)) {
+                props.updateOrder(itemToAdd);
+            // if item is not in order, it is added to order
+            } else {
+                props.addItemToOrder(itemToAdd);
+            }
             props.openOrderCard();
             props.closeModal();
+            setCount(1);
         }
     }
 
     useEffect(() => {
         setItemToAdd({
+            id: props.menuItem.id,
             item: props.menuItem.name,
             count: count,
             price: props.menuItem.price,
@@ -87,13 +100,12 @@ const MenuItemModal = props => {
         });
     }, [count, props.openMode])
 
+    // sets count each time user clicks on a different menu item
+    // not sure why this overrides count where count is declared with useState hook
+    // in other words, not sure why this component does not rerender each time a user click on menu item
     useEffect(() => {
-        console.log(itemToAdd);
-    }, [itemToAdd])
-
-    // const handleSpecialInstructions = () => {
-    //     set
-    // }
+        setCount(props.order.some(el => props.menuItem.name === el.item) ? getExistingCount(props.order) : 1)
+    }, [props.menuItem])
 
     return (
         <div>
@@ -132,4 +144,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder })(MenuItemModal);
+export default connect(mapStateToProps, { addItemToOrder, openOrderCard, addTruckToOrder, updateOrder })(MenuItemModal);

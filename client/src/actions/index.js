@@ -6,12 +6,19 @@ export const GET_VENDOR_START = "GET_ACCOUNT_START";
 export const GET_VENDOR_SUCCESS = "GET_ACCOUNT_SUCCESS";
 export const GET_DINER_START = "GET_DINER_START";
 export const GET_DINER_SUCCESS = "GET_DINER_SUCCESS";
+export const GET_DINER_FAIL = "GET_DINER_FAIL";
 export const SIGNUP_START = "SIGNUP_START";
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 export const LOGOUT_START = "LOGOUT_START";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const EDIT_LOCATION_START = "EDIT_LOCATION_START";
 export const EDIT_LOCATION_SUCCESS = "EDIT_LOCATION_SUCCESS";
+export const EDIT_COUNTRY_START = 'EDIT_COUNTRY_START';
+export const EDIT_COUNTRY_SUCCESS = 'EDIT_COUNTRY_SUCCESS';
+export const EDIT_LANGUAGE_START = 'EDIT_LANGUAGE_START';
+export const EDIT_LANGUAGE_SUCCESS = 'EDIT_LANGUAGE_SUCCESS';
+export const EDIT_PROFILE_PIC_START = 'EDIT_PROFILE_PIC_START';
+export const EDIT_PROFILE_PIC_SUCCESS = 'EDIT_PROFILE_PIC_SUCCESS';
 export const GET_ALL_TRUCKS_START = "GET_ALL_TRUCKS_START";
 export const GET_ALL_TRUCKS_SUCCESS = "GET_ALL_TRUCKS_SUCCESS";
 export const GET_TRUCKS_BY_CUISINE_START = "GET_TRUCKS_BY_CUISINE_START";
@@ -50,13 +57,17 @@ export const ADD_CARD_START = 'ADD_CARD_START';
 export const ADD_CARD_SUCCESS = 'ADD_CARD_SUCCESS';
 export const DELETE_CARD_START = 'DELETE_CARD_START';
 export const DELETE_CARD_SUCCESS = 'DELETE_CARD_SUCCESS';
+export const UPDATE_ORDER_START = 'UPDATE_ORDER_START';
+export const UPDATE_ORDER_SUCCESS = 'UPDATE_ORDER_SUCCESS';
+export const EDIT_TRUCK_IMG_START = 'EDIT_TRUCK_IMG_START';
+export const EDIT_TRUCK_IMG_SUCCESS = 'EDIT_TRUCK_IMG_SUCCESS';
 
 // login for vendors
 export const loginAndGetVendor = (credentials) => (dispatch) => {
   dispatch({ type: GET_VENDOR_START });
   return axios
     .post(
-      "https://foodtrucktrackr.herokuapp.com/api/auth/login/operators",
+      "http://localhost:5000/api/auth/login/operators",
       credentials
     )
     .then((res) => {
@@ -72,7 +83,7 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
   dispatch({ type: GET_DINER_START });
   axios
     .post(
-      "https://foodtrucktrackr.herokuapp.com/api/auth/login/diners",
+      "http://localhost:5000/api/auth/login/diners",
       credentials
     )
     .then((res) => {
@@ -80,13 +91,16 @@ export const loginAndGetDiner = (credentials) => (dispatch) => {
       dispatch({ type: GET_DINER_SUCCESS, payload: res.data.account });
       localStorage.setItem("token", res.data.token);
     })
-    .catch((err) => console.log(err));
+    .catch(err => {
+      dispatch({ type: GET_DINER_FAIL, payload: err })
+    });
 };
 
 // registration for diners
 
 export const registerDiner = (info) => (dispatch) => {
   dispatch({ type: SIGNUP_START });
+  console.log(`front end req.body: {name: ${info.name}, username: ${info.username}, email: ${info.email}, password: ${info.password}}`);
   axios
     .post(
       "https://foodtrucktrackr.herokuapp.com/api/auth/register/diners",
@@ -131,11 +145,44 @@ export const editLocation = (newLocation, id) => (dispatch) => {
     });
 };
 
+// edit country for diners
+export const editCountry = (newCountry, id) => dispatch => {
+  dispatch({ type: EDIT_COUNTRY_START });
+  axiosWithAuth()
+    .patch(`http://localhost:5000/api/diner/${id}`, newCountry)
+    .then(res => {
+      dispatch({ type: EDIT_COUNTRY_SUCCESS, payload: res.data.country });
+    })
+}
+
+// edit language for diners
+export const editLanguage = (newLanguage, id) => dispatch => {
+  dispatch({ type: EDIT_LANGUAGE_START });
+  axiosWithAuth()
+    .patch(`http://localhost:5000/api/diner/${id}`, newLanguage)
+    .then(res => {
+      dispatch({ type: EDIT_LANGUAGE_SUCCESS, payload: res.data.language });
+    })
+}
+
+// change profile pic for diners
+export const changeProfilePic = (newPic, id) => dispatch => {
+  dispatch({ type: EDIT_PROFILE_PIC_START });
+  axiosWithAuth()
+    .patch(`http://localhost:5000/api/diner/${id}`, newPic)
+    .then(res => {
+      dispatch({ type: EDIT_PROFILE_PIC_SUCCESS, payload: res.data.profile_pic })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+} 
+
 // get all trucks
 export const getAllTrucks = () => (dispatch) => {
   dispatch({ type: GET_ALL_TRUCKS_START });
   axiosWithAuth()
-    .get("https://foodtrucktrackr.herokuapp.com/api/trucks")
+    .get("http://localhost:5000/api/trucks")
     .then((res) => {
       console.log(res);
       // setAllTrucks(res.data);
@@ -276,7 +323,7 @@ export const addCreditCard = (dinerId, card) => dispatch => {
     .post(`/diner/${dinerId}/card`, card)
     .then(res => {
       console.log(res);
-      dispatch({ type: ADD_CARD_SUCCESS, payload: card })
+      dispatch({ type: ADD_CARD_SUCCESS, payload: { card: card, payment_id: res.data } })
     })
     .catch(err => console.log(err))
 }
@@ -289,4 +336,22 @@ export const deleteCreditCard = (dinerId) => dispatch => {
       dispatch({ type: DELETE_CARD_SUCCESS })
     })
     .catch(err => console.log(err))
+}
+
+export const updateOrder = item => dispatch => {
+  dispatch({ type: UPDATE_ORDER_START })
+  dispatch({ type: UPDATE_ORDER_SUCCESS, payload: item })
+}
+
+// operators change truck image
+export const changeTruckImg = (newImg, operatorId, truckId) => dispatch => {
+  dispatch({ type: EDIT_TRUCK_IMG_START });
+  axiosWithAuth()
+    .patch(`http://localhost:5000/api/operator/${operatorId}/truck/${truckId}`, newImg)
+    .then(res => {
+      dispatch({ type: EDIT_TRUCK_IMG_SUCCESS, payload: res.data })
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }

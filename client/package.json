@@ -14,7 +14,8 @@
     "bootstrap": "4.4.1",
     "codesandbox": "^2.1.12",
     "currencyformatter.js": "^2.2.0",
-    "node-sass": "^4.13.1",
+    "firebase": "^8.1.1",
+    "node-sass": "4.14.1",
     "react": "^16.13.0",
     "react-animate-on-scroll": "^2.1.5",
     "react-credit-cards": "^0.8.2",
@@ -40,6 +41,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.5.5"
   },
   "eslintConfig": {
     "extends": "react-app"

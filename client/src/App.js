@@ -17,6 +17,7 @@ import DinerDash from "./components/DinerDash";
 import DineSearch from "./components/DineSearch";
 import TruckDetails from "./components/TruckDetails";
 import Payment from "./components/Payment";
+import Account from "./components/Account";
 
 const GlobalStyle = createGlobalStyle`
 `;
@@ -49,8 +50,9 @@ function App(props) {
           <Route path="/register/vendor" component={RegisterVendor} />
           <Route path="/register/diner" component={RegisterDiner} />
           <PrivateRoute path="/vendor/:accountId" component={VendorDash} />
-          <PrivateRoute path="/diner/:accountId" component={DinerDash} />
+          <PrivateRoute exact path="/diner/:accountId" component={DinerDash} />
           <PrivateRoute path="/dine/search" component={DineSearch} />
+          <PrivateRoute path="/diner/:accountId/account" component={Account} />
           <ToastProvider>
             <PrivateRoute path="/trucks/:truckId" component={TruckDetails} />
           </ToastProvider>

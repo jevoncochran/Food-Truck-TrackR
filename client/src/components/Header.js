@@ -73,17 +73,19 @@ const Header = (props) => {
 
   // converts full diner location (num, street, city, state, zip) to abbreviated form (num, street)
   useEffect(() => {
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${props.location}&key=${GOOGLE_API_KEY}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setAbbreviatedLocation({
-          number: data.results[0].address_components[0].long_name,
-          street: data.results[0].address_components[1].short_name,
+    if (props.location) {
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${props.location}&key=${GOOGLE_API_KEY}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setAbbreviatedLocation({
+            number: data.results[0].address_components[0].long_name,
+            street: data.results[0].address_components[1].short_name,
+          });
         });
-      });
+    }
   }, [props.location]);
 
   // opens preferences menu
@@ -122,7 +124,7 @@ const Header = (props) => {
   const StyledMenu = withStyles({
     paper: {
       border: "1px solid #d3d4d5",
-      width: "12%",
+      width: "15%",
       borderRadius: "0px",
     },
   })((props) => (
@@ -250,34 +252,44 @@ const Header = (props) => {
         className="pref-menu"
       >
         <StyledMenuItem>
-          <ListItemIcon className="pref-menu-icons">
-            <i class="fas fa-receipt"></i>
-          </ListItemIcon>
-          <p className="pref-menu-titles">Orders</p>
+          <div className="menu-item-div">
+            <ListItemIcon className="pref-menu-icons">
+              <i class="fas fa-receipt"></i>
+            </ListItemIcon>
+            <p className="pref-menu-titles">Orders</p>
+          </div>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemIcon className="pref-menu-icons">
-            <i class="fas fa-heart"></i>
-          </ListItemIcon>
-          <p className="pref-menu-titles">Favorites</p>
+          <div className="menu-item-div">
+            <ListItemIcon className="pref-menu-icons">
+              <i class="fas fa-heart"></i>
+            </ListItemIcon>
+            <p className="pref-menu-titles">Favorites</p>
+          </div>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemIcon className="pref-menu-icons">
-            <i class="fas fa-wallet"></i>
-          </ListItemIcon>
-          <p className="pref-menu-titles">Wallet</p>
+          <div className="menu-item-div">
+            <ListItemIcon className="pref-menu-icons">
+              <i class="fas fa-wallet"></i>
+            </ListItemIcon>
+            <p className="pref-menu-titles">Wallet</p>
+          </div>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemIcon className="pref-menu-icons">
-            <i class="fas fa-question-circle"></i>
-          </ListItemIcon>
-          <p className="pref-menu-titles">Help</p>
+          <div className="menu-item-div">
+            <ListItemIcon className="pref-menu-icons">
+              <i class="fas fa-question-circle"></i>
+            </ListItemIcon>
+            <p className="pref-menu-titles">Help</p>
+          </div>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemIcon className="pref-menu-icons">
-            <i class="fas fa-user"></i>
-          </ListItemIcon>
-          <p className="pref-menu-titles">Account</p>
+          <div className="menu-item-div" onClick={() => props.history.push(`/diner/${props.accountId}/account`)}>
+            <ListItemIcon className="pref-menu-icons">
+              <i class="fas fa-user"></i>
+            </ListItemIcon>
+            <p className="pref-menu-titles">Account</p>
+          </div>
         </StyledMenuItem>
         <StyledMenuItem onClick={logout}>
           <p className="pref-menu-titles signout">Sign Out</p>
