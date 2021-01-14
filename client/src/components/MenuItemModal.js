@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -47,9 +47,12 @@ const MenuItemModal = (props) => {
   const [itemToAdd, setItemToAdd] = useState({});
 
   // returns existing count when user clicks on menu item that is already in order
-  const getExistingCount = (arr) => {
-    return arr.find((el) => props.menuItem.name === el.item).count;
-  };
+  const getExistingCount = useCallback(
+    (arr) => {
+      return arr.find((el) => props.menuItem.name === el.item).count;
+    },
+    [props.menuItem.name]
+  );
 
   // increases (menu item) count by 1
   const increment = () => {
@@ -124,7 +127,7 @@ const MenuItemModal = (props) => {
         ? getExistingCount(props.order)
         : 1
     );
-  }, [props.menuItem, props.order]);
+  }, [props.menuItem, props.order, getExistingCount]);
 
   return (
     <div>

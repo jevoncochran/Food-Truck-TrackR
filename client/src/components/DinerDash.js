@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -140,6 +139,23 @@ const DinerDash = (props) => {
     }
   };
 
+  // function that gets user address
+  const getUserAddress = useCallback(() => {
+    console.log(locationData.latitude, locationData.longitude);
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&sensor=false&key=${GOOGLE_API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setLocationData({
+          ...locationData,
+          userAddress: data.results[0].formatted_address,
+        });
+      })
+      .catch((err) => alert(err));
+  }, [locationData]);
+
   // function that allows diner to edit location
   const changeLocation = (e) => {
     console.log(updatedLocation);
@@ -148,16 +164,28 @@ const DinerDash = (props) => {
     setLocationEditMode(false);
   };
 
-  // const classes = useStyles();
+  // function to get user coordinates for lat and long
+  const getCoordinates = useCallback(
+    (position) => {
+      // console.log(position);
+      setLocationData({
+        ...locationData,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    },
+    [locationData]
+  );
 
+  // const classes = useStyles();
   // runs function that gets lat and long coordinates if the browsers supports this feature
-  const getLocation = () => {
+  const getLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(getCoordinates);
     } else {
       alert("Geolocation is not supported by this browser.");
     }
-  };
+  }, [getCoordinates]);
 
   // returns truck if there is match between that truck and props.favTrucks
   // looks for match based on id
@@ -174,41 +202,14 @@ const DinerDash = (props) => {
   // tells app to run the fn that triggers the get coordinates fn as as soon as app renders
   useEffect(() => {
     getLocation();
-  }, []);
-
-  // function to get user coordinates for lat and long
-  const getCoordinates = (position) => {
-    // console.log(position);
-    setLocationData({
-      ...locationData,
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    });
-  };
+  }, [getLocation]);
 
   // gets user address as soon as component renders and runs each time user updates latitude or longitude
   useEffect(() => {
     if (locationData.latitude && locationData.longitude) {
       getUserAddress();
     }
-  }, [locationData.latitude, locationData.longitude]);
-
-  // function that gets user address
-  function getUserAddress() {
-    console.log(locationData.latitude, locationData.longitude);
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationData.latitude},${locationData.longitude}&sensor=false&key=${GOOGLE_API_KEY}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setLocationData({
-          ...locationData,
-          userAddress: data.results[0].formatted_address,
-        });
-      })
-      .catch((err) => alert(err));
-  }
+  }, [locationData.latitude, locationData.longitude, getUserAddress]);
 
   // function getDistance() {
   //     fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${props.location}&destinations=${locationData.userAddress}&departure_time=now&key=${GOOGLE_API_KEY}`)
