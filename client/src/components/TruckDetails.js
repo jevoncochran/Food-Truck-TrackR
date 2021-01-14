@@ -121,7 +121,7 @@ const TruckDetails = (props) => {
   useEffect(() => {
     getTruckCoordinates();
     // console.log(truckCoordinates);
-  }, [props.selectedTruck.current_location, getTruckCoordinates]);
+  }, [props.selectedTruck.current_location]);
 
   useEffect(() => {
     console.log(

@@ -459,19 +459,24 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: true,
       };
     case EDIT_TRUCK_IMG_SUCCESS:
+      state.account.trucks.forEach((truck) => {
+        if (truck.id === action.payload.id) {
+          truck.image = action.payload.image;
+        }
+      });
       return {
         ...state,
         isLoading: false,
-        account: {
-          ...state.account,
-          trucks: [
-            ...state.account.trucks.map((truck) => {
-              if (truck.id === action.payload.id) {
-                return (truck.image = action.payload.image);
-              }
-            }),
-          ],
-        },
+        // account: {
+        //   ...state.account,
+        //   trucks: [
+        //     ...state.account.trucks.map((truck) => {
+        //       if (truck.id === action.payload.id) {
+        //         return (truck.image = action.payload.image);
+        //       }
+        //     }),
+        //   ],
+        // },
       };
     default:
       return state;
