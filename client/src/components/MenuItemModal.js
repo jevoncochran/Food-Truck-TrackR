@@ -124,7 +124,7 @@ const MenuItemModal = (props) => {
         ? getExistingCount(props.order)
         : 1
     );
-  }, [props.menuItem, getExistingCount, props.order]);
+  }, [props.menuItem, props.order]);
 
   return (
     <div>

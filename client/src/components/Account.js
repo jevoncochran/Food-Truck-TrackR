@@ -331,7 +331,7 @@ const Account = (props) => {
         }
       );
     }
-  }, [newProfilePic]);
+  }, [newProfilePic, props]);
 
   return (
     <div className="account-main">
@@ -349,7 +349,7 @@ const Account = (props) => {
                 <img
                   className="profile-img"
                   src={profilePicUrl}
-                  alt="profile image"
+                  alt=""
                   style={{ height: "250px", width: "400px" }}
                   onClick={inputClick}
                 />

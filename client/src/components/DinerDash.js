@@ -27,16 +27,16 @@ import Header from "./Header";
 import Covid19Alert from "./Covid19Alert";
 import OrderCard from "./OrderCard";
 
-const useStyles = makeStyles({
-  //     // root: {
-  //     //   maxWidth: 345,
-  //     //   marginBottom: 30,
-  //     //   padding: 10
-  //     // },
-  media: {
-    height: 288,
-  },
-});
+// const useStyles = makeStyles({
+//   //     // root: {
+//   //     //   maxWidth: 345,
+//   //     //   marginBottom: 30,
+//   //     //   padding: 10
+//   //     // },
+//   media: {
+//     height: 288,
+//   },
+// });
 
 const DinerDash = (props) => {
   const [locationData, setLocationData] = useState({
@@ -174,7 +174,7 @@ const DinerDash = (props) => {
   // tells app to run the fn that triggers the get coordinates fn as as soon as app renders
   useEffect(() => {
     getLocation();
-  }, [getLocation]);
+  }, []);
 
   // function to get user coordinates for lat and long
   const getCoordinates = (position) => {
@@ -191,7 +191,7 @@ const DinerDash = (props) => {
     if (locationData.latitude && locationData.longitude) {
       getUserAddress();
     }
-  }, [locationData.latitude, locationData.longitude, getUserAddress]);
+  }, [locationData.latitude, locationData.longitude]);
 
   // function that gets user address
   function getUserAddress() {

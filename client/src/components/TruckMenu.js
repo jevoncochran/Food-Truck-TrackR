@@ -76,7 +76,7 @@ const TruckMenu = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [props.selectedTruck.id]);
 
   // logs value of menu each time it is updated
   useEffect(() => {
@@ -89,7 +89,7 @@ const TruckMenu = (props) => {
     if (props.favTrucks.some((el) => props.selectedTruck.id === el.id)) {
       add2FavsBtn.disabled = true;
     }
-  }, [props.favTrucks]);
+  }, [props.favTrucks, props.selectedTruck.id]);
 
   return (
     <div className="truck-menu-main">
@@ -193,7 +193,6 @@ const TruckMenu = (props) => {
                     setMenuItem({
                       id: item.id,
                       name: item.name,
-                      name: item.name,
                       description: item.description,
                       image: item.image,
                       price: item.price,
@@ -220,7 +219,11 @@ const TruckMenu = (props) => {
                       </p>
                     </div>
                     <div className="menu-item-img">
-                      <object data={item.image} alt="pic of menu item" />
+                      <object
+                        data={item.image}
+                        alt="pic of menu item"
+                        aria-label="pic of menu item"
+                      />
                     </div>
                   </Card>
                 </Grid>
