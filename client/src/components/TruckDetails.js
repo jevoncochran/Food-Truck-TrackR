@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -103,7 +103,7 @@ const TruckDetails = (props) => {
     subtitle.style.color = "white";
   };
 
-  function getTruckCoordinates() {
+  const getTruckCoordinates = useCallback(() => {
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${props.selectedTruck.current_location}&key=${GOOGLE_API_KEY}`
     )
@@ -116,12 +116,12 @@ const TruckDetails = (props) => {
         });
         // console.log(truckCoordinates);
       });
-  }
+  }, [props.selectedTruck.current_location]);
 
   useEffect(() => {
     getTruckCoordinates();
     // console.log(truckCoordinates);
-  }, [props.selectedTruck.current_location]);
+  }, [props.selectedTruck.current_location, getTruckCoordinates]);
 
   useEffect(() => {
     console.log(
