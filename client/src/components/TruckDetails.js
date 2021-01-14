@@ -15,7 +15,6 @@ import Loader from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import OrderCard from "./OrderCard";
 
-
 import { addToFavoriteTrucks, setSelectedTruck } from "../actions";
 
 const customStyles = {
@@ -147,10 +146,10 @@ const TruckDetails = (props) => {
   useEffect(() => {
     let add2FavsBtn = document.getElementById("add-to-favs-btn");
 
-    if (props.favTrucks.some(el => props.selectedTruck.id === el.id)) {
+    if (props.favTrucks.some((el) => props.selectedTruck.id === el.id)) {
       add2FavsBtn.disabled = true;
     }
-  }, [props.favTrucks])
+  }, [props.favTrucks]);
 
   return (
     <div className="truck-details-main">
@@ -190,7 +189,13 @@ const TruckDetails = (props) => {
                 <button onClick={openModal}>Write review</button>
                 <button>Add photo</button>
                 <button>Share</button>
-                <button id="add-to-favs-btn" className="add-to-favs-btn" onClick={addToFavs}>Add to favorites</button>
+                <button
+                  id="add-to-favs-btn"
+                  className="add-to-favs-btn"
+                  onClick={addToFavs}
+                >
+                  Add to favorites
+                </button>
               </div>
             </div>
 
@@ -326,7 +331,7 @@ const mapStateToProps = (state) => {
     reviews: state.selectedTruck.reviews,
     dinerId: state.account.id,
     orderCardOpen: state.orderCardOpen,
-    favTrucks: state.account.favTrucks
+    favTrucks: state.account.favTrucks,
   };
 };
 
