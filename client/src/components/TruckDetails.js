@@ -120,8 +120,8 @@ const TruckDetails = (props) => {
 
   useEffect(() => {
     getTruckCoordinates();
-    console.log(truckCoordinates);
-  }, [props.selectedTruck.current_location]);
+    // console.log(truckCoordinates);
+  }, [props.selectedTruck.current_location, getTruckCoordinates]);
 
   useEffect(() => {
     console.log(
@@ -149,7 +149,7 @@ const TruckDetails = (props) => {
     if (props.favTrucks.some((el) => props.selectedTruck.id === el.id)) {
       add2FavsBtn.disabled = true;
     }
-  }, [props.favTrucks]);
+  }, [props.favTrucks, props.selectedTruck.id]);
 
   return (
     <div className="truck-details-main">

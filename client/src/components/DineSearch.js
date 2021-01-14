@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import "../styling/DineSearch.scss";
 
 import Header from "./Header";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
 // import { CardMedia, Typography } from "@material-ui/core";
 
 import { getTrucksByCuisine, pickTruckCategory } from "../actions";

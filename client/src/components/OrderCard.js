@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import CurrencyFormatter from "currencyformatter.js";
 import Card from "@material-ui/core/Card";

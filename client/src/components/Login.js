@@ -95,7 +95,7 @@ const Login = (props) => {
                 className="login-form"
                 onSubmit={accountType === "vendor" ? submitVendor : submitDiner}
               >
-                {props.errorMsg == "Invalid credentials" && (
+                {props.errorMsg === "Invalid credentials" && (
                   <p className="invalid-creds">Invalid username or password</p>
                 )}
                 <input

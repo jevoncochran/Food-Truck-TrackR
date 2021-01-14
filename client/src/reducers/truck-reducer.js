@@ -54,13 +54,13 @@ import {
   UPDATE_ORDER_START,
   UPDATE_ORDER_SUCCESS,
   EDIT_TRUCK_IMG_START,
-  EDIT_TRUCK_IMG_SUCCESS
+  EDIT_TRUCK_IMG_SUCCESS,
 } from "../actions";
 
 const initialState = {
   account: {},
   isLoading: false,
-  error: '',
+  error: "",
   order: [],
   role: "",
   isLogged: false,
@@ -84,7 +84,7 @@ export const truckReducer = (state = initialState, action) => {
           id: action.payload.id,
           username: action.payload.username,
           email: action.payload.email,
-          trucks: action.payload.trucks
+          trucks: action.payload.trucks,
         },
       };
     case GET_DINER_START:
@@ -96,7 +96,7 @@ export const truckReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: '',
+        error: "",
         role: "diner",
         loggedIn: true,
 
@@ -112,14 +112,14 @@ export const truckReducer = (state = initialState, action) => {
           language: action.payload.language,
           location: action.payload.location,
           favTrucks: action.payload.favTrucks,
-          cardOnFile: action.payload.cardOnFile
+          cardOnFile: action.payload.cardOnFile,
         },
       };
     case GET_DINER_FAIL:
       return {
         ...state,
         isLoading: false,
-        error: action.payload.response.data.error
+        error: action.payload.response.data.error,
       };
     case SIGNUP_START:
       return {
@@ -150,7 +150,7 @@ export const truckReducer = (state = initialState, action) => {
         order: [],
         orderTruck: null,
         selectedTruck: {},
-        orderCardOpen: false
+        orderCardOpen: false,
       };
     case EDIT_LOCATION_START:
       return {
@@ -169,21 +169,21 @@ export const truckReducer = (state = initialState, action) => {
     case EDIT_COUNTRY_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case EDIT_COUNTRY_SUCCESS:
       return {
-        ...state, 
+        ...state,
         isLoading: false,
         account: {
           ...state.account,
-          country: action.payload
-        }
+          country: action.payload,
+        },
       };
     case EDIT_LANGUAGE_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case EDIT_LANGUAGE_SUCCESS:
       return {
@@ -191,13 +191,13 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: false,
         account: {
           ...state.account,
-          language: action.payload
-        }
+          language: action.payload,
+        },
       };
     case EDIT_PROFILE_PIC_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case EDIT_PROFILE_PIC_SUCCESS:
       return {
@@ -205,8 +205,8 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: false,
         account: {
           ...state.account,
-          profile_pic: action.payload
-        }
+          profile_pic: action.payload,
+        },
       };
     case GET_ALL_TRUCKS_START:
       return {
@@ -381,7 +381,7 @@ export const truckReducer = (state = initialState, action) => {
     case ADD_ORDER_TRUCK_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case ADD_ORDER_TRUCK_SUCCESS:
       return {
@@ -389,13 +389,13 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: false,
         orderTruck: {
           id: state.selectedTruck.id,
-          name: state.selectedTruck.name
-        }
+          name: state.selectedTruck.name,
+        },
       };
     case CREATE_NEW_ORDER_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case CREATE_NEW_ORDER_SUCCESS:
       return {
@@ -403,44 +403,44 @@ export const truckReducer = (state = initialState, action) => {
         isLoading: false,
         orderTruck: {
           id: state.selectedTruck.id,
-          name: state.selectedTruck.name
+          name: state.selectedTruck.name,
         },
-        order: []
-      }
+        order: [],
+      };
     case ADD_CARD_START:
       return {
         ...state,
-        isLoading: true
-      }
-    case ADD_CARD_SUCCESS: 
+        isLoading: true,
+      };
+    case ADD_CARD_SUCCESS:
       return {
         ...state,
         isLoading: false,
         account: {
           ...state.account,
           cardOnFile: action.payload.card,
-          payment_id: action.payload.payment_id
-        }
-      }
+          payment_id: action.payload.payment_id,
+        },
+      };
     case DELETE_CARD_START:
       return {
         ...state,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case DELETE_CARD_SUCCESS:
       return {
         ...state,
         isLoading: false,
         account: {
           ...state.account,
-          cardOnFile: null
-        }
-      }
+          cardOnFile: null,
+        },
+      };
     case UPDATE_ORDER_START:
       return {
         ...state,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case UPDATE_ORDER_SUCCESS:
       // let newOrder = state.order.filter(item => {return item.item !== action.payload})
       return {
@@ -450,13 +450,13 @@ export const truckReducer = (state = initialState, action) => {
           ...state.order.filter((item) => {
             return item.item !== action.payload.item;
           }),
-          action.payload
-        ]
+          action.payload,
+        ],
       };
     case EDIT_TRUCK_IMG_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case EDIT_TRUCK_IMG_SUCCESS:
       return {
@@ -465,14 +465,14 @@ export const truckReducer = (state = initialState, action) => {
         account: {
           ...state.account,
           trucks: [
-            ...state.account.trucks.map(truck => {
+            ...state.account.trucks.map((truck) => {
               if (truck.id === action.payload.id) {
-                truck.image = action.payload.image
+                return (truck.image = action.payload.image);
               }
-            })
-          ]
-        }
-      }
+            }),
+          ],
+        },
+      };
     default:
       return state;
   }
