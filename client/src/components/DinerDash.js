@@ -10,7 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import { GoogleComponent } from "react-google-location";
 import "../styling/DinerDash.scss";
 import { GOOGLE_API_KEY } from "../config";
-import StarRatings from "react-star-ratings";
 
 // action imports
 import {
@@ -27,8 +26,6 @@ import {
 import Header from "./Header";
 import Covid19Alert from "./Covid19Alert";
 import OrderCard from "./OrderCard";
-
-
 
 const useStyles = makeStyles({
   //     // root: {
@@ -60,7 +57,7 @@ const DinerDash = (props) => {
 
   // const [loadingComponent, setLoadingComponent] = useState(true);
 
-  const [truckDistance, setTruckDistance] = useState([]);
+  const [truckDistance] = useState([]);
 
   // holds value of params for .splice method that renders "Nearby Trucks" and "Favorites"
   const [sliceParams, setSliceParams] = useState({
@@ -72,7 +69,7 @@ const DinerDash = (props) => {
 
   useEffect(() => {
     props.getAllTrucks();
-  }, []);
+  }, [props]);
 
   // functions that control pagination functionallity for "Nearby Trucks" and "Favorites"
   const sliceJumpNearby = () => {
@@ -151,7 +148,7 @@ const DinerDash = (props) => {
     setLocationEditMode(false);
   };
 
-  const classes = useStyles();
+  // const classes = useStyles();
 
   // runs function that gets lat and long coordinates if the browsers supports this feature
   const getLocation = () => {
@@ -177,7 +174,7 @@ const DinerDash = (props) => {
   // tells app to run the fn that triggers the get coordinates fn as as soon as app renders
   useEffect(() => {
     getLocation();
-  }, []);
+  }, [getLocation]);
 
   // function to get user coordinates for lat and long
   const getCoordinates = (position) => {
@@ -194,7 +191,7 @@ const DinerDash = (props) => {
     if (locationData.latitude && locationData.longitude) {
       getUserAddress();
     }
-  }, [locationData.latitude, locationData.longitude]);
+  }, [locationData.latitude, locationData.longitude, getUserAddress]);
 
   // function that gets user address
   function getUserAddress() {
@@ -263,7 +260,7 @@ const DinerDash = (props) => {
     if (props.selectedTruck !== undefined && !props.isLoading && !initialMode) {
       props.history.push(`/trucks/${props.selectedTruck.id}`);
     }
-  }, [props.selectedTruck]);
+  }, [props.selectedTruck, initialMode, props.history, props.isLoading]);
 
   const selectTruck = (truckId) => {
     props.setSelectedTruck(truckId);
@@ -543,7 +540,9 @@ const DinerDash = (props) => {
           </div>
         </div>
       )}
-      {props.order && props.orderCardOpen && <OrderCard history={props.history} />}
+      {props.order && props.orderCardOpen && (
+        <OrderCard history={props.history} />
+      )}
     </div>
   );
 };
@@ -562,7 +561,7 @@ const mapStateToProps = (state) => {
     truckCategory: state.truckCategory,
     isLoading: state.isLoading,
     selectedTruck: state.selectedTruck,
-    orderCardOpen: state.orderCardOpen
+    orderCardOpen: state.orderCardOpen,
   };
 };
 
