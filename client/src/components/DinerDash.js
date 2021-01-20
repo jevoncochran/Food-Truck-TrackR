@@ -68,7 +68,7 @@ const DinerDash = (props) => {
 
   useEffect(() => {
     props.getAllTrucks();
-  }, [props]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // functions that control pagination functionallity for "Nearby Trucks" and "Favorites"
   const sliceJumpNearby = () => {
