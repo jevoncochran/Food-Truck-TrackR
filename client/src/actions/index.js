@@ -243,7 +243,7 @@ export const turnOffCuisineTypeMode = () => (dispatch) => {
 export const setSelectedTruck = (truckId) => (dispatch) => {
   dispatch({ type: SET_SELECTED_TRUCK_START });
   axiosWithAuth()
-    .get(`/trucks/${truckId}`)
+    .get(`https://foodtrucktrackr.herokuapp.com/api/trucks/${truckId}`)
     .then((res) => {
       console.log(res);
       dispatch({ type: SET_SELECTED_TRUCK_SUCCESS, payload: res.data });
@@ -325,7 +325,10 @@ export const createNewOrder = () => (dispatch) => {
 export const addCreditCard = (dinerId, card) => (dispatch) => {
   dispatch({ type: ADD_CARD_START });
   axiosWithAuth()
-    .post(`/diner/${dinerId}/card`, card)
+    .post(
+      `https://foodtrucktrackr.herokuapp.com/api/diner/${dinerId}/card`,
+      card
+    )
     .then((res) => {
       console.log(res);
       dispatch({

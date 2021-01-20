@@ -6,8 +6,8 @@ const Covid19Alert = () => {
     <div className="covid-div">
       <h1 className="covid-title">Help prevent the spread of Covid-19</h1>
       <p className="covid-p">
-        Remember to wash your hands before picking up orders and follow social
-        distancing guidelines
+        Remember to sanitize your hands before picking up orders and follow social
+        distancing guidelines. Always wear a mask.
       </p>
       <a
         href="https://www.cdc.gov/coronavirus/2019-ncov/index.html"
