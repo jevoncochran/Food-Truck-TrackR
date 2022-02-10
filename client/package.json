@@ -15,7 +15,7 @@
     "codesandbox": "^2.1.12",
     "currencyformatter.js": "^2.2.0",
     "firebase": "^8.1.1",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "react": "^16.13.0",
     "react-animate-on-scroll": "^2.1.5",
     "react-credit-cards": "^0.8.2",
